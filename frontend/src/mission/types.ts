@@ -11,6 +11,7 @@ export type EventType =
   | "checklist_opened"
   | "evidence_flagged"
   | "decision_made"
+  | "item_selected"
   | "hint_requested"
   | "block_acknowledged"
   | "paused"
@@ -43,6 +44,13 @@ export interface Step {
   hintKeys: string[];
 }
 
+/** Progress-dependent guard used by rules, talk rules and world events. */
+export interface RuleCondition {
+  completed?: string[];
+  notCompleted?: string[];
+  flag?: string | null;
+}
+
 export interface CriticalError {
   id: string;
   trigger: Trigger;
@@ -52,6 +60,7 @@ export interface CriticalError {
   explanationKey: string;
   missingKey: string;
   dialogue?: string | null;
+  condition?: RuleCondition | null;
 }
 
 export interface MistakeRule {
@@ -60,6 +69,7 @@ export interface MistakeRule {
   kind: "incorrect_decision" | "invalid_action" | "advisory";
   feedbackKey: string;
   concept: string;
+  condition?: RuleCondition | null;
 }
 
 export interface Interactable {
@@ -70,7 +80,19 @@ export interface Interactable {
   maxDistance: number;
   promptKey: string;
   detailKeys: string[];
+  panel?: "inspect" | "station" | "document" | "inventory" | "comms" | "route";
+  groups?: string[];
+  hiddenUntil?: string | null;
+  docKind?: "permit" | "record" | "plan" | "notice" | "log" | null;
 }
+
+export interface Evidence { id: string; labelKey: string; statusKey: string; complete: boolean; doc?: string | null }
+export interface InventoryItem { id: string; nameKey: string; icon: string; detailKey: string; at: string; defect?: boolean }
+export interface DecisionGroup { id: string; promptKey: string; ui: "choice" | "comms" | "route" }
+export interface Decision { value: string; labelKey: string; group?: string | null; descKey?: string | null; route?: [number, number][] | null }
+export interface Prop { id?: string | null; type: string; x: number; z: number; heading?: number; state?: string | null; params?: Record<string, unknown> }
+export interface WorldAction { type: "prop_state" | "dialogue" | "banner" | "sound" | "details"; [k: string]: unknown }
+export interface WorldEvent { id: string; when: RuleCondition; delay?: number; actions: WorldAction[] }
 
 export interface Zone {
   id: string;
@@ -106,9 +128,11 @@ export interface EnvironmentIndicatorDef {
   warnBelow?: number;
 }
 
-export interface Npc { id: string; nameKey: string; roleKey: string; portrait: string; x: number; z: number; heading: number; maxDistance: number }
+export interface TalkRule { when?: RuleCondition | null; dialogue: string }
+export interface Npc { id: string; nameKey: string; roleKey: string; portrait: string; x: number; z: number; heading: number; maxDistance: number; talk?: TalkRule[]; hiddenUntil?: string | null }
 export type Mood = "friendly" | "neutral" | "serious" | "concerned" | "pleased";
-export interface DialogueLine { speaker: string; textKey: string; mood: Mood }
+export interface DialogueChoice { labelKey: string; group: string; value: string; next?: string | null }
+export interface DialogueLine { speaker: string; textKey: string; mood: Mood; choices?: DialogueChoice[] }
 export interface DebriefRule { when: { criticalRule?: string | null; stepCompleted?: string | null; counterAbove?: [string, number] | null }; textKey: string }
 export interface Variant { id: string; labelKey: string; overrides: { interactables: Record<string, { detailKeys?: string[] | null }>; evidence: Record<string, { statusKey?: string | null }> } }
 
@@ -139,21 +163,30 @@ export interface MissionDef {
   safetyReferencesNoteKey?: string | null;
   prerequisites: { missions: string[] };
   scene: {
-    id: "petrochem" | "factory" | "construction";
+    id: "petrochem" | "complex" | "factory" | "construction";
     spawn: { x: number; z: number; heading: number };
     cinematic?: { dayKey: string; locationKey: string; titleKey: string } | null;
     restrictedZones: string[];
     environmentIndicators: EnvironmentIndicatorDef[];
+    site?: string | null;
+    time?: "day" | "dusk" | "night" | "overcast";
+    workPoint?: { x: number; z: number; heading: number } | null;
+    briefingNpc?: string | null;
+    props?: Prop[];
   };
   briefingPhase: { allowedEvents: EventType[] };
   zones: Zone[];
   npcs: Npc[];
   dialogues: Record<string, DialogueLine[]>;
-  consequencePanels: Record<string, { titleKey: string; panelKeys: string[] }>;
+  consequencePanels: Record<string, { titleKey: string; panelKeys: string[]; art?: string[] }>;
   debriefRules: DebriefRule[];
   interactables: Interactable[];
-  evidence: { id: string; labelKey: string; statusKey: string; complete: boolean }[];
-  decisions: { value: string; labelKey: string }[];
+  evidence: Evidence[];
+  decisions: Decision[];
+  decisionGroups?: DecisionGroup[];
+  inventory?: InventoryItem[];
+  worldEvents?: WorldEvent[];
+  report?: { evidenceSteps: string[]; decisionSteps: string[] } | null;
   tools: Tool[];
   steps: Step[];
   criticalErrors: CriticalError[];

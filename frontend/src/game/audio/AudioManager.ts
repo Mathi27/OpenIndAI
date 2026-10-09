@@ -2,7 +2,7 @@
 // Audio is never the only carrier of information: every cue has a caption.
 import { getSettings, onSettingsChange, type Settings } from "../../app/settings";
 
-export type Sfx = "click" | "interact" | "complete" | "warning" | "error";
+export type Sfx = "click" | "interact" | "complete" | "warning" | "error" | "alarm" | "radio";
 
 type CaptionFn = (key: string) => void;
 
@@ -52,7 +52,7 @@ class AudioManager {
   }
 
   play(kind: Sfx): void {
-    const caption = { complete: "captions.complete", warning: "captions.warning", error: "captions.error" } as Record<string, string>;
+    const caption = { complete: "captions.complete", warning: "captions.warning", error: "captions.error", alarm: "captions.alarm", radio: "captions.radio" } as Record<string, string>;
     if (caption[kind] && getSettings().captions) this.captionFn?.(caption[kind]);
     if (!this.ctx || !this.fx) return;
     const tones: Record<Sfx, [number, number, number][]> = {
@@ -61,15 +61,17 @@ class AudioManager {
       complete: [[523, 0, 0.12], [659, 0.1, 0.12], [784, 0.2, 0.22]],
       warning: [[880, 0, 0.18], [587, 0.2, 0.18], [880, 0.4, 0.18], [587, 0.6, 0.18]],
       error: [[220, 0, 0.25]],
+      alarm: [[740, 0, 0.35], [520, 0.35, 0.35], [740, 0.7, 0.35], [520, 1.05, 0.35], [740, 1.4, 0.35], [520, 1.75, 0.35]],
+      radio: [[1200, 0, 0.04], [1500, 0.06, 0.05], [900, 0.14, 0.08]],
     };
     const t0 = this.ctx.currentTime;
     for (const [freq, at, dur] of tones[kind]) {
       const o = this.ctx.createOscillator();
       const g = this.ctx.createGain();
-      o.type = kind === "warning" || kind === "error" ? "square" : "sine";
+      o.type = kind === "warning" || kind === "error" ? "square" : kind === "alarm" ? "sawtooth" : "sine";
       o.frequency.value = freq;
       g.gain.setValueAtTime(0, t0 + at);
-      g.gain.linearRampToValueAtTime(kind === "warning" ? 0.12 : 0.2, t0 + at + 0.01);
+      g.gain.linearRampToValueAtTime(kind === "warning" || kind === "alarm" ? 0.1 : 0.2, t0 + at + 0.01);
       g.gain.exponentialRampToValueAtTime(0.0001, t0 + at + dur);
       o.connect(g).connect(this.fx);
       o.start(t0 + at);

@@ -1,10 +1,12 @@
 // World registry: scenario data selects a world by id; worlds are reusable
 // across missions of the same industry.
+import { buildComplex } from "./complex";
 import { buildPetrochem } from "./petrochem";
 import type { WorldBuild, WorldBuilder, WorldContext } from "./types";
 
 const WORLDS: Record<string, WorldBuilder> = {
   petrochem: buildPetrochem,
+  complex: buildComplex,
 };
 
 export class UnknownWorldError extends Error {}

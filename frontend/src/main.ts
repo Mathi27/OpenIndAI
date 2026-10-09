@@ -46,8 +46,8 @@ const routes: RouteDef[] = [
 ];
 
 async function boot(): Promise<void> {
-  initI18n(getSettings().language);
   const root = document.getElementById("app")!;
+  await initI18n(getSettings().language);
   root.replaceChildren(loadingScreen().el);
 
   // Browsers block audio until a user gesture.

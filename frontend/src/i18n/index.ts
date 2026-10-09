@@ -12,8 +12,24 @@ export const LANGUAGES: { id: Language; label: string }[] = [
 
 const listeners = new Set<() => void>();
 
-export function initI18n(lang: Language): void {
-  void i18next.init({
+// Mission text (44 generated missions × 3 languages) is split into one lazily
+// loaded bundle per language so only the active language is downloaded.
+const missionBundles: Record<Language, () => Promise<{ default: Record<string, unknown> }>> = {
+  en: () => import("./locales/missions/en.json"),
+  ta: () => import("./locales/missions/ta.json"),
+  hi: () => import("./locales/missions/hi.json"),
+};
+const loaded = new Set<Language>();
+
+async function ensureMissionText(lang: Language): Promise<void> {
+  if (loaded.has(lang)) return;
+  const mod = await missionBundles[lang]();
+  i18next.addResourceBundle(lang, "translation", mod.default, true, false);
+  loaded.add(lang);
+}
+
+export async function initI18n(lang: Language): Promise<void> {
+  await i18next.init({
     lng: lang,
     fallbackLng: "en",
     resources: { en: { translation: en }, ta: { translation: ta }, hi: { translation: hi } },
@@ -22,6 +38,7 @@ export function initI18n(lang: Language): void {
     returnNull: false,
   });
   applyDocumentLang(lang);
+  await Promise.all([ensureMissionText("en"), ensureMissionText(lang)]);
 }
 
 function applyDocumentLang(lang: Language): void {
@@ -43,6 +60,7 @@ export function currentLanguage(): Language {
 
 export async function setLanguage(lang: Language): Promise<void> {
   if (lang === currentLanguage()) return;
+  await ensureMissionText(lang);
   await i18next.changeLanguage(lang);
   applyDocumentLang(lang);
   listeners.forEach((fn) => fn());

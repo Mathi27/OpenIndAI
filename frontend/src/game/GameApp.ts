@@ -5,8 +5,8 @@ import type { SessionInfo, StoredEvent } from "../api/types";
 import { getSettings, onSettingsChange, type Settings } from "../app/settings";
 import { exists, onLanguageChange, t } from "../i18n";
 import { MissionController, type EmitRecord } from "../mission/MissionController";
-import type { ApplyResult } from "../mission/engine";
-import type { AssistanceProfile, CriticalError, MissionDef, Step } from "../mission/types";
+import { ruleOk, type ApplyResult } from "../mission/engine";
+import type { AssistanceProfile, CriticalError, DialogueChoice, Interactable, MissionDef, Step, WorldEvent } from "../mission/types";
 import { confirmDialog, h, toast } from "../ui/dom";
 import { settingsPanel } from "../ui/screens/welcome";
 import { audio } from "./audio/AudioManager";
@@ -40,12 +40,14 @@ import {
   stationPanel,
   toolboxPanel,
 } from "./hud/Panels";
+import { workPanel } from "./hud/WorkPanels";
 import { InputManager, type Action } from "./input/InputManager";
 import { InteractionSystem } from "./interaction/InteractionSystem";
 import { insideRect } from "./player/collision";
 import { EYE_HEIGHT, FirstPersonController } from "./player/FirstPersonController";
 import { Hands, type HeldTool } from "./player/Hands";
-import { runDialogue } from "./story/Dialogue";
+import { runDialogue, type DialogueOutcome } from "./story/Dialogue";
+import { reachable } from "./world/reach";
 import { buildWorld } from "./world/registry";
 import type { WorldBuild } from "./world/types";
 
@@ -98,10 +100,24 @@ export class GameApp {
   private autoHintShownFor: string | null = null;
   private ending = false;
   private disposed = false;
+  /** The original hand-built Silent Pump world keeps its bespoke flow. */
+  private legacy: boolean;
+  private selectedItems = new Set<string>();
+  private firedEvents = new Set<string>();
+  private detailOverride = new Map<string, string[]>();
+  private workHandle: OverlayHandle | null = null;
+  private eventTimers: number[] = [];
 
   private constructor(private deps: GameDeps) {
     this.ctrl = new MissionController(deps.mission, deps.session, deps.history);
     this.assistance = deps.mission.assistance[deps.session.experience];
+    this.legacy = deps.mission.scene.id === "petrochem";
+    // Restore panel state (flagged fields, selected items) from the server's event log.
+    for (const e of deps.history) {
+      if (!e.accepted || !e.target || ["prerequisite_missing", "rejected"].includes(e.outcome)) continue;
+      if (e.type === "evidence_flagged") this.flagged.add(e.target);
+      if (e.type === "item_selected") this.selectedItems.add(e.target);
+    }
     const s = deps.session;
     const now = s.serverTime;
     this.activeMs = Math.max(0, (now - s.startedAt) * 1000 - s.pausedMs - (s.pausedAt ? (now - s.pausedAt) * 1000 : 0));
@@ -137,10 +153,12 @@ export class GameApp {
   private initScene(): void {
     const scene = new Scene(this.engine);
     this.scene = scene;
-    scene.clearColor = new Color4(0.62, 0.78, 0.91, 1);
+    const time = this.deps.mission.scene.time ?? "day";
+    const sky = { day: [0.62, 0.78, 0.91], dusk: [0.93, 0.6, 0.45], night: [0.07, 0.09, 0.18], overcast: [0.62, 0.66, 0.71] }[time];
+    scene.clearColor = new Color4(sky[0], sky[1], sky[2], 1);
     scene.fogMode = Scene.FOGMODE_EXP2;
-    scene.fogDensity = 0.0085;
-    scene.fogColor = new Color3(0.7, 0.8, 0.9);
+    scene.fogDensity = time === "overcast" ? 0.013 : time === "night" ? 0.012 : 0.0085;
+    scene.fogColor = time === "day" ? new Color3(0.7, 0.8, 0.9) : new Color3(sky[0], sky[1], sky[2]);
     scene.skipPointerMovePicking = true;
     scene.setRenderingAutoClearDepthStencil(1, true, true, false);
 
@@ -151,15 +169,19 @@ export class GameApp {
     this.camera.fov = 1.05;
 
     const hemi = new HemisphericLight("hemi", new Vector3(0.2, 1, -0.3), scene);
-    hemi.intensity = 0.85;
+    hemi.intensity = { day: 0.85, dusk: 0.72, night: 0.62, overcast: 0.9 }[time];
     hemi.groundColor = new Color3(0.35, 0.36, 0.4);
+    if (time === "night") hemi.diffuse = new Color3(0.72, 0.8, 1);
+    if (time === "dusk") hemi.diffuse = new Color3(1, 0.86, 0.72);
     this.sun = new DirectionalLight("sun", new Vector3(-0.45, -1, 0.35), scene);
     this.sun.position = new Vector3(30, 60, -30);
-    this.sun.intensity = 0.75;
+    this.sun.intensity = { day: 0.75, dusk: 0.5, night: 0.25, overcast: 0.35 }[time];
 
     this.world = buildWorld(this.deps.mission.scene.id, { scene, mission: this.deps.mission, quality: getSettings().quality, t: (k, o) => tx(k, o) });
     // Validate that the scenario's referenced objects exist in the world; missing assets warn, never crash.
-    for (const it of this.deps.mission.interactables) if (!this.world.anchors.has(it.id)) console.warn(`World ${this.world.id} has no object for ${it.id}`);
+    for (const it of this.deps.mission.interactables) if (!this.world.anchors.has(it.id)) console.error(`World ${this.world.id} has no object for ${it.id}`);
+    this.applyHidden();
+    this.runWorldEvents(false);
     this.setupShadows(getSettings());
 
     // Freeze static geometry for performance (labels are dynamic textures, not transforms).
@@ -287,7 +309,7 @@ export class GameApp {
     if (this.ctrl.state === "BLOCKED") {
       const rule = this.deps.mission.criticalErrors.find((c) => c.id === this.ctrl.st.blockedBy);
       if (rule) this.showBlock(rule);
-    } else if (this.ctrl.state === "BRIEFING" && this.ctrl.isDone("meet_supervisor")) {
+    } else if (this.ctrl.state === "BRIEFING" && (this.legacy ? this.ctrl.isDone("meet_supervisor") : this.ctrl.current()?.trigger.type === "briefing_acknowledged")) {
       this.openBriefing();
     } else {
       this.openPause();
@@ -296,6 +318,17 @@ export class GameApp {
 
   /** After refresh, place the player near the last relevant area instead of the gate. */
   private restorePosition(): void {
+    if (!this.legacy) {
+      const sc = this.deps.mission.scene;
+      const briefed = this.deps.mission.steps.some((s) => s.trigger.type === "briefing_acknowledged" && this.ctrl.isDone(s.id));
+      const npc = this.deps.mission.npcs.find((n) => n.id === sc.briefingNpc) ?? this.deps.mission.npcs[0];
+      if (briefed && sc.workPoint) this.controller.teleport(sc.workPoint.x, sc.workPoint.z, (sc.workPoint.heading * Math.PI) / 180, 0);
+      else if (npc) {
+        const hd = (npc.heading * Math.PI) / 180;
+        this.controller.teleport(npc.x + Math.sin(hd) * 2.2, npc.z + Math.cos(hd) * 2.2, hd + Math.PI, 0);
+      }
+      return;
+    }
     const cur = this.ctrl.current();
     const target = cur ? this.markerPosition(cur) : null;
     if (target && this.ctrl.isDone("briefing")) {
@@ -314,9 +347,9 @@ export class GameApp {
     this.cinematic = {
       t: 0,
       dur: 7,
-      from: new Vector3(-30, 34, -48),
+      from: this.legacy ? new Vector3(-30, 34, -48) : new Vector3(spawn.x - 26, 30, spawn.z - 20),
       to: new Vector3(spawn.x, EYE_HEIGHT, spawn.z),
-      lookFrom: new Vector3(0, 4, 8),
+      lookFrom: this.legacy ? new Vector3(0, 4, 8) : new Vector3(0, 3, 2),
       lookTo: new Vector3(spawn.x, EYE_HEIGHT, spawn.z + 10),
       done: () => {
         this.cinematic = null;
@@ -324,7 +357,8 @@ export class GameApp {
         this.hands.setPose("idle");
         this.controller.teleport(spawn.x, spawn.z, (spawn.heading * Math.PI) / 180, 0);
         this.ctrl.emit("world_entered");
-        void this.hud.showBanner(t("story.reportToSupervisor"), t("story.newObjective"), "objective");
+        const first = this.ctrl.current();
+        void this.hud.showBanner(this.legacy || !first ? t("story.reportToSupervisor") : this.stepTitle(first), t("story.newObjective"), "objective");
         this.hud.showClickHint(!this.input.pointerLocked);
       },
     };
@@ -422,7 +456,8 @@ export class GameApp {
   // ---------------------------------------------------------------- HUD state
   private stepTitle(step: Step | null): string {
     if (!step) return t("hud.noObjective");
-    return this.assistance.objectiveDetail === "minimal" && !["arrive", "meet_supervisor", "briefing"].includes(step.id) ? t("hud.minimalObjective") : tx(step.titleKey);
+    const always = ["arrive", "meet_supervisor", "briefing"].includes(step.id) || step.trigger.type === "npc_interacted" || step.trigger.type === "briefing_acknowledged";
+    return this.assistance.objectiveDetail === "minimal" && !always ? t("hud.minimalObjective") : tx(step.titleKey);
   }
 
   private refreshHud(): void {
@@ -442,8 +477,9 @@ export class GameApp {
   }
 
   private markerPosition(step: Step): Vector3 | null {
-    const id = step.marker;
+    const id = step.marker ?? step.trigger.target ?? null;
     if (!id) return null;
+    if (this.isHidden(id)) return null;
     const a = this.world.anchors.get(id);
     if (a) return a.focus;
     const z = this.deps.mission.zones.find((zz) => zz.id === id);
@@ -463,7 +499,7 @@ export class GameApp {
       }
     }
     const markers: MapMarker[] = [];
-    for (const n of this.deps.mission.npcs) markers.push({ x: n.x, z: n.z, kind: "npc" });
+    for (const n of this.deps.mission.npcs) if (!this.isHidden(n.id)) markers.push({ x: n.x, z: n.z, kind: "npc" });
     if (pos && this.assistance.minimapMarkers) markers.push({ x: pos.x, z: pos.z, kind: "objective" });
     this.minimap.draw(this.camera.position.x, this.camera.position.z, this.controller.yaw, markers);
   }
@@ -620,10 +656,12 @@ export class GameApp {
     audio.play("interact");
     this.hands.setPose("inspect");
     const res = this.ctrl.emit("object_inspected", it.id);
-    if (it.id === "checklist_station") return this.openStation();
+    if (this.legacy && it.id === "checklist_station") return this.openStation();
+    if (!this.legacy && it.panel && it.panel !== "inspect") return this.openWork(it);
     let extra: string | null = null;
     if (res.outcome === "rejected" && res.reason === "briefing") extra = t("story.reportFirst");
-    this.overlays.push(inspectPanel(this.deps.mission, it, extra, () => this.overlays.closeTop()), { onClose: () => this.hands.setPose("idle") });
+    const shown = this.detailOverride.has(it.id) ? { ...it, detailKeys: this.detailOverride.get(it.id)! } : it;
+    this.overlays.push(inspectPanel(this.deps.mission, shown, extra, () => this.overlays.closeTop()), { onClose: () => this.hands.setPose("idle") });
   }
 
   private useTool(targetId: string | null): void {
@@ -657,6 +695,7 @@ export class GameApp {
     const npc = m.npcs.find((n) => n.id === npcId);
     if (!npc) return;
     audio.play("interact");
+    if (!this.legacy) return this.talkGeneric(npcId);
     if (!this.ctrl.isDone("meet_supervisor")) {
       if (!this.ctrl.isDone("arrive")) this.ctrl.emit("zone_entered", "zone_briefing");
       await this.playDialogue(m.dialogues.arrival ?? []);
@@ -673,14 +712,123 @@ export class GameApp {
     this.ctrl.emit("npc_interacted", npcId);
   }
 
-  private async playDialogue(lines: MissionDef["dialogues"][string], extra: { speaker: string; text: string; mood: "friendly" | "neutral" | "serious" | "concerned" | "pleased" }[] = []): Promise<void> {
+  private async playDialogue(lines: MissionDef["dialogues"][string], extra: { speaker: string; text: string; mood: "friendly" | "neutral" | "serious" | "concerned" | "pleased" }[] = []): Promise<DialogueOutcome> {
     this.releasePointer();
     this.dialogueOpen = true;
     this.hands.setPose("idle");
     const run = runDialogue({ host: this.el, npcs: this.deps.mission.npcs, lines, extra });
-    await run.done;
+    const out = await run.done;
     this.dialogueOpen = false;
     this.hud.showClickHint(this.canControl() && !this.input.pointerLocked);
+    return out;
+  }
+
+  /** Data-driven conversation: first matching talk rule, choices map to decision events. */
+  private async talkGeneric(npcId: string): Promise<void> {
+    const m = this.deps.mission;
+    const npc = m.npcs.find((n) => n.id === npcId)!;
+    const cur = this.ctrl.current();
+    // Talking to the briefing NPC while the briefing is pending reopens it.
+    if (cur?.trigger.type === "briefing_acknowledged" && npcId === (m.scene.briefingNpc ?? m.npcs[0]?.id)) {
+      this.openBriefing();
+      return;
+    }
+    const rule = (npc.talk ?? []).find((r) => ruleOk(r.when, this.ctrl.st));
+    const lines = rule ? m.dialogues[rule.dialogue] ?? [] : [];
+    const extra = rule ? [] : [{ speaker: npcId, text: cur ? `${t("story.currentTask")}: ${this.stepTitle(cur)}` : t("story.nothingMore"), mood: "neutral" as const }];
+    let out = await this.playDialogue(lines, extra);
+    const res = this.ctrl.emit("npc_interacted", npcId);
+    // A conversation choice is a recorded decision; it may continue into a follow-up dialogue.
+    for (let guard = 0; out.how === "choice" && out.choice && guard < 5; guard++) {
+      const choice: DialogueChoice = out.choice;
+      const r = this.ctrl.emit("decision_made", choice.group, choice.value);
+      if (r.outcome === "critical_block" || r.outcome === "critical_fail" || this.ending) return;
+      if (!choice.next || !m.dialogues[choice.next]) break;
+      out = await this.playDialogue(m.dialogues[choice.next]);
+    }
+    if (this.ending) return;
+    const next = this.ctrl.current();
+    if (res.outcome === "step_completed" && next?.trigger.type === "briefing_acknowledged") this.openBriefing();
+  }
+
+  // ---------------------------------------------------------------- mission-specific work panels
+  private openWork(it: Interactable): void {
+    const render = (): HTMLElement =>
+      workPanel(
+        this.deps.mission,
+        it,
+        this.ctrl,
+        { flagged: this.flagged, selected: this.selectedItems, details: this.detailOverride.get(it.id) ?? it.detailKeys },
+        {
+          onFlag: (id) => {
+            const r = this.ctrl.emit("evidence_flagged", id);
+            if (r.outcome !== "rejected" && r.outcome !== "prerequisite_missing") this.flagged.add(id);
+            rerender();
+          },
+          onSelect: (id) => {
+            const r = this.ctrl.emit("item_selected", id);
+            if (r.outcome !== "rejected" && r.outcome !== "prerequisite_missing") this.selectedItems.add(id);
+            rerender();
+          },
+          onDecide: (group, value) => {
+            const r = this.ctrl.emit("decision_made", group, value);
+            if (r.outcome === "critical_block" || r.outcome === "critical_fail" || r.missionCompleted) return;
+            // A decision that completes an objective closes the panel so the next objective is visible.
+            if (r.outcome === "step_completed") this.workHandle?.close();
+            else rerender();
+          },
+          onClose: () => this.workHandle?.close(),
+        },
+        this.world.map,
+      );
+    const rerender = () => {
+      if (!this.workHandle || this.ctrl.terminal) return;
+      const panel = this.workHandle.el.firstElementChild;
+      if (panel) panel.replaceWith(render());
+    };
+    this.workHandle = this.overlays.push(render(), { onClose: () => { this.workHandle = null; this.hands.setPose("idle"); } });
+  }
+
+  // ---------------------------------------------------------------- hidden objects & scripted scenario changes
+  private isHidden(id: string): boolean {
+    const it = this.deps.mission.interactables.find((i) => i.id === id) ?? this.deps.mission.npcs.find((n) => n.id === id);
+    return !!it?.hiddenUntil && !this.ctrl.isDone(it.hiddenUntil);
+  }
+
+  private applyHidden(): void {
+    for (const it of [...this.deps.mission.interactables, ...this.deps.mission.npcs]) if (it.hiddenUntil) this.world.setAnchorVisible?.(it.id, !this.isHidden(it.id));
+  }
+
+  /** Fire pre-authored world events whose conditions now hold. `live` = with dialogue/banner/sound. */
+  private runWorldEvents(live: boolean): void {
+    for (const ev of this.deps.mission.worldEvents ?? []) {
+      if (this.firedEvents.has(ev.id) || !ruleOk(ev.when, this.ctrl.st)) continue;
+      this.firedEvents.add(ev.id);
+      if (!live) {
+        this.applyWorldActions(ev, false);
+        continue;
+      }
+      const run = () => !this.disposed && !this.ending && void this.applyWorldActions(ev, true);
+      if (ev.delay) this.eventTimers.push(window.setTimeout(run, ev.delay * 1000));
+      else run();
+    }
+  }
+
+  private async applyWorldActions(ev: WorldEvent, live: boolean): Promise<void> {
+    for (const a of ev.actions) {
+      if (a.type === "prop_state") this.world.setPropState?.(String(a.prop), String(a.state));
+      else if (a.type === "details") this.detailOverride.set(String(a.object), a.detailKeys as string[]);
+      else if (!live) continue;
+      else if (a.type === "sound") audio.play(a.sound as "alarm" | "warning" | "radio");
+      else if (a.type === "banner") void this.hud.showBanner(tx(String(a.textKey)), t("story.situationChanged"), (a.style as "danger" | "objective") ?? "danger", 3200);
+      else if (a.type === "dialogue") {
+        const lines = this.deps.mission.dialogues[String(a.name)];
+        if (lines && !this.dialogueOpen) {
+          this.overlays.closeAll();
+          await this.playDialogue(lines);
+        }
+      }
+    }
   }
 
   private openBriefing(): void {
@@ -808,6 +956,10 @@ export class GameApp {
     switch (r.outcome) {
       case "step_completed": {
         this.lastStepAt = performance.now();
+        if (!this.legacy) {
+          this.applyHidden();
+          if (!r.missionCompleted) this.runWorldEvents(true);
+        }
         this.autoHintShownFor = null;
         const required = (r.steps ?? []).filter((id) => !this.deps.mission.steps.find((s) => s.id === id)?.optional);
         if (required.length) {
@@ -913,7 +1065,7 @@ export class GameApp {
     if (result) {
       const m = this.deps.mission;
       const mainKey = result.outcome === "not_passed" ? m.debriefKeys.failed : result.outcome === "critical_error" ? m.debriefKeys.critical : m.debriefKeys.success;
-      const speaker = m.npcs[0]?.id ?? "supervisor";
+      const speaker = m.scene.briefingNpc ?? m.npcs[0]?.id ?? "supervisor";
       const lines = [mainKey, ...result.debriefKeys].map((k, i) => ({ speaker, text: tx(k), mood: (i === 0 ? (result.outcome === "mastery" || result.outcome === "pass" ? "pleased" : "serious") : "neutral") as "pleased" | "serious" | "neutral" }));
       await this.playDialogue([], lines);
     }
@@ -983,12 +1135,25 @@ export class GameApp {
       },
       meshCount: () => this.scene.meshes.length,
       skipCinematic: () => this.skipCinematic(),
+      current: () => this.ctrl.current(),
+      stand: (id: string) => this.world.standPoint?.(id) ?? null,
+      hidden: (id: string) => this.isHidden(id),
+      reachable: (id: string) => {
+        const goal = this.world.standPoint?.(id) ?? (() => {
+          const n = this.deps.mission.npcs.find((x) => x.id === id);
+          return n ? { x: n.x + Math.sin((n.heading * Math.PI) / 180) * 2, z: n.z + Math.cos((n.heading * Math.PI) / 180) * 2 } : null;
+        })();
+        if (!goal) return false;
+        const sp = this.deps.mission.scene.spawn;
+        return reachable(this.world, { x: sp.x, z: sp.z }, goal);
+      },
     };
   }
 
   dispose(): void {
     if (this.disposed) return;
     this.disposed = true;
+    this.eventTimers.forEach((id) => window.clearTimeout(id));
     void this.ctrl.flush();
     this.ctrl.dispose();
     this.disposers.forEach((fn) => fn());

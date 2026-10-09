@@ -1,7 +1,7 @@
 // Client-side mission engine. Mirrors backend/app/engine.py exactly; both are
 // tested against shared/test-vectors so they cannot drift. The client copy
 // gives instant feedback; the server copy is authoritative for scoring.
-import type { GameEvent, MissionDef, Pathway, Step, Trigger } from "./types";
+import type { GameEvent, MissionDef, Pathway, RuleCondition, Step, Trigger } from "./types";
 
 export type MissionState = "NOT_STARTED" | "BRIEFING" | "ACTIVE" | "PAUSED" | "BLOCKED" | "COMPLETED" | "FAILED" | "ASSESSED";
 
@@ -114,6 +114,15 @@ function matches(trigger: Trigger, ev: GameEvent): boolean {
   if (trigger.target != null && ev.target !== trigger.target) return false;
   if (trigger.targets != null && !trigger.targets.includes(ev.target ?? "")) return false;
   if (trigger.value != null && ev.value !== trigger.value) return false;
+  return true;
+}
+
+/** Progress guard for rules (mirrors engine.py rule_ok). */
+export function ruleOk(cond: RuleCondition | null | undefined, st: EngineState): boolean {
+  if (!cond) return true;
+  if ((cond.completed ?? []).some((c) => !st.completed.includes(c))) return false;
+  if ((cond.notCompleted ?? []).some((c) => st.completed.includes(c))) return false;
+  if (cond.flag != null && !st.flags.includes(cond.flag)) return false;
   return true;
 }
 
@@ -233,9 +242,10 @@ function processActive(m: MissionDef, st: EngineState, ev: GameEvent, ctx: Engin
   if (ev.type === "object_inspected") c.inspections += 1;
   if (ev.type === "tool_used") c.toolUses += 1;
 
-  // 1. Critical safety errors first.
-  for (const rule of m.criticalErrors) {
-    if (!matches(rule.trigger, ev)) continue;
+  // 1. Critical safety errors first — assessed only once the trainee has been
+  //    briefed (ACTIVE); before that no assignment exists to violate.
+  for (const rule of st.state === "ACTIVE" ? m.criticalErrors : []) {
+    if (!matches(rule.trigger, ev) || !ruleOk(rule.condition, st)) continue;
     st.criticalCounts[rule.id] = (st.criticalCounts[rule.id] ?? 0) + 1;
     c.criticalErrors += 1;
     addMissed(st, rule.concept);
@@ -307,7 +317,7 @@ function processActive(m: MissionDef, st: EngineState, ev: GameEvent, ctx: Engin
 
   // 4. Non-critical mistake rules.
   for (const rule of m.mistakes) {
-    if (!matches(rule.trigger, ev)) continue;
+    if (!matches(rule.trigger, ev) || !ruleOk(rule.condition, st)) continue;
     // Advisory rules are contextual warnings only: no penalty.
     if (rule.kind === "advisory") return { outcome: "advisory", ruleId: rule.id, feedbackKey: rule.feedbackKey };
     let outcome: Outcome;

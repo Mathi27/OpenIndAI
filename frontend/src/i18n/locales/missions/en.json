@@ -1,0 +1,1988 @@
+{
+ "m": {
+  "hr2": {
+   "assignment": {
+    "equipment": "Line 210, flange F-12, valve XV-210 (fictional).",
+    "information": "Work order WO-3107 states the line is drained. Walk around the equipment.",
+    "objective": "Find all hazard information around the job and decide whether work can start.",
+    "task": "Check the area around flange F-12 before any work starts."
+   },
+   "briefing": {
+    "1": "Joseph needs flange F-12 on line 210 prepared for a gasket change.",
+    "2": "The spool area is crowded. Not every warning is visible from the walkway."
+   },
+   "comic": {
+    "p1": "Hazard information is not always on the side you walk up to.",
+    "p2": "When paperwork and the plant disagree, the job waits.",
+    "p3": "Report it. Never 'tidy up' a warning that isn't yours.",
+    "title": "LOOK BEHIND THE PIPES"
+   },
+   "crit": {
+    "remove_warning": {
+     "missing": "Only the person who placed a tag, or the area authority, may decide whether it can be removed.",
+     "why": "Warning tags are never removed because they look old. The tag was dated today and matched the log."
+    },
+    "spanner_on_line": {
+     "missing": "A confirmed safe condition and authorisation before any tool touches the line.",
+     "why": "You started loosening equipment on line 210 while its status was unresolved."
+    },
+    "start_on_paper": {
+     "missing": "Confirmation from the area authority of the actual line status.",
+     "why": "You chose to start because the work order said 'drained', while the tag, sign and log in the area said the line is in service."
+    }
+   },
+   "debrief": {
+    "critical": "You found the information, but a decision ignored it. Next time, let the conflict stop the job.",
+    "failed": "The attempt ended after repeated unsafe actions. Walk the area again and let the warnings guide you.",
+    "l1": "You trusted the work order over three warnings in the field.",
+    "l2": "You chose to remove a warning tag that was not yours.",
+    "l3": "A tool touched line 210 before its status was confirmed.",
+    "l4": "You walked round the scaffold and found the tag on XV-210.",
+    "l5": "You checked behind the exchanger and read the hidden sign.",
+    "l6": "At least one consistent entry was flagged as a problem.",
+    "l7": "You entered the taped live area. Stay inside your job boundary.",
+    "l8": "You stopped and escalated the conflict — the right call.",
+    "success": "You walked the whole area, found the hidden tag and sign, and stopped the job for confirmation."
+   },
+   "description": "A gasket job looks routine — until you look behind the pipework.",
+   "dlg": {
+    "correct": {
+     "1": "Good catch. I'll call the area authority — that tag says the line is live, whatever the work order thinks."
+    },
+    "meet": {
+     "1": "Morning! You're with me today. Gasket change on F-12, line 210.",
+     "2": "The work order says the line's drained. Easy job, on paper.",
+     "3": "But that spool area is a jungle of pipes. Walk all the way round before you trust anything.",
+     "4": "Paper says drained. Let's see what the plant says."
+    },
+    "revisit": {
+     "1": "Found anything behind those pipes yet? Tags hide in the strangest places."
+    },
+    "unsafe": {
+     "1": "Hold it! Two pieces of information disagree and you picked the convenient one.",
+     "2": "When the plant and the paperwork disagree, we stop and ask. Every time."
+    }
+   },
+   "early": {
+    "decide": "Find and flag the conflicting information before deciding."
+   },
+   "ev": {
+    "ev_job": {
+     "label": "Job location",
+     "value": "Flange F-12, line 210 (work order WO-3107)"
+    },
+    "ev_line_status": {
+     "label": "Line 210 status",
+     "value": "Work order: 'drained'. Valve tag, sign and log: 'in service'. Not resolved."
+    },
+    "ev_requester": {
+     "label": "Requested by",
+     "value": "Maintenance planning, signed"
+    }
+   },
+   "fb": {
+    "live_area": "That taped area is live process plant and not part of your job. Step back out.",
+    "wrong_flag": "That entry is consistent across the sources. Look for the one that disagrees.",
+    "wrong_flange": "F-11 belongs to line 211. Your job is F-12 on line 210."
+   },
+   "grp": {
+    "final": {
+     "prompt": "What do you do about the F-12 job?",
+     "remove_tag": "Remove the tag — it is probably left over from an old job",
+     "start": "Start — the work order says the line is drained",
+     "stop_report": "Stop and report the conflict to Joseph and the area authority"
+    }
+   },
+   "hint": {
+    "decide": {
+     "1": "When sources disagree, who should resolve it — you, or the area authority?"
+    },
+    "enter_area": {
+     "1": "The spool area is the yellow rectangle north of the review station."
+    },
+    "find_sign": {
+     "1": "Signs can face a different walkway from the one you came in on."
+    },
+    "find_tag": {
+     "1": "Something is hanging on a handwheel on the far west side.",
+     "2": "Go round the scaffold to reach XV-210."
+    },
+    "flag_conflict": {
+     "1": "Which entry has two different answers depending on where you looked?"
+    },
+    "locate_flange": {
+     "1": "F-12 is on the nearer spool. F-11 belongs to line 211."
+    },
+    "read_log": {
+     "1": "Shift logs record changes since the work order was written."
+    },
+    "review": {
+     "1": "The review station is the blue lectern beside the walkway."
+    }
+   },
+   "instruction": {
+    "decide": "Make the decision at the review station.",
+    "enter_area": "Walk north along the walkway into the yellow-bordered spool area.",
+    "find_sign": "Walk to the north side of the exchanger and read the sign there.",
+    "find_tag": "Walk round to the west side of the spool and inspect valve XV-210.",
+    "flag_conflict": "In the review, flag the entry where the sources disagree.",
+    "locate_flange": "Find the flange named in the work order and inspect it (E).",
+    "read_log": "Read the log board at the south-west corner of the area.",
+    "review": "Open the job review station south-east of the spool area."
+   },
+   "location": "Spool area, line 210 · Process unit",
+   "obj": {
+    "area_board": {
+     "d1": "Shift log, 05:30: 'Line 210 back in service (ops)'.",
+     "d2": "Note: 'Scaffold on west side — tag check pending.'",
+     "name": "Spool area log board"
+    },
+    "flange_f11": {
+     "d1": "Flange on the neighbouring line 211. Not part of this job.",
+     "name": "Flange F-11 (line 211)"
+    },
+    "flange_f12": {
+     "d1": "Bolted flange on line 210 — the job location in work order WO-3107.",
+     "d2": "From the walkway, no tag or sign is visible on this flange.",
+     "name": "Flange F-12 (line 210)"
+    },
+    "review_station": {
+     "d1": "Compare what the work order says with what you found in the area.",
+     "name": "Job review station"
+    },
+    "sign_hidden": {
+     "d1": "Sign: 'Line 210 returned to service — check with area authority before any work.'",
+     "d2": "It faces the north walkway, so you only see it from behind the exchanger.",
+     "name": "Warning sign (behind the exchanger)"
+    },
+    "valve_xv210": {
+     "d1": "A tag hangs on the handwheel: 'LINE 210 IN SERVICE — DO NOT OPEN'. Dated today, 05:30.",
+     "d2": "This tag is only visible from the west side of the spool area.",
+     "name": "Valve XV-210 (behind the pipework)"
+    }
+   },
+   "objectives": {
+    "1": "Look for hazard information that is out of sight from the walkway.",
+    "2": "Report conflicting information instead of resolving it by assumption."
+   },
+   "prop": {
+    "area_board": {
+     "1": "SPOOL AREA LOG",
+     "2": "05:30 Line 210 back in service (ops)",
+     "3": "Scaffold on west side: tag check pending"
+    },
+    "sign_hidden": {
+     "1": "Line 210 returned to service — check with area authority"
+    }
+   },
+   "q1": {
+    "a": "To find tags, signs or notes that are not visible from one side",
+    "b": "To save time later in the job",
+    "c": "It is not needed if the work order is signed",
+    "stem": "Why walk all the way round equipment in a congested area before a job?",
+    "why": "In this scenario both key warnings were only visible from behind the pipework."
+   },
+   "q2": {
+    "a": "Follow the work order because it is the official document",
+    "b": "Stop and report the conflict to the person in charge",
+    "c": "Open the valve slightly to see which is right",
+    "stem": "The work order says 'drained' but a tag on the valve says 'in service'. What do you do?",
+    "why": "Conflicting information is resolved by the responsible authority, not by the trainee testing it."
+   },
+   "q3": {
+    "a": "Remove it so it does not confuse others",
+    "b": "Ignore it if the job is urgent",
+    "c": "Leave it in place and report it",
+    "stem": "You find a warning tag that looks old. What is the right action?",
+    "why": "Only the person who placed a tag or the area authority decides whether it can be removed."
+   },
+   "q4": {
+    "a": "Only signs at the area entrance",
+    "b": "Tags, signs, logs and notes around the job",
+    "c": "Only what the work order says",
+    "stem": "Which of these counts as hazard information for a job?",
+    "why": "The log, tag and sign together showed the line was back in service."
+   },
+   "step": {
+    "decide": "Decide what happens to the job",
+    "enter_area": "Go to the spool area on line 210",
+    "find_sign": "Look behind the exchanger",
+    "find_tag": "Check the valve behind the pipework",
+    "flag_conflict": "Flag the unresolved information",
+    "locate_flange": "Locate flange F-12",
+    "read_log": "Read the spool area log",
+    "review": "Review the job at the review station"
+   },
+   "subtitle": "Find the warnings a crowded workstation hides",
+   "title": "The Warning Behind the Pipes",
+   "zone": {
+    "zone_live": "Live process area",
+    "zone_spool": "Spool area — line 210"
+   }
+  },
+  "hr3": {
+   "assignment": {
+    "equipment": "Cooling water pump P-305, local status display, isolation record (fictional).",
+    "information": "The site radio point connects you to the control room.",
+    "objective": "Compare the display with the documents, report what you find and decide on the job.",
+    "task": "Confirm whether P-305 is ready for its bearing inspection."
+   },
+   "briefing": {
+    "1": "P-305 is due a bearing inspection. Farah in the control room wants you to confirm it is ready.",
+    "2": "Less guidance today: decide for yourself which sources to check."
+   },
+   "comic": {
+    "p1": "A display shows what it was last told — not always what is true now.",
+    "p2": "Compare it with the record and the log.",
+    "p3": "Report the mismatch and hold the job.",
+    "title": "A LIGHT IS NOT PROOF"
+   },
+   "crit": {
+    "proceed_job": {
+     "missing": "Re-isolation and verification by the authorised person before work.",
+     "why": "You let the job proceed while the isolation status was contradicted by the record."
+    },
+    "ready_on_display": {
+     "missing": "A verified isolation, confirmed against the isolation record.",
+     "why": "You reported the pump as ready based only on a display that had not updated since 09:12."
+    },
+    "tool_on_pump": {
+     "missing": "Verified isolation and authorisation.",
+     "why": "You started work on P-305 while its isolation was unverified."
+    }
+   },
+   "debrief": {
+    "critical": "A display was trusted over the record. Next time, let disagreement hold the job.",
+    "failed": "Repeated unsafe calls ended the attempt. Compare every source before deciding.",
+    "l1": "You reported 'ready' on the strength of a stale display.",
+    "l2": "You allowed the job to proceed with the isolation unverified.",
+    "l3": "You noticed the display had not updated since 09:12.",
+    "l4": "You found the cancelled isolation in the record.",
+    "l5": "At least one choice delayed or confused the report.",
+    "l6": "You held the job until the isolation is redone — correct.",
+    "success": "You treated the green light as a claim, checked it against the record and held the job."
+   },
+   "description": "A green 'ISOLATED' light, an amber beacon and a record that tells a different story.",
+   "dlg": {
+    "correct": {
+     "1": "[Radio] Good call holding it. I'll raise the display fault and get the isolation redone."
+    },
+    "meet": {
+     "1": "Hi, I'm Farah — control room. P-305 should be isolated for the bearing crew.",
+     "2": "My screen's been glitchy since this afternoon's test run, so go and look for yourself.",
+     "3": "Radio me from the pump house if anything doesn't add up."
+    },
+    "radio_ack": {
+     "1": "[Radio] Copy. My records agree with yours: the isolation was cancelled for the test run.",
+     "2": "[Radio] That local display never updated. Don't let anyone near it until it's re-isolated and verified."
+    },
+    "revisit": {
+     "1": "Use the radio point by the pump house — I'll be listening."
+    },
+    "unsafe": {
+     "1": "[Radio] Stop right there. A green light is not a verified isolation."
+    }
+   },
+   "early": {
+    "decide": "Report the inconsistency before deciding on the job.",
+    "report": "Check the record before you report — you need facts, not guesses."
+   },
+   "ev": {
+    "ev_equipment": {
+     "label": "Equipment",
+     "value": "P-305 cooling water pump"
+    },
+    "ev_planner": {
+     "label": "Planned by",
+     "value": "Maintenance planning"
+    },
+    "ev_status": {
+     "label": "Isolation status",
+     "value": "CANCELLED 13:50 for test run — not re-entered"
+    }
+   },
+   "evt": {
+    "display_fault": {
+     "4d1": "Display now reads: 'ISOLATION: NOT VERIFIED' (red)."
+    }
+   },
+   "fb": {
+    "report_later": "Leaving it until later means the crew may start on wrong information. Report it now.",
+    "wrong_flag": "That entry is correct. Find the one that contradicts the display."
+   },
+   "grp": {
+    "final": {
+     "hold": "Hold the job until the isolation is redone and verified",
+     "proceed": "Proceed — the display says isolated",
+     "prompt": "What happens to the bearing inspection?"
+    },
+    "report": {
+     "later": "Say nothing now — sort the record out after the inspection",
+     "later_desc": "Leave the paperwork for later.",
+     "mismatch": "Report: display says isolated, record says cancelled — please confirm",
+     "mismatch_desc": "Describe both sources and ask for confirmation.",
+     "prompt": "What do you report to the control room?",
+     "ready": "Report: display shows isolated, so the crew can start",
+     "ready_desc": "Trust the green light."
+    }
+   },
+   "hint": {
+    "check_pump": {
+     "1": "P-306 is running; P-305 is the stopped one."
+    },
+    "decide": {
+     "1": "Can the crew safely start while the isolation is unverified?"
+    },
+    "enter": {
+     "1": "The pump house is straight ahead, north of the job board."
+    },
+    "flag_status": {
+     "1": "The display says one thing about isolation; which field says the opposite?"
+    },
+    "open_record": {
+     "1": "The record is in the glass case south-east of the pump."
+    },
+    "read_display": {
+     "1": "Look at the time of the last update and the beacon colour."
+    },
+    "read_log": {
+     "1": "What happened to P-305 this afternoon?"
+    },
+    "report": {
+     "1": "Report both sources and ask the control room to confirm."
+    }
+   },
+   "instruction": {
+    "check_pump": "Find the pump tagged P-305 and inspect it.",
+    "decide": "Record the decision on the job board.",
+    "enter": "Walk to the yellow-bordered pump house area.",
+    "flag_status": "Flag the record entry that contradicts the display.",
+    "open_record": "Read isolation record IR-305 in the display case.",
+    "read_display": "Read everything on the display, including the small print.",
+    "read_log": "Read the log at the shift desk.",
+    "report": "Use the site radio point and choose what to report."
+   },
+   "location": "Cooling water pump house · Utility block",
+   "obj": {
+    "display_p305": {
+     "d1": "Display: 'RUN: STOPPED' · 'ISOLATED ✓' (green).",
+     "d2": "Small print: 'Last update 09:12'. The amber beacon on top is flashing.",
+     "name": "P-305 local status display"
+    },
+    "handover_desk": {
+     "d1": "13:50 — P-305 isolation removed for a 10-minute test run (ops).",
+     "d2": "14:10 — test complete. Re-isolation: no entry.",
+     "name": "Shift handover log"
+    },
+    "iso_record": {
+     "d1": "Record for P-305 bearing inspection.",
+     "name": "Isolation record IR-305 (fictional)"
+    },
+    "job_board": {
+     "d1": "Record your decision on the bearing inspection.",
+     "name": "Bearing job board"
+    },
+    "pump_p305": {
+     "d1": "Cooling water pump P-305. It is not running.",
+     "d2": "Nothing on the pump itself shows whether it is isolated.",
+     "name": "Pump P-305"
+    },
+    "radio_point": {
+     "d1": "Channel 2 — Control room (Farah Khan).",
+     "name": "Site radio point"
+    }
+   },
+   "objectives": {
+    "1": "Treat a display as one source of information, not proof.",
+    "2": "Report inconsistencies through the right channel and hold the job."
+   },
+   "prop": {
+    "0": {
+     "1": "CONTROL ROOM"
+    },
+    "display_p305": {
+     "1": "RUN: STOPPED",
+     "2": "ISOLATED ✓",
+     "3": "Last update 09:12",
+     "4": "RUN: STOPPED",
+     "5": "ISOLATION: NOT VERIFIED",
+     "6": "Display fault reported"
+    },
+    "handover_desk": {
+     "1": "SHIFT DESK"
+    },
+    "iso_record": {
+     "1": "ISOLATION RECORD"
+    },
+    "job_board": {
+     "1": "BEARING JOB"
+    }
+   },
+   "q1": {
+    "a": "The display wins because it is electronic",
+    "b": "The status is unverified until the conflict is resolved",
+    "c": "The record wins because it is on paper",
+    "stem": "A status display shows 'ISOLATED' but the record says the isolation was cancelled. What is true?",
+    "why": "Neither source alone proves the condition; the conflict itself means stop and confirm."
+   },
+   "q2": {
+    "a": "The control room or person responsible for the equipment status",
+    "b": "Nobody, if you decide not to start",
+    "c": "Only your friends on the crew",
+    "stem": "Who should you tell about the mismatch?",
+    "why": "Others may rely on the same wrong display; the responsible party must know."
+   },
+   "q3": {
+    "a": "The pump tag number",
+    "b": "The last-update time and the amber beacon",
+    "c": "The colour of the cabinet",
+    "stem": "Which detail on the display should have made you suspicious?",
+    "why": "An old update time and a warning beacon both hinted the display was out of date."
+   },
+   "q4": {
+    "a": "Start on the parts that do not rotate",
+    "b": "Continue if the control room is busy",
+    "c": "Hold until the isolation is redone and verified",
+    "stem": "After reporting, what should happen to the bearing job?",
+    "why": "Reporting is not enough on its own; the job waits for a verified condition."
+   },
+   "step": {
+    "check_pump": "Identify P-305",
+    "decide": "Decide on the bearing job",
+    "enter": "Go to the P-305 pump house",
+    "flag_status": "Flag the inconsistent entry",
+    "open_record": "Open the isolation record",
+    "read_display": "Read the local status display",
+    "read_log": "Check the shift handover log",
+    "report": "Report it to the control room"
+   },
+   "subtitle": "When the display and the paperwork disagree",
+   "title": "The Unusual Indicator",
+   "zone": {
+    "zone_pumphouse": "Pump house P-305"
+   }
+  },
+  "hr4": {
+   "assignment": {
+    "equipment": "Manifold valve MV-7 (fictional).",
+    "information": "Area assessment AA-12 was written at 07:00 for an empty work area.",
+    "objective": "Complete the check — and notice if the conditions you were briefed on change.",
+    "task": "Inspect valve MV-7 and the manifold area."
+   },
+   "briefing": {
+    "1": "Kannan wants the gland on manifold valve MV-7 checked for weeping.",
+    "2": "The area was walked this morning: clear, dry and quiet."
+   },
+   "comic": {
+    "p1": "The briefing described the area as it was — not as it is now.",
+    "p2": "Two crews in one area must know about each other.",
+    "p3": "New conditions? Pause and get it reviewed.",
+    "title": "THE PICTURE CHANGED"
+   },
+   "crit": {
+    "carry_on_old_assessment": {
+     "missing": "A fresh review of the changed area by the person who authorised your work.",
+     "why": "You relied on a 07:00 assessment of an empty area after a crew, scaffold, hose and open drain appeared."
+    },
+    "move_pressurised_hose": {
+     "missing": "Coordination between both crews through the supervisor.",
+     "why": "Moving another crew's pressurised equipment creates a new hazard and does not make the area match the assessment."
+    }
+   },
+   "debrief": {
+    "critical": "The area changed but the decision didn't. An assessment only covers the conditions it describes.",
+    "failed": "The attempt ended after repeated unsafe choices. Stop when the picture changes.",
+    "l1": "You carried on under an assessment that no longer described the area.",
+    "l2": "You chose to move another crew's pressurised hose.",
+    "l3": "You spotted the open drain beside the valve.",
+    "l4": "One choice skipped coordination or flagged the wrong entry.",
+    "l5": "You paused for a fresh review — the right call when conditions change.",
+    "success": "You noticed the change, spoke to the other crew and paused for a fresh review."
+   },
+   "description": "Halfway through a simple check, the area around you changes.",
+   "dlg": {
+    "arrival": {
+     "1": "Wait — that scaffold wasn't here a minute ago. And who laid that hose?"
+    },
+    "correct": {
+     "1": "Thanks for stopping. Two crews, one area, two permits that don't know about each other — that's how surprises happen."
+    },
+    "crew": {
+     "1": "Morning! We're jetting the bund drains. Scaffold's for the tank nozzle.",
+     "2": "Nobody told you? Huh. Our permit says the area was clear.",
+     "2c1": "I'll pause my job and get the area reviewed with my supervisor",
+     "2c2": "Fine — you do your job, I'll do mine"
+    },
+    "meet": {
+     "1": "Simple one today. Look at the gland on MV-7, tell me if it's weeping.",
+     "2": "I walked the area at seven. Nothing else going on up there."
+    },
+    "revisit": {
+     "1": "If anything up there doesn't match what I told you, come and tell me."
+    },
+    "unsafe": {
+     "1": "No. The assessment I gave you was for an empty area. It isn't empty any more."
+    }
+   },
+   "early": {
+    "decide": "Look at everything that changed before deciding."
+   },
+   "ev": {
+    "ev_other_work": {
+     "label": "Other work in the area",
+     "value": "Assessment: none. Now: scaffold + jetting crew"
+    },
+    "ev_valve": {
+     "label": "Valve MV-7 gland",
+     "value": "Checked — dry"
+    }
+   },
+   "evt": {
+    "crew_arrives": {
+     "1": "A contract crew has started work in your area"
+    }
+   },
+   "fb": {
+    "ignore_crew": "Working side by side without coordination is how crews surprise each other. Talk to Mani again.",
+    "wrong_flag": "That entry still matches the area. Flag what has changed."
+   },
+   "grp": {
+    "crew": {
+     "coordinate": "Pause and get the area reviewed with the supervisor",
+     "ignore": "Work side by side without coordinating",
+     "prompt": "How do you respond to the contract crew?"
+    },
+    "final": {
+     "carry_on": "Carry on — the morning assessment covers this area",
+     "move_hose": "Move the hose out of the way and keep working",
+     "pause_review": "Pause and ask Kannan for a fresh area review",
+     "prompt": "The area has changed since the briefing. What now?"
+    }
+   },
+   "hint": {
+    "decide": {
+     "1": "Is the 07:00 assessment still a true picture of this area?"
+    },
+    "enter": {
+     "1": "Head north from the briefing point."
+    },
+    "inspect_valve": {
+     "1": "MV-7 is the red handwheel on the manifold."
+    },
+    "review_board": {
+     "1": "The assessment describes an empty area."
+    },
+    "see_drain": {
+     "1": "Something on the ground is open that was closed this morning."
+    },
+    "see_hose": {
+     "1": "Look down at your route out."
+    },
+    "see_scaffold": {
+     "1": "What is new since the briefing?"
+    },
+    "talk_crew": {
+     "1": "Two crews in one area need to be coordinated by someone with authority."
+    }
+   },
+   "instruction": {
+    "decide": "Record your decision at the assessment board.",
+    "enter": "Walk to the yellow-bordered manifold area.",
+    "inspect_valve": "Inspect manifold valve MV-7.",
+    "review_board": "Open assessment board AA-12 and flag what no longer matches.",
+    "see_drain": "Inspect the bund drain west of the valve.",
+    "see_hose": "Inspect the hose that now crosses the walkway.",
+    "see_scaffold": "Inspect the scaffold that has appeared beside the manifold.",
+    "talk_crew": "Talk to Mani, the contract technician, and agree what happens next."
+   },
+   "location": "Tank farm manifold · North bund",
+   "obj": {
+    "assessment": {
+     "d1": "Written 07:00: 'Manifold area clear. No other work. Walkways dry.'",
+     "name": "Area assessment board AA-12"
+    },
+    "drain_open": {
+     "d1": "Drain cover lifted for jetting. Open pit beside the valve.",
+     "name": "Uncovered bund drain"
+    },
+    "hose_new": {
+     "d1": "A high-pressure jetting hose now crosses your only walkway out.",
+     "d2": "It is pressurised — not yours to move.",
+     "name": "Water-jetting hose across the walkway"
+    },
+    "scaffold_new": {
+     "d1": "Scaffold tag: RED — 'Not ready for use'. Erected beside the manifold minutes ago.",
+     "d2": "Work overhead may start above your access route.",
+     "name": "Newly erected scaffold"
+    },
+    "valve_mv7": {
+     "d1": "Gland nut is dry. No visible weeping at the stem.",
+     "d2": "The gland check itself is complete.",
+     "name": "Manifold valve MV-7"
+    }
+   },
+   "objectives": {
+    "1": "Recognise when the work area no longer matches the briefing.",
+    "2": "Pause and request a fresh review instead of carrying on."
+   },
+   "prop": {
+    "assessment": {
+     "1": "AREA ASSESSMENT AA-12"
+    }
+   },
+   "q1": {
+    "a": "The briefing no longer covers the area; it needs reviewing",
+    "b": "Nothing — your briefing is still valid all day",
+    "c": "You should finish quickly before they get in the way",
+    "stem": "Your briefing described an empty area, but a new crew has started work nearby. What does that mean?",
+    "why": "An assessment only covers the conditions it describes."
+   },
+   "q2": {
+    "a": "Move it yourself",
+    "b": "Step over it and carry on",
+    "c": "Leave it and raise it with your supervisor and the crew",
+    "stem": "A pressurised hose from another crew blocks your walkway. What should you do?",
+    "why": "Other crews' equipment is coordinated, not moved by you."
+   },
+   "q3": {
+    "a": "The open bund drain beside the valve",
+    "b": "The colour of the valve handwheel",
+    "c": "The tank name plate",
+    "stem": "Which of these was a NEW hazard after the crew arrived?",
+    "why": "The drain had been covered that morning; jetting work opened it."
+   },
+   "q4": {
+    "a": "Whichever crew arrived first",
+    "b": "The supervisors or permit authority for the area",
+    "c": "The trainee on site",
+    "stem": "Who should resolve two crews working in the same area?",
+    "why": "Coordination sits with the people who authorise work in the area."
+   },
+   "step": {
+    "decide": "Decide how to continue",
+    "enter": "Go to the manifold area",
+    "inspect_valve": "Check the gland on MV-7",
+    "review_board": "Compare with the morning assessment",
+    "see_drain": "Check the ground near the valve",
+    "see_hose": "Check the walkway",
+    "see_scaffold": "Look at what has changed: the scaffold",
+    "talk_crew": "Speak to the contract crew"
+   },
+   "subtitle": "The briefing was right — an hour ago",
+   "title": "The Changed Work Area",
+   "zone": {
+    "zone_manifold": "Manifold area"
+   }
+  },
+  "hr5": {
+   "assignment": {
+    "equipment": "Gauge PI-520 on line 520, job card JC-520 (fictional).",
+    "information": "Not everything that looks odd is a hazard. Not every hazard looks odd.",
+    "objective": "Find the genuine hazards, report them through the radio point, and make the go/no-go call.",
+    "task": "Survey the work area around PI-520 and decide whether the job can go ahead."
+   },
+   "briefing": {
+    "1": "Replace pressure gauge PI-520. Before any work, survey the area and report what you find.",
+    "2": "This is a competency challenge: hints are limited."
+   },
+   "comic": {
+    "p1": "Look at the ground, the equipment, the emergency kit and the paperwork.",
+    "p2": "Report everything — a partial report hides risk.",
+    "p3": "Small job or not, open hazards mean no-go.",
+    "title": "SURVEY · REPORT · DECIDE"
+   },
+   "crit": {
+    "fix_leak_yourself": {
+     "missing": "Reporting the leak so the responsible team can make it safe.",
+     "why": "Tightening a leaking live flange is outside your task and authorisation."
+    },
+    "go_anyway": {
+     "missing": "Resolution of the findings and a valid permit.",
+     "why": "You gave a 'go' with five open findings, including no permit reference."
+    },
+    "spanner_live": {
+     "missing": "A permit and resolved findings.",
+     "why": "You put a tool on line 520 before the findings were resolved or a permit existed."
+    }
+   },
+   "debrief": {
+    "critical": "The survey was good but the decision overrode it. Let your findings decide.",
+    "failed": "Repeated unsafe actions ended the challenge. Survey, report, then decide.",
+    "l1": "You chose 'go' despite open findings.",
+    "l2": "You tried to fix a live leak yourself.",
+    "l3": "You noticed the empty fire point — easy to miss.",
+    "l4": "You found the missing permit reference.",
+    "l5": "One report was incomplete or chased a false alarm.",
+    "l6": "No-go with clear reasons: the right call.",
+    "success": "Complete survey, accurate report, clear no-go. Competency challenge passed."
+   },
+   "description": "A small gauge swap in a busy corner of the plant. How many hazards can you find?",
+   "dlg": {
+    "correct": {
+     "1": "That's a complete survey and a clear call. That's what competence looks like."
+    },
+    "meet": {
+     "1": "Gauge swap on PI-520. Ten-minute job — if the area lets you.",
+     "2": "Survey first. Radio me everything you find, then make the call. I won't hold your hand on this one."
+    },
+    "radio_ack": {
+     "1": "[Radio] Got it — spill, leak, missing extinguisher, packing on the hot line, no permit reference. That's a no-go until we sort it."
+    },
+    "revisit": {
+     "1": "I'm waiting for your report on the radio."
+    },
+    "unsafe": {
+     "1": "Stop. You found the hazards — now let them change the decision."
+    }
+   },
+   "early": {
+    "decide": "Report what you found before making the call.",
+    "report": "Your survey isn't complete yet. Keep looking before you report."
+   },
+   "ev": {
+    "ev_isolation": {
+     "label": "Gauge isolation",
+     "value": "Root valve to be closed by operations"
+    },
+    "ev_permit_ref": {
+     "label": "Work permit reference",
+     "value": "— (blank)"
+    },
+    "ev_task": {
+     "label": "Task",
+     "value": "Replace PI-520 like-for-like"
+    }
+   },
+   "fb": {
+    "drums_advisory": "Checked: these drums are stored correctly. Not every odd-looking thing is a hazard.",
+    "false_alarm": "Those drums are labelled, closed and bunded. Report the real findings.",
+    "partial_report": "Spills, missing fire equipment and missing permits are not 'housekeeping'. Report everything.",
+    "wrong_flag": "That field is complete. Which one is missing?"
+   },
+   "grp": {
+    "final": {
+     "fix_first": "Tighten the leaking flange yourself first, then do the gauge",
+     "go": "Go: it is only a gauge, it will take ten minutes",
+     "no_go": "No-go: hold the job until the findings are resolved and a permit is in place",
+     "prompt": "Go or no-go for JC-520?"
+    },
+    "report": {
+     "all": "All findings: spill, leak, missing extinguisher, packing on hot line, no permit reference",
+     "drums": "The drums near the loading bay look suspicious",
+     "leak_only": "Only the leaking flange — the rest is housekeeping",
+     "prompt": "What do you report?"
+    }
+   },
+   "hint": {
+    "card": {
+     "1": "Which field should never be blank before work starts?"
+    },
+    "decide": {
+     "1": "Could this job be done safely with what you found?"
+    },
+    "enter": {
+     "1": "North of the go/no-go board."
+    },
+    "find_gauge": {
+     "1": "The gauge stands on a post by the pipe rack."
+    },
+    "h_extinguisher": {
+     "1": "Is everything that should be at the fire point actually there?"
+    },
+    "h_leak": {
+     "1": "Something is dripping east of the gauge."
+    },
+    "h_packing": {
+     "1": "Red paint on a line marks it as hot in this plant."
+    },
+    "h_spill": {
+     "1": "Look at the ground, not just the equipment."
+    },
+    "report": {
+     "1": "A partial report gives a partial picture."
+    }
+   },
+   "instruction": {
+    "card": "Open JC-520 and flag anything missing.",
+    "decide": "Record your decision on the board.",
+    "enter": "Walk into the work area.",
+    "find_gauge": "Find the gauge named on the job card.",
+    "h_extinguisher": "Check the fire point on the west side.",
+    "h_leak": "Find the loss of containment on line 520.",
+    "h_packing": "Find the combustible material near a hot line.",
+    "h_spill": "Find the hazard on the route to the gauge.",
+    "report": "Use the radio point and report."
+   },
+   "location": "Line 520 beside the loading bay",
+   "obj": {
+    "decision_board": {
+     "d1": "Record the go/no-go decision for JC-520.",
+     "name": "Go/no-go board"
+    },
+    "drums_ok": {
+     "d1": "Labelled, closed and stored inside a drip tray. Nothing out of place.",
+     "name": "Drums in the bunded store"
+    },
+    "ext_point": {
+     "d1": "The bracket is empty. The extinguisher is missing.",
+     "name": "Fire point FP-9"
+    },
+    "flange_520": {
+     "d1": "Product is dripping from the flange joint.",
+     "name": "Flange on line 520"
+    },
+    "gauge_pi520": {
+     "d1": "The gauge to be replaced. The needle sits in the green band.",
+     "name": "Pressure gauge PI-520"
+    },
+    "job_card": {
+     "d1": "Task: replace pressure gauge PI-520.",
+     "name": "Job card JC-520 (fictional)"
+    },
+    "packing": {
+     "d1": "Cardboard and rags are piled against the red-painted hot line.",
+     "name": "Packaging stacked against line 520"
+    },
+    "radio_point": {
+     "d1": "Channel 1 — Maintenance supervisor.",
+     "name": "Site radio point"
+    },
+    "spill": {
+     "d1": "An oil spill across the route to PI-520. Slippery and unreported.",
+     "name": "Dark patch on the access route"
+    }
+   },
+   "objectives": {
+    "1": "Combine hazard spotting, document checks and escalation in one job.",
+    "2": "Make a defensible go/no-go decision from the evidence."
+   },
+   "prop": {
+    "2": {
+     "1": "LOADING BAY"
+    },
+    "decision_board": {
+     "1": "GO / NO-GO"
+    },
+    "job_card": {
+     "1": "JOB CARD"
+    }
+   },
+   "q1": {
+    "a": "Only the equipment you will work on",
+    "b": "The ground, nearby equipment, emergency equipment and documents",
+    "c": "Only what the job card lists",
+    "stem": "During a pre-job survey, what should you look at?",
+    "why": "In this scenario hazards were on the ground, on the line, at the fire point and in the paperwork."
+   },
+   "q2": {
+    "a": "All five",
+    "b": "Only the most serious one",
+    "c": "None, if you are not doing the job",
+    "stem": "You found five issues. What should your report include?",
+    "why": "Each finding needs action by someone; leaving any out hides it."
+   },
+   "q3": {
+    "a": "Yes, it is quick",
+    "b": "No — report it so the responsible team makes it safe",
+    "c": "Only if nobody is watching",
+    "stem": "A flange near your job is leaking. Should you tighten it?",
+    "why": "Work on live, leaking equipment is outside the trainee's task and authorisation."
+   },
+   "q4": {
+    "a": "Go — small jobs are low risk",
+    "b": "Go, but quickly",
+    "c": "No-go until findings are resolved and the permit is in place",
+    "stem": "The job is small but there are open hazards and no permit reference. Decision?",
+    "why": "The size of the job does not change what the evidence says."
+   },
+   "step": {
+    "card": "Check the job card",
+    "decide": "Make the go/no-go call",
+    "enter": "Enter the line 520 work area",
+    "find_gauge": "Locate PI-520",
+    "h_extinguisher": "Hazard: emergency equipment",
+    "h_leak": "Hazard: line integrity",
+    "h_packing": "Hazard: combustibles",
+    "h_spill": "Hazard: access route",
+    "report": "Report your findings"
+   },
+   "subtitle": "Competency challenge: find them all, then decide",
+   "title": "The Hazard Hunt",
+   "zone": {
+    "zone_line520": "Line 520 work area"
+   }
+  },
+  "ppe1": {
+   "assignment": {
+    "equipment": "Task card TC-14, PPE store (fictional).",
+    "information": "In real work, PPE comes from your employer's task assessment. This card is a fictional example.",
+    "objective": "Match your PPE to the reviewed task card before entering the zone.",
+    "task": "Collect the PPE listed on the task card and report to the work zone."
+   },
+   "briefing": {
+    "1": "Priya has a reviewed task card for cleaning strainer basket S-14.",
+    "2": "The card lists the PPE for this task. Take exactly that from the PPE store."
+   },
+   "comic": {
+    "p1": "The task card says what protection this job needs.",
+    "p2": "Take exactly that — no more guessing.",
+    "p3": "No match, no entry.",
+    "title": "CARD · STORE · ZONE"
+   },
+   "crit": {
+    "enter_without_ppe": {
+     "missing": "The PPE listed on task card TC-14, confirmed before entry.",
+     "why": "You entered the work zone before your PPE matched the task card."
+    },
+    "skip_eye_protection": {
+     "missing": "Every item listed on the task card.",
+     "why": "The task card requires safety glasses. A 'quick job' does not change the requirement."
+    }
+   },
+   "debrief": {
+    "critical": "The job started before the PPE matched the card. The card is the requirement, not a suggestion.",
+    "failed": "Repeated unsafe choices ended the attempt. Card, store, zone — in that order.",
+    "l1": "You walked into the zone before confirming your PPE.",
+    "l2": "You chose to skip required eye protection.",
+    "l3": "You started with the task card — the right first step.",
+    "l4": "You confirmed your loadout against the card before entering.",
+    "success": "You read the card, took exactly what it listed and confirmed before entering."
+   },
+   "description": "Your first job needs the right protection — and the task card says what that is.",
+   "dlg": {
+    "correct": {
+     "1": "Card, store, zone — in that order. Nicely done."
+    },
+    "meet": {
+     "1": "Welcome! I'm Priya, Safety Officer. First job: strainer basket S-14.",
+     "2": "The task card on the board tells you what PPE this job needs. Not what you like, not what you wore yesterday.",
+     "3": "Card first, store second, zone last."
+    },
+    "revisit": {
+     "1": "Card first, store second, zone last."
+    },
+    "unsafe": {
+     "1": "Stop at the barrier. Your PPE doesn't match the task card yet."
+    }
+   },
+   "early": {
+    "confirm": "Your loadout doesn't match the task card yet. Compare item by item."
+   },
+   "fb": {
+    "extra_harness": "There's no work at height in this task. Take what the card lists.",
+    "extra_welding_mask": "A welding helmet isn't on this task card. Take what the card lists."
+   },
+   "grp": {
+    "loadout": {
+     "confirm": "My PPE matches task card TC-14",
+     "prompt": "Confirm your PPE for task TC-14",
+     "skip_glasses": "Skip the glasses — it's a quick job"
+    }
+   },
+   "hint": {
+    "check_strainer": {
+     "1": "The strainer is the grey housing in the zone."
+    },
+    "confirm": {
+     "1": "Helmet, glasses and gloves — then confirm."
+    },
+    "enter_zone": {
+     "1": "The zone is behind the yellow tape."
+    },
+    "open_store": {
+     "1": "The store is east of the walkway."
+    },
+    "read_card": {
+     "1": "The card is on the green-headed board."
+    },
+    "take_glasses": {
+     "1": "Check the task card list."
+    },
+    "take_gloves": {
+     "1": "Check the task card list."
+    },
+    "take_helmet": {
+     "1": "Check the task card list."
+    }
+   },
+   "instruction": {
+    "check_strainer": "Inspect the strainer housing to start the job.",
+    "confirm": "Confirm your loadout in the PPE store.",
+    "enter_zone": "Walk into the taped work zone north of the store.",
+    "open_store": "Go to the blue PPE store and open it.",
+    "read_card": "Read the task card on the board west of the walkway.",
+    "take_glasses": "In the PPE store, press Select on the safety glasses.",
+    "take_gloves": "In the PPE store, press Select on the general-handling gloves.",
+    "take_helmet": "In the PPE store, press Select on the safety helmet."
+   },
+   "item": {
+    "glasses": {
+     "detail": "Good condition.",
+     "name": "Safety glasses"
+    },
+    "gloves_gen": {
+     "detail": "Good condition.",
+     "name": "General-handling gloves"
+    },
+    "harness": {
+     "detail": "For work at height.",
+     "name": "Full-body harness"
+    },
+    "helmet": {
+     "detail": "Good condition.",
+     "name": "Safety helmet"
+    },
+    "welding_mask": {
+     "detail": "For welding tasks.",
+     "name": "Welding helmet"
+    }
+   },
+   "location": "PPE store · Workshop yard",
+   "obj": {
+    "ppe_store": {
+     "d1": "Take what the task card lists. Everything here is in good condition.",
+     "name": "PPE store"
+    },
+    "strainer": {
+     "d1": "Strainer housing S-14. The cleaning job starts here once your PPE is right.",
+     "name": "Strainer S-14"
+    },
+    "task_card": {
+     "d1": "Task: clean strainer basket S-14 (fictional).",
+     "d2": "Required PPE: helmet, safety glasses, general-handling gloves, coverall, safety boots.",
+     "d3": "You are already wearing safety boots and a coverall.",
+     "name": "Task card TC-14"
+    }
+   },
+   "objectives": {
+    "1": "Read task-specific PPE requirements.",
+    "2": "Select the listed PPE and confirm before entering the zone."
+   },
+   "prop": {
+    "task_card": {
+     "1": "TASK CARD TC-14",
+     "2": "Task: clean strainer basket S-14",
+     "3": "PPE: helmet, safety glasses, general gloves, coverall, safety boots",
+     "4": "Reviewed by: P. Nair (fictional)"
+    }
+   },
+   "q1": {
+    "a": "The reviewed task assessment or card for that job",
+    "b": "Whatever you wore on your last job",
+    "c": "Whatever is closest in the store",
+    "stem": "Where should your PPE requirements for a task come from?",
+    "why": "PPE is task-specific; the reviewed task requirements set it."
+   },
+   "q2": {
+    "a": "After the job starts",
+    "b": "Before entering the work zone",
+    "c": "Only if a supervisor is watching",
+    "stem": "When should you confirm your PPE?",
+    "why": "Protection has to be in place before you are exposed."
+   },
+   "q3": {
+    "a": "Yes, if it takes less than five minutes",
+    "b": "Yes, if it is uncomfortable",
+    "c": "No — the requirement does not depend on how long the job takes",
+    "stem": "The job is short. Can you skip an item the task card lists?",
+    "why": "Hazards don't wait for long jobs; the listed PPE applies throughout."
+   },
+   "q4": {
+    "a": "Extra PPE replaces missing PPE",
+    "b": "Extra items don't make up for a missing listed item",
+    "c": "The more PPE the better, always",
+    "stem": "You took a harness that the card doesn't list. What is the best view?",
+    "why": "What matters is the protection the task requires, item by item."
+   },
+   "step": {
+    "check_strainer": "Check in at strainer S-14",
+    "confirm": "Confirm your PPE",
+    "enter_zone": "Enter the strainer work zone",
+    "open_store": "Open the PPE store",
+    "read_card": "Read task card TC-14",
+    "take_glasses": "Take safety glasses",
+    "take_gloves": "Take general-handling gloves",
+    "take_helmet": "Take a safety helmet"
+   },
+   "subtitle": "Read the task card, then pick your PPE",
+   "title": "Suit Up for the Shift",
+   "zone": {
+    "zone_strainer": "Strainer S-14 work zone"
+   }
+  },
+  "ppe2": {
+   "assignment": {
+    "equipment": "Compressor K-3, compressor house entry sign, PPE store (fictional).",
+    "information": "The compressor house is a posted hearing-protection area in this scenario.",
+    "objective": "Enter only when your PPE matches the posted requirements.",
+    "task": "Take the K-3 oil-level reading."
+   },
+   "briefing": {
+    "1": "Take the oil-level reading on compressor K-3 inside the compressor house.",
+    "2": "Check the entry requirements at the door before you go in."
+   },
+   "comic": {
+    "p1": "The sign at the door sets the requirement.",
+    "p2": "An empty hook is a finding — report it.",
+    "p3": "Look out for each other at the door.",
+    "title": "NO PROTECTION, NO ENTRY"
+   },
+   "crit": {
+    "enter_unprotected": {
+     "missing": "All PPE on the entry sign, including hearing protection.",
+     "why": "You entered a posted hearing-protection area without hearing protection."
+    },
+    "go_quick": {
+     "missing": "Hearing protection from stores.",
+     "why": "'Quickly' is not a type of protection. The requirement applies however short the visit."
+    },
+    "improvised_ppe": {
+     "missing": "Proper hearing protection.",
+     "why": "Improvised items are not PPE. Protection must be the type the task requires."
+    }
+   },
+   "debrief": {
+    "critical": "Entry happened without the required protection. Missing PPE means waiting, not improvising.",
+    "failed": "Repeated unsafe choices ended the attempt.",
+    "l1": "You walked into the compressor house without hearing protection.",
+    "l2": "You chose an improvised substitute for PPE.",
+    "l3": "You reported the missing ear defenders.",
+    "l4": "You stopped a colleague entering unprotected.",
+    "l5": "At least one choice let a gap slip by.",
+    "success": "You spotted the empty hook, reported it, stopped Mani and stayed out until protection arrives."
+   },
+   "description": "The sign says one thing, the store has another. What happens at the door?",
+   "dlg": {
+    "correct": {
+     "1": "Thanks for flagging it — stores are bringing ear defenders now. And thanks for stopping Mani."
+    },
+    "mani": {
+     "1": "Going in? Me too. No ear defenders left, but it's only two minutes.",
+     "1c1": "Mani, hold on — the sign requires hearing protection. Let's get some first.",
+     "1c2": "Fair enough, two minutes won't hurt"
+    },
+    "mani_ok": {
+     "1": "Yeah… fair. I'll wait with you."
+    },
+    "meet": {
+     "1": "Quick job: oil level on K-3. The compressor house has its own entry sign — read it.",
+     "2": "If anything on that sign isn't available, you don't go in. You tell me."
+    },
+    "revisit": {
+     "1": "Read the sign, check the store, and tell me if something's missing."
+    },
+    "unsafe": {
+     "1": "Not without hearing protection. The sign isn't optional."
+    }
+   },
+   "early": {
+    "decide": "Check the sign, the store and the people at the door first."
+   },
+   "fb": {
+    "gloves_extra": "Gloves aren't on this sign. They won't replace hearing protection.",
+    "let_mani_go": "Mani is about to be exposed without protection. Talk to him again.",
+    "wrong_defect": "That item is fine. Which hook doesn't match the sign?"
+   },
+   "grp": {
+    "entry": {
+     "go_quick": "Go in quickly without them",
+     "improvise": "Stuff tissue in your ears and go in",
+     "prompt": "Hearing protection is not available. What do you do?",
+     "wait_report": "Don't enter. Report the missing ear defenders and wait for stock"
+    },
+    "mani": {
+     "let_go": "Let him go in",
+     "prompt": "Mani is about to enter without hearing protection. Your response?",
+     "stop": "Stop him and explain the requirement"
+    }
+   },
+   "hint": {
+    "decide": {
+     "1": "Protection that isn't there can't protect you."
+    },
+    "flag_missing": {
+     "1": "Compare each item the sign requires with what is on the hooks."
+    },
+    "open_store": {
+     "1": "The store faces the walkway."
+    },
+    "read_sign": {
+     "1": "Requirements are posted at the door."
+    },
+    "stop_mani": {
+     "1": "He is about to enter without what the sign requires."
+    },
+    "take_glasses": {
+     "1": "Listed on the sign."
+    },
+    "take_helmet": {
+     "1": "Listed on the sign."
+    }
+   },
+   "instruction": {
+    "decide": "Record your entry decision at the PPE store.",
+    "flag_missing": "Report the empty hook as a defect in the store.",
+    "open_store": "Open the PPE store on the east side.",
+    "read_sign": "Read the blue sign at the compressor house door.",
+    "stop_mani": "Talk to Mani at the door.",
+    "take_glasses": "Select the safety glasses.",
+    "take_helmet": "Select the safety helmet."
+   },
+   "item": {
+    "ear_hook": {
+     "detail": "EMPTY — no ear defenders in stock.",
+     "name": "Ear defenders hook"
+    },
+    "glasses": {
+     "detail": "Good condition.",
+     "name": "Safety glasses"
+    },
+    "gloves": {
+     "detail": "Good condition. Not listed on the sign.",
+     "name": "Cotton gloves"
+    },
+    "helmet": {
+     "detail": "Good condition.",
+     "name": "Safety helmet"
+    }
+   },
+   "location": "Compressor house K-3 · Utility block",
+   "obj": {
+    "entry_sign": {
+     "d1": "Required in this area: hearing protection, safety helmet, safety glasses.",
+     "name": "Compressor house entry sign"
+    },
+    "ppe_store": {
+     "d1": "Check each hook against the entry sign.",
+     "name": "PPE store (utility block)"
+    }
+   },
+   "objectives": {
+    "1": "Notice when required PPE is missing before entry.",
+    "2": "Report the gap and stop others entering unprotected."
+   },
+   "prop": {
+    "entry_sign": {
+     "1": "Hearing protection, helmet and glasses required"
+    }
+   },
+   "q1": {
+    "a": "Enter quickly",
+    "b": "Report it and wait outside until it is available",
+    "c": "Borrow someone else's used pair without checking it",
+    "stem": "The sign requires hearing protection, but none is in stock. What do you do?",
+    "why": "Missing PPE is reported; entry waits until the requirement can be met."
+   },
+   "q2": {
+    "a": "Yes, in an emergency",
+    "b": "Yes, for short visits",
+    "c": "No — improvised items are not PPE",
+    "stem": "Is tissue paper in your ears an acceptable substitute for hearing protection?",
+    "why": "PPE is equipment of the type the task requires, not an improvised substitute."
+   },
+   "q3": {
+    "a": "Say nothing — it's their choice",
+    "b": "Politely stop them and explain the requirement",
+    "c": "Report them later",
+    "stem": "A colleague is about to enter without required PPE. What is the best action?",
+    "why": "Stopping exposure before it happens matters more than reporting after."
+   },
+   "q4": {
+    "a": "On the entry sign at the door",
+    "b": "On the compressor nameplate",
+    "c": "Nowhere — you have to guess",
+    "stem": "Where were the PPE requirements for the compressor house shown?",
+    "why": "Posted area requirements are read before entry."
+   },
+   "step": {
+    "decide": "Decide on entry",
+    "flag_missing": "Report the missing item",
+    "open_store": "Check the PPE store",
+    "read_sign": "Read the entry sign",
+    "stop_mani": "Stop Mani going in unprotected",
+    "take_glasses": "Take safety glasses",
+    "take_helmet": "Take a helmet"
+   },
+   "subtitle": "An empty hook in the PPE store",
+   "title": "The Missing Protection",
+   "zone": {
+    "zone_khouse": "Compressor house K-3"
+   }
+  },
+  "ppe3": {
+   "assignment": {
+    "equipment": "Caustic dosing skid, sample point SP-31, PPE store (fictional).",
+    "information": "Labels on each item show its intended use. The specification on the card is fictional teaching content.",
+    "objective": "Choose PPE by specification and resist the 'gloves are gloves' shortcut.",
+    "task": "Collect the PPE specified on task card TC-31 and confirm before sampling."
+   },
+   "briefing": {
+    "1": "Collect a sample from the caustic dosing skid sample point.",
+    "2": "The task card specifies the PPE. Read the specification, not just the item name."
+   },
+   "comic": {
+    "p1": "Same shape, different job.",
+    "p2": "The specification is on the card and on the label.",
+    "p3": "Match them item by item.",
+    "title": "READ THE LABEL"
+   },
+   "crit": {
+    "enter_skid_unconfirmed": {
+     "missing": "Confirmed TC-31 PPE before entry.",
+     "why": "You entered the corrosive-chemical area before your PPE was confirmed against the card."
+    },
+    "wrong_spec_confirmed": {
+     "missing": "Chemical-resistant gloves as specified on TC-31.",
+     "why": "Thickness is not a specification. Leather gloves are labelled 'not chemical-resistant'."
+    }
+   },
+   "debrief": {
+    "critical": "Look-alike PPE was accepted against the specification. Read labels every time.",
+    "failed": "Repeated unsafe choices ended the attempt.",
+    "l1": "You confirmed leather gloves for a chemical task.",
+    "l2": "You entered the skid area before confirming PPE.",
+    "l3": "At least one look-alike item was picked before the right one.",
+    "l4": "You held to the card when a senior colleague suggested a shortcut.",
+    "success": "You chose by specification, not appearance — and talked Joseph out of a bad habit."
+   },
+   "description": "Three pairs of gloves look alike. Only one is right for this job.",
+   "dlg": {
+    "correct": {
+     "1": "Spec matched, item by item. That's the habit I should have."
+    },
+    "joseph_ok": {
+     "1": "Ha — fair. Old habits. The card's right, I'm wrong."
+    },
+    "meet": {
+     "1": "Sample run on the caustic skid. Card's on the board — TC-31."
+    },
+    "revisit": {
+     "1": "Go by the card. I'll be here."
+    },
+    "shortcut": {
+     "1": "Honestly, grab any gloves. Gloves are gloves.",
+     "1c1": "I'll match the specification on the card, Joseph",
+     "1c2": "Fine — whatever's nearest"
+    },
+    "unsafe": {
+     "1": "Hang on — that isn't what TC-31 specifies. Check the labels."
+    }
+   },
+   "early": {
+    "confirm": "Not everything the card specifies is selected yet.",
+    "go_sample": "Confirm your PPE before you approach the sample point."
+   },
+   "fb": {
+    "any_gloves": "'Gloves are gloves' is exactly the misconception this job tests. Talk to Joseph again.",
+    "wrong_glasses": "Open-frame glasses are not splash goggles. Read the label.",
+    "wrong_gloves_cotton": "Cotton liners are not chemical-resistant. Read the label.",
+    "wrong_gloves_leather": "Tan gloves are for abrasion, not chemicals. Read the label."
+   },
+   "grp": {
+    "advice": {
+     "any_gloves": "Take whatever is nearest",
+     "follow_card": "Match the card's specification",
+     "prompt": "Joseph says 'gloves are gloves'. Your answer?"
+    },
+    "loadout": {
+     "confirm": "My PPE matches the TC-31 specification",
+     "prompt": "Confirm your PPE for TC-31",
+     "thicker": "Use the leather gloves — they're thicker, so safer"
+    }
+   },
+   "hint": {
+    "advice": {
+     "1": "What decides which gloves you need — habit, or the card?"
+    },
+    "confirm": {
+     "1": "Gloves, goggles and shield — all three, all to spec."
+    },
+    "go_sample": {
+     "1": "The green valve inside the taped area."
+    },
+    "open_store": {
+     "1": "East of the walkway."
+    },
+    "read_card": {
+     "1": "The board is west of the walkway."
+    },
+    "take_gloves": {
+     "1": "Colour doesn't decide it; the label does."
+    },
+    "take_goggles": {
+     "1": "Open-frame glasses are a different specification."
+    },
+    "take_shield": {
+     "1": "The card asks for goggles AND a shield."
+    }
+   },
+   "instruction": {
+    "advice": "Talk to Joseph again and answer his suggestion.",
+    "confirm": "Confirm your loadout in the store.",
+    "go_sample": "Inspect the sample point to start sampling.",
+    "open_store": "Open the store and read every label.",
+    "read_card": "Read the specification on the orange-headed board.",
+    "take_gloves": "Select the gloves whose label matches the card.",
+    "take_goggles": "Select the splash goggles.",
+    "take_shield": "Select the face shield."
+   },
+   "item": {
+    "faceshield": {
+     "detail": "Label: face shield, worn over goggles.",
+     "name": "Face shield"
+    },
+    "glasses": {
+     "detail": "Label: impact safety glasses. Not splash goggles.",
+     "name": "Glasses — open frame"
+    },
+    "gloves_chem": {
+     "detail": "Label: chemical-resistant, for this chemical group.",
+     "name": "Gloves — green"
+    },
+    "gloves_cotton": {
+     "detail": "Label: cotton liner. Not chemical-resistant.",
+     "name": "Gloves — white"
+    },
+    "gloves_leather": {
+     "detail": "Label: general handling / abrasion. Not chemical-resistant.",
+     "name": "Gloves — tan"
+    },
+    "goggles": {
+     "detail": "Label: chemical splash goggles.",
+     "name": "Goggles — sealed"
+    }
+   },
+   "location": "Caustic dosing skid · Utility block",
+   "obj": {
+    "ppe_store": {
+     "d1": "Read each label. Several items look alike.",
+     "name": "PPE store"
+    },
+    "sample_point": {
+     "d1": "Sample point on the caustic line. Sampling starts here once PPE is confirmed.",
+     "name": "Sample point SP-31"
+    },
+    "task_card": {
+     "d1": "Gloves: chemical-resistant type, as labelled for this chemical (fictional spec).",
+     "d2": "Eyes and face: chemical goggles AND a face shield.",
+     "name": "Task card TC-31"
+    }
+   },
+   "objectives": {
+    "1": "Distinguish similar-looking PPE by its specification.",
+    "2": "Hold to the task requirement when a colleague suggests a shortcut."
+   },
+   "prop": {
+    "2": {
+     "1": "Corrosive chemical — task card PPE only"
+    },
+    "task_card": {
+     "1": "TASK CARD TC-31",
+     "2": "Task: caustic sample at SP-31",
+     "3": "Gloves: CHEMICAL-RESISTANT type",
+     "4": "Eyes/face: chemical goggles + face shield"
+    }
+   },
+   "q1": {
+    "a": "By colour",
+    "b": "By the label matching the task specification",
+    "c": "By thickness",
+    "stem": "Two pairs of gloves look similar. How do you choose?",
+    "why": "Only the specification tells you what a glove protects against."
+   },
+   "q2": {
+    "a": "Yes",
+    "b": "Only if they are new",
+    "c": "No — they have different specifications",
+    "stem": "Are impact safety glasses the same as chemical splash goggles?",
+    "why": "In this scenario the labels state different intended uses."
+   },
+   "q3": {
+    "a": "Follow the task card specification anyway",
+    "b": "Agree — they have more experience",
+    "c": "Wear two pairs of the wrong type",
+    "stem": "A senior colleague says 'gloves are gloves'. What do you do?",
+    "why": "Experience doesn't change the requirement; the task card does."
+   },
+   "q4": {
+    "a": "Yes, it covers more",
+    "b": "No — the card lists both",
+    "c": "Only on cloudy days",
+    "stem": "TC-31 asks for goggles AND a face shield. Is the shield alone enough?",
+    "why": "Each listed item is required; one does not replace another."
+   },
+   "step": {
+    "advice": "Respond to Joseph's shortcut",
+    "confirm": "Confirm against the specification",
+    "go_sample": "Go to sample point SP-31",
+    "open_store": "Open the PPE store",
+    "read_card": "Read task card TC-31",
+    "take_gloves": "Take the specified gloves",
+    "take_goggles": "Take the specified eye protection",
+    "take_shield": "Take the face shield"
+   },
+   "subtitle": "Gloves are not just gloves",
+   "title": "The Incorrect Equipment",
+   "zone": {
+    "zone_skid": "Caustic dosing skid"
+   }
+  },
+  "ppe4": {
+   "assignment": {
+    "equipment": "Issue crate IC-7, spare PPE cabinet (fictional).",
+    "information": "Task card TC-44 requires helmet, gloves (general handling) and goggles.",
+    "objective": "Use only serviceable PPE. Report damaged items; if no replacement exists, the job waits.",
+    "task": "Inspect your issued PPE, deal with any defects and decide whether the job can start."
+   },
+   "briefing": {
+    "1": "Valve packing job at the pipe rack. Your PPE is in the issue crate from the night shift.",
+    "2": "Inspect every item before you use it."
+   },
+   "comic": {
+    "p1": "Inspect every item before you put it on.",
+    "p2": "Damaged PPE is reported — never patched.",
+    "p3": "No serviceable replacement? The job waits.",
+    "title": "OUT OF SERVICE MEANS OUT"
+   },
+   "crit": {
+    "no_gloves": {
+     "missing": "Serviceable gloves.",
+     "why": "The task card requires gloves. No gloves is not an option."
+    },
+    "patch_ppe": {
+     "missing": "A serviceable replacement, or the job waits.",
+     "why": "Taped PPE is still damaged PPE."
+    },
+    "use_split_gloves": {
+     "missing": "Serviceable gloves.",
+     "why": "You chose gloves with a split seam."
+    },
+    "wear_cracked_helmet": {
+     "missing": "A serviceable helmet.",
+     "why": "You chose to use a helmet with a visible crack."
+    }
+   },
+   "debrief": {
+    "critical": "Damaged PPE was used or patched. Out of service means out of service.",
+    "failed": "Repeated unsafe choices ended the attempt.",
+    "l1": "You selected the cracked helmet.",
+    "l2": "You chose to tape damaged gloves.",
+    "l3": "You stood by the inspection when a senior colleague brushed it off.",
+    "l4": "You noticed there was no replacement for the gloves.",
+    "success": "You inspected, reported, replaced what you could and held the job for what you couldn't."
+   },
+   "description": "Your kit is waiting in a crate from the night shift. Is it fit to use?",
+   "dlg": {
+    "correct": {
+     "1": "Good. Gloves are on order — the job waits until they're here. That's the right call."
+    },
+    "joseph": {
+     "1": "That helmet? Hairline crack. I've worn worse for years. Just wear it.",
+     "1c1": "A cracked helmet is out of service, Joseph. I'm reporting it.",
+     "1c2": "OK, if you say so"
+    },
+    "joseph_done": {
+     "1": "Yeah, yeah. You're right. Don't tell anyone I said that."
+    },
+    "meet": {
+     "1": "Your kit's in crate IC-7. Night shift used it. Check it properly — every item.",
+     "2": "Anything damaged comes to me. There's a spare cabinet, but it's not bottomless."
+    },
+    "unsafe": {
+     "1": "No. Damaged PPE is out of service. It doesn't get worn, patched or 'just for today'."
+    }
+   },
+   "early": {
+    "decide": "Finish inspecting and replacing before you decide."
+   },
+   "fb": {
+    "accept_joseph": "A cracked helmet is out of service, whatever anyone has 'got away with'. Talk to Joseph again.",
+    "tape_not_ppe": "Tape is not PPE and cannot repair PPE.",
+    "wrong_defect": "That item is serviceable."
+   },
+   "grp": {
+    "joseph": {
+     "accept": "Wear it anyway",
+     "prompt": "Joseph says the cracked helmet is fine. Your answer?",
+     "refuse": "Out of service — report it"
+    },
+    "start": {
+     "bare_hands": "Start without gloves — it's only packing",
+     "prompt": "Gloves can't be replaced right now. What happens to the job?",
+     "tape_gloves": "Tape the split seam and start",
+     "wait": "Report it and hold the job until serviceable gloves arrive"
+    }
+   },
+   "hint": {
+    "decide": {
+     "1": "Can you start without serviceable gloves?"
+    },
+    "flag_gloves": {
+     "1": "Seams matter."
+    },
+    "flag_helmet": {
+     "1": "Read the condition of each item."
+    },
+    "flag_no_gloves": {
+     "1": "Is there a replacement for every damaged item?"
+    },
+    "joseph": {
+     "1": "Experience doesn't repair a crack."
+    },
+    "open_crate": {
+     "1": "The crate is on the west side."
+    },
+    "open_spares": {
+     "1": "East of the walkway."
+    },
+    "take_goggles": {
+     "1": "Not everything in the crate is damaged."
+    },
+    "take_spare_helmet": {
+     "1": "Replacement, not repair."
+    }
+   },
+   "instruction": {
+    "decide": "Make the call at the spare cabinet.",
+    "flag_gloves": "Report the glove defect.",
+    "flag_helmet": "Report the helmet defect.",
+    "flag_no_gloves": "Report the empty glove shelf.",
+    "joseph": "Talk to Joseph near the crate.",
+    "open_crate": "Open crate IC-7 and inspect your kit.",
+    "open_spares": "Open the spare PPE cabinet.",
+    "take_goggles": "Select the goggles that passed inspection.",
+    "take_spare_helmet": "Select the serviceable spare helmet."
+   },
+   "item": {
+    "gloves_none": {
+     "detail": "EMPTY — no spare general-handling gloves.",
+     "name": "Glove shelf"
+    },
+    "gloves_split": {
+     "detail": "Seam split along the palm.",
+     "name": "Gloves (issued)"
+    },
+    "goggles_ok": {
+     "detail": "Lens clear, strap intact.",
+     "name": "Goggles (issued)"
+    },
+    "helmet_cracked": {
+     "detail": "Visible crack across the shell.",
+     "name": "Helmet (issued)"
+    },
+    "helmet_spare": {
+     "detail": "Good condition.",
+     "name": "Spare helmet"
+    },
+    "tape_roll": {
+     "detail": "Duct tape. Not PPE.",
+     "name": "Repair tape"
+    }
+   },
+   "location": "Pipe rack access point · Process unit",
+   "obj": {
+    "issue_crate": {
+     "d1": "Your issued PPE from the night shift. Inspect each item.",
+     "name": "Issue crate IC-7 (your kit)"
+    },
+    "spare_cabinet": {
+     "d1": "Spares for replacing damaged items.",
+     "name": "Spare PPE cabinet"
+    }
+   },
+   "objectives": {
+    "1": "Recognise damaged PPE during a pre-use check.",
+    "2": "Choose replacement or escalation over improvisation."
+   },
+   "prop": {
+    "issue_crate": {
+     "1": "ISSUE CRATE IC-7"
+    },
+    "spare_cabinet": {
+     "1": "SPARE PPE"
+    }
+   },
+   "q1": {
+    "a": "Before each use",
+    "b": "Once a year",
+    "c": "Only when it looks dirty",
+    "stem": "When should you inspect your PPE?",
+    "why": "Damage happens between uses; a pre-use check catches it."
+   },
+   "q2": {
+    "a": "Tape the split",
+    "b": "Report them and get a serviceable pair",
+    "c": "Wear them inside out",
+    "stem": "Your gloves have a split seam. What do you do?",
+    "why": "Damaged PPE is taken out of service and replaced."
+   },
+   "q3": {
+    "a": "Start anyway and be careful",
+    "b": "The job waits until it is available",
+    "c": "Use the damaged one",
+    "stem": "There is no serviceable replacement for a required item. What happens?",
+    "why": "Required PPE is required; without it the task does not start."
+   },
+   "q4": {
+    "a": "The colleague, because of their experience",
+    "b": "Nobody can tell",
+    "c": "The inspection: visible damage means out of service",
+    "stem": "An experienced colleague says a cracked helmet is fine. Who is right?",
+    "why": "Condition, not experience, decides whether PPE can be used."
+   },
+   "step": {
+    "decide": "Decide whether the job can start",
+    "flag_gloves": "Report the damaged gloves",
+    "flag_helmet": "Report the damaged helmet",
+    "flag_no_gloves": "Report: no spare gloves",
+    "joseph": "Answer Joseph about the helmet",
+    "open_crate": "Open your issue crate",
+    "open_spares": "Check the spare cabinet",
+    "take_goggles": "Keep the serviceable goggles",
+    "take_spare_helmet": "Take the spare helmet"
+   },
+   "subtitle": "Inspect before you wear",
+   "title": "The Damaged Gear"
+  },
+  "ppe5": {
+   "assignment": {
+    "equipment": "Filter skid F-50, PPE store, task card board (fictional).",
+    "information": "Revised cards replace earlier ones. Requirements here are fictional teaching content.",
+    "objective": "Match PPE to the current requirements, check its condition and check your buddy.",
+    "task": "Be ready — properly — for the job as it actually is when you start."
+   },
+   "briefing": {
+    "1": "Filter change on the fuel-oil skid with Mani. Kit up from task card TC-50.",
+    "2": "Competency challenge: requirements can change. Stay alert."
+   },
+   "comic": {
+    "p1": "The job changed, so the requirement changed.",
+    "p2": "Check condition, not just presence.",
+    "p3": "Ready includes your buddy.",
+    "title": "READY MEANS READY NOW"
+   },
+   "crit": {
+    "cracked_shield": {
+     "missing": "A serviceable face shield.",
+     "why": "You selected a face shield with a cracked visor."
+    },
+    "enter_early": {
+     "missing": "A completed readiness check.",
+     "why": "You entered the skid area before declaring readiness."
+    },
+    "ready_old_card": {
+     "missing": "PPE matching TC-50 rev B.",
+     "why": "You declared ready against a withdrawn card. The job now includes line-breaking."
+    }
+   },
+   "debrief": {
+    "critical": "Readiness was declared against outdated or damaged kit. Re-check whenever the job changes.",
+    "failed": "Repeated unsafe choices ended the challenge.",
+    "l1": "You declared ready against the withdrawn card.",
+    "l2": "You selected a cracked face shield.",
+    "l3": "You went back to the board when the scope changed.",
+    "l4": "You checked your buddy, not just yourself.",
+    "success": "You re-checked when the scope changed, rejected the cracked shield and checked your buddy. Ready means ready."
+   },
+   "description": "You're suited up. Then the job changes.",
+   "dlg": {
+    "correct": {
+     "1": "Current card, serviceable kit, buddy checked. That's ready."
+    },
+    "mani": {
+     "1": "Ready when you are! Glasses? Nah, left them in the van. It's just a filter.",
+     "1c1": "Mani, the card lists eye protection for both of us. Grab a pair from the store first.",
+     "1c2": "Your call, Mani"
+    },
+    "mani_ok": {
+     "1": "Fair point. Grabbed some. Thanks for checking."
+    },
+    "meet": {
+     "1": "Filter change on F-50. Card TC-50 is on the board. Mani's your buddy today.",
+     "2": "This is your competency run. I'll only step in if you're about to get hurt."
+    },
+    "scope_change": {
+     "1": "[Radio] Maintenance, control room. Scope change on F-50: you'll also open the drain line on the filter body.",
+     "2": "[Radio] Revised card TC-50 rev B is on the board. Check it before anyone starts."
+    },
+    "unsafe": {
+     "1": "Stop. That isn't ready for the job as it is now."
+    }
+   },
+   "early": {
+    "declare": "Something on the current card or in your buddy check is still open."
+   },
+   "evt": {
+    "scope_change": {
+     "2": "Scope change: drain line opening added",
+     "4d1": "TC-50 rev B: filter change F-50 + open drain line (line-breaking).",
+     "4d2": "PPE: helmet, glasses, CHEMICAL-RESISTANT gloves, FACE SHIELD.",
+     "4d3": "Rev A is withdrawn."
+    }
+   },
+   "fb": {
+    "ignore_buddy": "A buddy check is a check, not a suggestion. Talk to Mani again.",
+    "wrong_defect": "That item is serviceable."
+   },
+   "grp": {
+    "buddy": {
+     "check": "Point it out and wait for him",
+     "ignore": "Leave it to him",
+     "prompt": "Mani has no eye protection. Your response?"
+    },
+    "ready": {
+     "prompt": "Declare readiness for F-50",
+     "ready_original": "Ready — kit matches the original TC-50",
+     "ready_rev_b": "Ready — kit matches TC-50 rev B and has been inspected"
+    }
+   },
+   "hint": {
+    "buddy": {
+     "1": "Look at what Mani is wearing."
+    },
+    "declare": {
+     "1": "Current card + inspected kit + buddy."
+    },
+    "enter_skid": {
+     "1": "Behind the yellow tape."
+    },
+    "flag_shield": {
+     "1": "Two shields; one is not serviceable."
+    },
+    "open_store": {
+     "1": "East of the walkway."
+    },
+    "read_card": {
+     "1": "West of the walkway."
+    },
+    "reread_card": {
+     "1": "A scope change can change the PPE."
+    },
+    "take_glasses": {
+     "1": "On the card."
+    },
+    "take_gloves_chem": {
+     "1": "Read the labels."
+    },
+    "take_gloves_gen": {
+     "1": "On the card."
+    },
+    "take_helmet": {
+     "1": "On the card."
+    },
+    "take_shield": {
+     "1": "Shield B."
+    }
+   },
+   "instruction": {
+    "buddy": "Talk to Mani before declaring ready.",
+    "declare": "Declare readiness at the PPE store.",
+    "enter_skid": "Enter the skid area to start.",
+    "flag_shield": "Report the damaged face shield.",
+    "open_store": "Open the store.",
+    "read_card": "Read the card on the task board.",
+    "reread_card": "The scope changed. Read TC-50 rev B on the board.",
+    "take_glasses": "Select safety glasses.",
+    "take_gloves_chem": "Select the gloves rev B requires.",
+    "take_gloves_gen": "Select the gloves the card lists.",
+    "take_helmet": "Select a helmet.",
+    "take_shield": "Select the serviceable face shield."
+   },
+   "item": {
+    "glasses": {
+     "detail": "Good condition.",
+     "name": "Safety glasses"
+    },
+    "gloves_chem": {
+     "detail": "Good condition. Label: chemical-resistant.",
+     "name": "Chemical-resistant gloves"
+    },
+    "gloves_gen": {
+     "detail": "Good condition. General handling only.",
+     "name": "General gloves"
+    },
+    "helmet": {
+     "detail": "Good condition.",
+     "name": "Safety helmet"
+    },
+    "shield_cracked": {
+     "detail": "Visor cracked across the middle.",
+     "name": "Face shield (A)"
+    },
+    "shield_ok": {
+     "detail": "Good condition.",
+     "name": "Face shield (B)"
+    }
+   },
+   "location": "Fuel-oil filter skid · Workshop yard",
+   "obj": {
+    "ppe_store": {
+     "d1": "Check the specification and condition of every item.",
+     "name": "PPE store"
+    },
+    "task_board": {
+     "d1": "TC-50: Filter change F-50. PPE: helmet, safety glasses, general gloves.",
+     "name": "Task card board"
+    }
+   },
+   "objectives": {
+    "1": "Re-check PPE when the task scope changes.",
+    "2": "Combine specification, condition and buddy checks before declaring ready."
+   },
+   "prop": {
+    "task_board": {
+     "1": "TASK CARD TC-50",
+     "2": "Filter change F-50",
+     "3": "PPE: helmet, glasses, general gloves"
+    }
+   },
+   "q1": {
+    "a": "Carry on — you already checked",
+    "b": "Re-check PPE against the revised requirements",
+    "c": "Ask Mani what he thinks",
+    "stem": "You're kitted up, then the task scope changes. What now?",
+    "why": "A changed scope can bring new hazards and new PPE."
+   },
+   "q2": {
+    "a": "The serviceable one, and report the cracked one",
+    "b": "Either — both are face shields",
+    "c": "The cracked one, so the good one is saved",
+    "stem": "Two face shields are available; one is cracked. Which do you take?",
+    "why": "Damaged PPE is reported and not used."
+   },
+   "q3": {
+    "a": "Nothing if you checked yourself",
+    "b": "A second set of eyes on both people's readiness",
+    "c": "It replaces the task card",
+    "stem": "What does a buddy check add?",
+    "why": "People miss their own gaps; a buddy catches them."
+   },
+   "q4": {
+    "a": "Yes, gloves are gloves",
+    "b": "No — rev B specifies chemical-resistant gloves",
+    "c": "Only if they are new",
+    "stem": "Rev B adds line-breaking. Are general gloves still enough?",
+    "why": "The current card's specification decides."
+   },
+   "step": {
+    "buddy": "Buddy check with Mani",
+    "declare": "Declare readiness",
+    "enter_skid": "Go to filter skid F-50",
+    "flag_shield": "Check the face shields",
+    "open_store": "Open the PPE store",
+    "read_card": "Read task card TC-50",
+    "reread_card": "Read the revised task card",
+    "take_glasses": "Eye protection",
+    "take_gloves_chem": "Gloves for line-breaking",
+    "take_gloves_gen": "Gloves",
+    "take_helmet": "Helmet",
+    "take_shield": "Face shield"
+   },
+   "subtitle": "Competency challenge: requirements, condition and change",
+   "title": "Ready for the Worksite?",
+   "zone": {
+    "zone_skid": "Filter skid F-50"
+   }
+  }
+ }
+}

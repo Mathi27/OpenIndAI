@@ -41,6 +41,12 @@ export interface WorldBuild {
   update(dt: number, time: number, player: Vector3): void;
   /** Re-render translated in-world labels after a language change. */
   relabel(): void;
+  /** Data-driven worlds: change a prop's visual state (scenario changes). */
+  setPropState?(id: string, state: string): boolean;
+  /** Show/hide an anchor's prop (objects revealed later in a mission). */
+  setAnchorVisible?(id: string, visible: boolean): void;
+  /** A walkable point in front of a prop (used for restore and automated tests). */
+  standPoint?(id: string): { x: number; z: number } | null;
 }
 
 export interface WorldContext {

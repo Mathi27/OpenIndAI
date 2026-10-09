@@ -65,12 +65,13 @@ export class InteractionSystem {
       this.highlight.removeAllMeshes();
       if (key) {
         const color = this.world.anchors.get(key)?.kind === "npc" ? Color3.FromHexString("#3fa9f5") : Color3.FromHexString("#ffb347");
-        for (const m of this.world.anchors.get(key)?.meshes ?? []) if (m instanceof Mesh) this.highlight.addMesh(m, color);
+        for (const m of this.world.anchors.get(key)?.meshes ?? []) if (m instanceof Mesh && !(m.metadata as { hitVolume?: boolean } | null)?.hitVolume) this.highlight.addMesh(m, color);
       }
     } else {
       // Low-quality fallback: brighten outlines instead of a highlight pass.
       for (const m of this.world.anchors.get(this.highlighted ?? "")?.meshes ?? []) m.outlineColor = Color3.FromHexString("#0b1220");
       for (const m of this.world.anchors.get(key ?? "")?.meshes ?? []) {
+        if ((m.metadata as { hitVolume?: boolean } | null)?.hitVolume) continue;
         m.renderOutline = true;
         m.outlineColor = Color3.FromHexString("#ffb347");
       }

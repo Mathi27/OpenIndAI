@@ -6,6 +6,7 @@ import type { CriticalError, Interactable, MissionDef, Step } from "../../missio
 import type { MissionController } from "../../mission/MissionController";
 import { visibleSteps } from "../../mission/engine";
 import type { AssistanceProfile } from "../../mission/types";
+import { comicArt } from "../story/comicArt";
 
 const tx = (key: string, opts?: Record<string, unknown>) => (exists(key) ? t(key, opts) : `[${key}]`);
 
@@ -204,7 +205,7 @@ export function comicPanel(m: MissionDef, onContinue: () => void): HTMLElement {
       { class: "comic-grid" },
       ...def.panelKeys.map((k, i) => {
         const art = document.createElement("template");
-        art.innerHTML = COMIC_ART[i % COMIC_ART.length];
+        art.innerHTML = def.art?.length ? comicArt(def.art[i], i) : COMIC_ART[i % COMIC_ART.length];
         return h("figure", { class: "comic-cell" }, art.content.firstElementChild as SVGElement, h("figcaption", {}, tx(k)));
       }),
     ),

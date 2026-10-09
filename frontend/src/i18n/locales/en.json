@@ -290,7 +290,10 @@
     "prompt": {
       "inspect": "Inspect",
       "read": "Read",
-      "review": "Review"
+      "review": "Review",
+      "check": "Check",
+      "open": "Open",
+      "use": "Use"
     },
     "zone": {
       "pumpWorkstation": "Pump workstation P-101",
@@ -360,14 +363,36 @@
       "noticeBoard": "Maintenance notices",
       "controlRoom": "CONTROL ROOM",
       "workshop": "MAINTENANCE WORKSHOP",
-      "permitDesk": "PERMIT & DOCUMENTS DESK"
+      "permitDesk": "PERMIT & DOCUMENTS DESK",
+      "complexGate": "OPENINDUSTRI INDUSTRIAL TRAINING COMPLEX",
+      "warehouse": "WAREHOUSE",
+      "adminBlock": "ADMIN BLOCK",
+      "substation": "SUBSTATION",
+      "lockbox": "GROUP LOCK BOX",
+      "reviewStation": "REVIEW STATION",
+      "permitBox": "PERMIT DISPLAY",
+      "sitePlan": "SITE EMERGENCY PLAN (FICTIONAL)",
+      "headcount": "MUSTER HEADCOUNT",
+      "ppeStore": "PPE STORE",
+      "welder": "WELDING SET",
+      "extinguisher": "EXTINGUISHER",
+      "callPoint": "FIRE ALARM",
+      "exit": "EXIT",
+      "muster": "ASSEMBLY POINT",
+      "radioPoint": "SITE RADIO",
+      "scaffoldTag": "TAG"
     },
     "sign": {
       "ppe": "Safety helmet, glasses & shoes required",
       "trainingArea": "Training simulation area",
       "rotating": "Danger: rotating equipment",
       "authorisedOnly": "Authorised personnel only",
-      "highVoltage": "High voltage"
+      "highVoltage": "High voltage",
+      "confinedSpace": "Confined space — entry by authorisation only",
+      "hotWork": "Hot work area — authorisation required",
+      "noFlames": "No smoking or naked flames",
+      "exitRoute": "Emergency route — keep clear",
+      "isolationPoint": "Isolation point — do not operate"
     },
     "notice": {
       "1": "All maintenance needs authorisation before work starts.",
@@ -489,7 +514,11 @@
     "correctDecision": "Stop and request confirmation (correct)",
     "noDecision": "No final decision was recorded",
     "recordedNote": "All figures come from your recorded actions on the training server.",
-    "toMcq": "Continue to the knowledge check"
+    "toMcq": "Continue to the knowledge check",
+    "correctDecisions": "Safe decisions made",
+    "correctedGeneric": "then corrected to the safe decision",
+    "nextLevel": "Next level: {{title}}",
+    "nextLocked": "The next level unlocks when both the mission and the knowledge check are passed."
   },
   "concept": {
     "situational_awareness": "Situational awareness of the work area",
@@ -498,12 +527,48 @@
     "verify_isolation_evidence": "Isolation verification evidence must be complete",
     "stop_work_authority": "Stopping work when evidence is missing",
     "equipment_identification": "Confirming the correct equipment",
-    "energy_sources_awareness": "Awareness of possible energy sources"
+    "energy_sources_awareness": "Awareness of possible energy sources",
+    "hazard_identification": "Spotting hazards in the work area",
+    "hidden_hazard_info": "Finding hazard information that is not obvious",
+    "status_documentation_mismatch": "Comparing displayed status with documents",
+    "change_reassessment": "Reassessing when conditions change",
+    "escalation": "Escalating unresolved concerns",
+    "ppe_task_requirements": "PPE follows the task's reviewed requirements",
+    "ppe_completeness": "Complete PPE before entering a zone",
+    "ppe_specification": "Similar-looking PPE can have different specifications",
+    "ppe_condition": "Checking PPE condition before use",
+    "permit_required": "Work needs valid authorisation",
+    "permit_completeness": "A permit must be complete and approved",
+    "permit_scope": "Permit location and scope must match the job",
+    "permit_change": "A changed job needs reassessment",
+    "isolation_not_assumed": "Stopped is not isolated",
+    "all_energy_sources": "Considering every energy source",
+    "isolation_record": "Isolation records must be complete",
+    "status_conflict": "Conflicting status means stop and confirm",
+    "controlled_entry": "Confined spaces are entered only with authorisation",
+    "entry_information": "Entry information must be complete",
+    "conditions_unconfirmed": "Safe-looking is not confirmed safe",
+    "hot_work_authorization": "Hot work needs authorisation and precautions",
+    "worksite_inspection": "Inspecting the work area before hot work",
+    "combustibles_awareness": "Recognising combustible materials",
+    "fire_hazard_spotting": "Recognising fire hazards",
+    "exit_route_clear": "Keeping emergency routes clear",
+    "alarm_reporting": "Reporting warnings through the right channel",
+    "no_untrained_intervention": "Not intervening beyond your training",
+    "equipment_labels": "Reading equipment labels and records",
+    "anomaly_reporting": "Reporting abnormal equipment conditions",
+    "inspection_record_check": "Checking inspection records",
+    "emergency_notification": "Raising the alarm correctly",
+    "designated_route": "Using the designated route",
+    "accountability": "Accounting for people without re-entering",
+    "communication_hierarchy": "Following the emergency communication chain"
   },
   "mission": {
     "common": {
       "provisionalNotice": "Provisional educational rule set — requires review and approval by a qualified safety expert. It is not an industrial SOP and makes no regulatory or OISD compliance claim.",
-      "noReviewedReferences": "No reviewed external safety references are attached to this mission yet."
+      "noReviewedReferences": "No reviewed external safety references are attached to this mission yet.",
+      "roleTrainee": "Maintenance Technician (trainee)",
+      "variantA": "Standard scenario"
     },
     "silentPump": {
       "title": "The Silent Pump",
@@ -706,7 +771,9 @@
     "ambient": "[Industrial plant ambience]",
     "warning": "[Warning tone]",
     "complete": "[Objective complete chime]",
-    "error": "[Error tone]"
+    "error": "[Error tone]",
+    "alarm": "[Alarm sounding]",
+    "radio": "[Radio beep]"
   },
   "settings": {
     "title": "Settings",
@@ -801,13 +868,35 @@
     "supervisor": {
       "name": "R. Kannan",
       "role": "Maintenance Supervisor (fictional)"
+    },
+    "safety_officer": {
+      "name": "Priya Nair",
+      "role": "Safety Officer (fictional)"
+    },
+    "senior_tech": {
+      "name": "Joseph Raj",
+      "role": "Senior Technician (fictional)"
+    },
+    "operator": {
+      "name": "Farah Khan",
+      "role": "Control Room Operator (fictional)"
+    },
+    "coordinator": {
+      "name": "Vikram Singh",
+      "role": "Emergency Coordinator (fictional)"
+    },
+    "contractor": {
+      "name": "Mani",
+      "role": "Contract Technician (fictional)"
     }
   },
   "dialogue": {
     "skip": "Skip",
     "next": "Next ▸",
     "done": "Got it",
-    "label": "Conversation"
+    "label": "Conversation",
+    "you": "You",
+    "thinking": "thinking…"
   },
   "story": {
     "reportToSupervisor": "Report to the supervisor at the briefing point",
@@ -819,12 +908,48 @@
     "safetyStop": "Training safety stop",
     "missionComplete": "Mission complete",
     "savingResults": "Saving your results to the training server…",
-    "syncFailed": "Your results have not reached the training server yet. Check that the backend is running, then retry. Nothing has been marked as complete."
+    "syncFailed": "Your results have not reached the training server yet. Check that the backend is running, then retry. Nothing has been marked as complete.",
+    "step": {
+      "briefing": "Read and acknowledge the mission briefing",
+      "meet": {
+        "supervisor": "Report to the Maintenance Supervisor",
+        "safety_officer": "Report to the Safety Officer",
+        "senior_tech": "Meet the Senior Technician",
+        "operator": "Check in with the Control Room Operator",
+        "coordinator": "Report to the Emergency Coordinator",
+        "contractor": "Talk to the contractor"
+      }
+    },
+    "instruction": {
+      "briefing": "Read the assignment carefully, then press Acknowledge.",
+      "meet": {
+        "supervisor": "Walk to the supervisor (blue marker) and press E to talk.",
+        "safety_officer": "Walk to the Safety Officer (green helmet) and press E to talk.",
+        "senior_tech": "Walk to the Senior Technician (orange coverall) and press E to talk.",
+        "operator": "Walk to the Control Room Operator (headset) and press E to talk.",
+        "coordinator": "Walk to the Emergency Coordinator (red helmet) and press E to talk.",
+        "contractor": "Walk to the contractor (blue helmet) and press E to talk."
+      }
+    },
+    "hint": {
+      "briefing": "The briefing window lists your task. Press Acknowledge when you have read it.",
+      "meet": {
+        "supervisor": "Look for the name plate above the supervisor's head, then press E.",
+        "safety_officer": "The Safety Officer wears a green helmet. Face them and press E.",
+        "senior_tech": "The Senior Technician wears an orange coverall. Face them and press E.",
+        "operator": "The operator wears a headset and a blue vest. Face them and press E.",
+        "coordinator": "The Emergency Coordinator wears a red helmet. Face them and press E.",
+        "contractor": "The contractor wears a blue helmet. Face them and press E."
+      }
+    },
+    "nothingMore": "Nothing more from me right now.",
+    "situationChanged": "The situation has changed"
   },
   "docs": {
     "fictional": "FICTIONAL TRAINING DOCUMENT",
     "header": "Unit 3 · Maintenance file · P-101",
-    "variantNote": "Scenario documents vary between attempts."
+    "variantNote": "Scenario documents vary between attempts.",
+    "notValid": "Not valid for real work. Training simulation only."
   },
   "comic": {
     "tag": "Safety principle",
@@ -850,7 +975,27 @@
     "S17": "Scene 17 · Learning explanation",
     "S18": "Scene 18 · Remediation",
     "S19": "Scene 19 · Mission completion",
-    "S20": "Scene 20 · Return to hub"
+    "S20": "Scene 20 · Return to hub",
+    "meet": "Meeting the team",
+    "briefing": "Mission briefing",
+    "navigate": "Moving to the work area",
+    "identify": "Identifying the equipment",
+    "inspect": "Inspection",
+    "documents": "Work documents",
+    "hazards": "Hazard awareness",
+    "ppe": "PPE selection",
+    "permit": "Permit review",
+    "isolation": "Isolation evidence",
+    "entry": "Entry status",
+    "worksite": "Work-area check",
+    "change": "Changed conditions",
+    "communicate": "Communication",
+    "route": "Route decision",
+    "report": "Reporting",
+    "decision": "Decision point",
+    "evidence": "Evidence review",
+    "observation": "Equipment observation",
+    "alarm": "Alarm"
   },
   "mcq": {
     "sp": {
@@ -943,5 +1088,91 @@
     "saved": "Saved and verified on the training server (attempts on record: {{attempts}}).",
     "notVerified": "Could not verify the saved results. Check that the backend is running.",
     "return": "Return to training hub"
+  },
+  "work": {
+    "tag": {
+      "document": "Document",
+      "station": "Review",
+      "inventory": "PPE store",
+      "comms": "Site radio",
+      "route": "Emergency plan"
+    },
+    "decided": "Decision recorded: {{choice}}",
+    "flag": "Flag issue",
+    "flagged": "Flagged",
+    "flagTitle": "Flag this entry if it is missing, incomplete or does not match the job",
+    "flagHelp": "Flag only the entries you believe are missing, incomplete or inconsistent. Flagging correct entries counts as a mistake.",
+    "select": "Select",
+    "selected": "Selected ✓",
+    "reportDefect": "Report defect",
+    "reported": "Reported",
+    "inventoryHelp": "Select what the task briefing requires. Report any item that looks damaged instead of using it.",
+    "commsHelp": "Choose who to contact and what to report. Your choice is recorded.",
+    "routeMapLabel": "Site plan with the possible routes"
+  },
+  "chapter": {
+    "og_hazard_recognition": {
+      "1": "CHAPTER 1 · HAZARD RECOGNITION · ORIENTATION",
+      "2": "CHAPTER 1 · HAZARD RECOGNITION · GUIDED PRACTICE",
+      "3": "CHAPTER 1 · HAZARD RECOGNITION · INDEPENDENT APPLICATION",
+      "4": "CHAPTER 1 · HAZARD RECOGNITION · ABNORMAL CONDITIONS",
+      "5": "CHAPTER 1 · HAZARD RECOGNITION · COMPETENCY CHALLENGE"
+    },
+    "og_ppe": {
+      "1": "CHAPTER 2 · PPE AWARENESS · ORIENTATION",
+      "2": "CHAPTER 2 · PPE AWARENESS · GUIDED PRACTICE",
+      "3": "CHAPTER 2 · PPE AWARENESS · INDEPENDENT APPLICATION",
+      "4": "CHAPTER 2 · PPE AWARENESS · ABNORMAL CONDITIONS",
+      "5": "CHAPTER 2 · PPE AWARENESS · COMPETENCY CHALLENGE"
+    },
+    "og_permit_to_work": {
+      "1": "CHAPTER 3 · PERMIT TO WORK · ORIENTATION",
+      "2": "CHAPTER 3 · PERMIT TO WORK · GUIDED PRACTICE",
+      "3": "CHAPTER 3 · PERMIT TO WORK · INDEPENDENT APPLICATION",
+      "4": "CHAPTER 3 · PERMIT TO WORK · ABNORMAL CONDITIONS",
+      "5": "CHAPTER 3 · PERMIT TO WORK · COMPETENCY CHALLENGE"
+    },
+    "og_loto": {
+      "1": "CHAPTER 4 · LOCKOUT/TAGOUT AWARENESS · ORIENTATION",
+      "2": "CHAPTER 4 · LOCKOUT/TAGOUT AWARENESS · GUIDED PRACTICE",
+      "3": "CHAPTER 4 · LOCKOUT/TAGOUT AWARENESS · INDEPENDENT APPLICATION",
+      "4": "CHAPTER 4 · LOCKOUT/TAGOUT AWARENESS · ABNORMAL CONDITIONS",
+      "5": "CHAPTER 4 · LOCKOUT/TAGOUT AWARENESS · COMPETENCY CHALLENGE"
+    },
+    "og_confined_space": {
+      "1": "CHAPTER 5 · CONFINED SPACE AWARENESS · ORIENTATION",
+      "2": "CHAPTER 5 · CONFINED SPACE AWARENESS · GUIDED PRACTICE",
+      "3": "CHAPTER 5 · CONFINED SPACE AWARENESS · INDEPENDENT APPLICATION",
+      "4": "CHAPTER 5 · CONFINED SPACE AWARENESS · ABNORMAL CONDITIONS",
+      "5": "CHAPTER 5 · CONFINED SPACE AWARENESS · COMPETENCY CHALLENGE"
+    },
+    "og_hot_work": {
+      "1": "CHAPTER 6 · HOT WORK SAFETY · ORIENTATION",
+      "2": "CHAPTER 6 · HOT WORK SAFETY · GUIDED PRACTICE",
+      "3": "CHAPTER 6 · HOT WORK SAFETY · INDEPENDENT APPLICATION",
+      "4": "CHAPTER 6 · HOT WORK SAFETY · ABNORMAL CONDITIONS",
+      "5": "CHAPTER 6 · HOT WORK SAFETY · COMPETENCY CHALLENGE"
+    },
+    "og_fire_hazard": {
+      "1": "CHAPTER 7 · FIRE HAZARD AWARENESS · ORIENTATION",
+      "2": "CHAPTER 7 · FIRE HAZARD AWARENESS · GUIDED PRACTICE",
+      "3": "CHAPTER 7 · FIRE HAZARD AWARENESS · INDEPENDENT APPLICATION",
+      "4": "CHAPTER 7 · FIRE HAZARD AWARENESS · ABNORMAL CONDITIONS",
+      "5": "CHAPTER 7 · FIRE HAZARD AWARENESS · COMPETENCY CHALLENGE"
+    },
+    "og_equipment_inspection": {
+      "1": "CHAPTER 8 · EQUIPMENT INSPECTION AWARENESS · ORIENTATION",
+      "2": "CHAPTER 8 · EQUIPMENT INSPECTION AWARENESS · GUIDED PRACTICE",
+      "3": "CHAPTER 8 · EQUIPMENT INSPECTION AWARENESS · INDEPENDENT APPLICATION",
+      "4": "CHAPTER 8 · EQUIPMENT INSPECTION AWARENESS · ABNORMAL CONDITIONS",
+      "5": "CHAPTER 8 · EQUIPMENT INSPECTION AWARENESS · COMPETENCY CHALLENGE"
+    },
+    "og_emergency_response": {
+      "1": "CHAPTER 9 · EMERGENCY RESPONSE DECISIONS · ORIENTATION",
+      "2": "CHAPTER 9 · EMERGENCY RESPONSE DECISIONS · GUIDED PRACTICE",
+      "3": "CHAPTER 9 · EMERGENCY RESPONSE DECISIONS · INDEPENDENT APPLICATION",
+      "4": "CHAPTER 9 · EMERGENCY RESPONSE DECISIONS · ABNORMAL CONDITIONS",
+      "5": "CHAPTER 9 · EMERGENCY RESPONSE DECISIONS · COMPETENCY CHALLENGE"
+    }
   }
 }

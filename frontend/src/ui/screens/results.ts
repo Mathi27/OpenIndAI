@@ -1,7 +1,7 @@
 // Scenes 15–20: performance review → knowledge check (MCQ) → explanations →
 // remediation → completion → return to hub (with a backend read-back).
 import { ApiError, get, post } from "../../api/client";
-import type { McqQuestion, McqResult, SessionResult } from "../../api/types";
+import type { McqQuestion, McqResult, MissionGrid, SessionResult } from "../../api/types";
 import { getMission } from "../../app/missions";
 import { navigate } from "../../app/nav";
 import { exists, t } from "../../i18n";
@@ -68,11 +68,25 @@ export async function resultsScreen(params: Record<string, string>): Promise<Scr
   const review = () => {
     const c = res.counters;
     const stat = (k: string, v: string | number, bad = false) => h("div", { class: `stat ${bad ? "bad" : ""}` }, h("div", { class: "k" }, k), h("div", { class: "v" }, String(v)));
-    const evidenceSteps = ["inspect_status", "inspect_documents", "hazard_awareness", "identify_gap"];
+    // Evidence/decision summary: mission-declared report steps (or derived from the step triggers).
+    const steps = mission?.steps ?? [];
+    const evidenceSteps = mission?.report?.evidenceSteps ?? (mission ? steps.filter((s) => !s.optional && ["object_inspected", "evidence_flagged", "item_selected"].includes(s.trigger.type)).map((s) => s.id) : ["inspect_status", "inspect_documents", "hazard_awareness", "identify_gap"]);
+    const decisionSteps = mission?.report?.decisionSteps ?? steps.filter((s) => !s.optional && s.trigger.type === "decision_made").map((s) => s.id);
     const evidence = evidenceSteps.filter((s) => res.completedSteps.includes(s)).length;
-    const decision = res.criticalCounts && Object.keys(res.criticalCounts).length
-      ? `${t("results.unsafeFirst")}${res.completedSteps.includes("decision_no_go") ? ` → ${t("results.correctedTo")}` : ""}`
-      : res.completedSteps.includes("decision_no_go") ? t("results.correctDecision") : t("results.noDecision");
+    const finalDecision = decisionSteps.length ? decisionSteps[decisionSteps.length - 1] : "decision_no_go";
+    const decided = res.completedSteps.includes(finalDecision);
+    const hadCritical = !!(res.criticalCounts && Object.keys(res.criticalCounts).length);
+    const chosen = decisionSteps
+      .filter((id) => res.completedSteps.includes(id))
+      .map((id) => {
+        const st = steps.find((s) => s.id === id);
+        const d = mission?.decisions.find((x) => x.value === st?.trigger.value && (x.group ?? null) === (st?.trigger.target ?? null));
+        return d ? tx(d.labelKey) : "";
+      })
+      .filter(Boolean);
+    const decision = hadCritical
+      ? `${t("results.unsafeFirst")}${decided ? ` → ${mission?.scene.id === "petrochem" ? t("results.correctedTo") : t("results.correctedGeneric")}` : ""}`
+      : decided ? (mission?.scene.id === "petrochem" ? t("results.correctDecision") : `${t("results.correctDecisions")}: ${chosen.join(" · ")}`) : t("results.noDecision");
     return h(
       "section",
       { class: "container", style: "padding:0" },
@@ -203,9 +217,11 @@ export async function resultsScreen(params: Record<string, string>): Promise<Scr
     if (res.finalState === "COMPLETED") achievements.push(t("achievement.completed"));
     if (c.criticalErrors === 0 && res.finalState === "COMPLETED") achievements.push(t("achievement.noCritical"));
     if (c.hints === 0 && res.finalState === "COMPLETED") achievements.push(t("achievement.noHints"));
-    if (res.completedSteps.includes("identify_gap")) achievements.push(t("achievement.foundGap"));
+    const flagSteps = (mission?.steps ?? []).filter((s) => s.trigger.type === "evidence_flagged").map((s) => s.id);
+    if (res.completedSteps.includes("identify_gap") || (flagSteps.length > 0 && flagSteps.every((s) => res.completedSteps.includes(s)))) achievements.push(t("achievement.foundGap"));
     if (mcqResult && mcqResult.correct === mcqResult.total) achievements.push(t("achievement.perfectQuiz"));
     const verify = h("p", { class: "muted", id: "persist-status", "aria-live": "polite" }, t("hub.verifying"));
+    const nextSlot = h("div", { class: "row end", id: "next-level-slot" });
     const back = h("button", { class: "btn btn-primary btn-lg", id: "return-hub", onclick: () => navigate("/menu") }, t("hub.return"));
     // Confirm persistence through an actual backend read, never by assumption.
     void (async () => {
@@ -218,6 +234,17 @@ export async function resultsScreen(params: Record<string, string>): Promise<Scr
           verify.dataset.verified = "true";
           verify.textContent = `✓ ${t("hub.saved", { attempts: row.attempts })}`;
         } else throw new Error("mismatch");
+        // Offer the next level in this category once it is actually unlocked (server-side rule).
+        if (mission) {
+          const grid = await get<MissionGrid>("/missions");
+          const cat = grid.categories.find((c) => c.category === mission.category);
+          const next = cat?.levels.find((l) => l.level === mission.level + 1);
+          if (next?.status === "available" && next.missionId) {
+            nextSlot.append(h("button", { class: "btn btn-primary", id: "next-level", "data-mission": next.missionId, onclick: () => void startMission(next.missionId!) }, t("results.nextLevel", { title: t(next.titleKey!) })));
+          } else if (next?.missionId) {
+            nextSlot.append(h("p", { class: "muted small", id: "next-level-locked" }, t("results.nextLocked")));
+          }
+        }
       } catch {
         verify.className = "form-error";
         verify.textContent = t("hub.notVerified");
@@ -231,6 +258,7 @@ export async function resultsScreen(params: Record<string, string>): Promise<Scr
       achievements.length ? h("section", { class: "panel" }, h("h3", {}, t("completion.achievements")), h("div", { class: "achievements" }, ...achievements.map((a) => h("span", { class: "achievement" }, a)))) : null,
       h("p", { class: "notice" }, t("completion.noQualification")),
       verify,
+      nextSlot,
       h("div", { class: "row end" }, h("button", { class: "btn", id: "result-retry", onclick: () => void startMission(res.missionId) }, t("results.retry")), h("button", { class: "btn", onclick: () => navigate("/missions") }, t("results.back")), back),
     );
   };

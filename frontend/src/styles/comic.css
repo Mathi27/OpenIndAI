@@ -106,3 +106,44 @@ html[data-lang="ta"] .comic-title, html[data-lang="hi"] .comic-title { font-fami
 .verified { color: var(--green-400); font-weight: 700; }
 .achievements { display: flex; gap: 10px; flex-wrap: wrap; }
 .achievement { padding: 8px 12px; border: 3px solid var(--ink); background: var(--yellow-400); color: var(--ink); font-weight: 800; box-shadow: 3px 3px 0 var(--ink); transform: rotate(-1deg); }
+
+/* ---------------------------------------------------------------- dialogue choices & thoughts */
+.dlg-choices { display: flex; flex-direction: column; gap: 6px; }
+.dlg-choices:empty { display: none; }
+.dlg-choice { text-align: left; background: #fff4d6; color: var(--ink); border: 3px solid var(--ink); box-shadow: 3px 3px 0 var(--ink); font-weight: 700; }
+.dlg-choice:hover, .dlg-choice:focus-visible { background: var(--yellow-400); }
+.dlg-root.thought .dlg-bubble { border-style: dashed; border-radius: 40px; background: #f3f6ff; }
+.dlg-root.thought .dlg-bubble::before, .dlg-root.thought .dlg-bubble::after { border: 0; width: 14px; height: 14px; border-radius: 50%; background: #f3f6ff; outline: 3px solid var(--ink); left: -22px; bottom: 34px; }
+.dlg-root.thought .dlg-bubble::after { width: 8px; height: 8px; left: -36px; bottom: 26px; }
+.dlg-root.thought .dlg-name { color: #6b7a99; }
+
+/* ---------------------------------------------------------------- mission work panels */
+.work-panel { max-height: min(88vh, 900px); overflow-y: auto; }
+.btn-sm { padding: 4px 10px; font-size: 0.85em; }
+.doc-fields { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; }
+.doc-field { display: grid; grid-template-columns: minmax(120px, 0.8fr) 1.6fr auto; gap: 10px; align-items: center; padding: 6px 8px; border: 2px dashed #b9b2a0; border-radius: 6px; background: rgba(255, 255, 255, 0.6); }
+.doc-field .doc-k { font-weight: 800; font-size: 0.9em; text-transform: uppercase; letter-spacing: 0.02em; }
+html[data-lang="ta"] .doc-field .doc-k, html[data-lang="hi"] .doc-field .doc-k { text-transform: none; }
+.doc-field .doc-v { font-family: var(--mono); font-size: 0.92em; }
+.paper.doc-permit { border-top: 14px solid var(--orange-500, #ff7a1a); }
+.paper.doc-record { border-top: 14px solid #3b4b63; }
+.paper.doc-plan { border-top: 14px solid #1d8a4f; }
+.paper.doc-log { border-top: 14px solid #6b7a99; }
+.paper-foot { margin-top: 10px; font-size: 0.8em; color: #8a3b3b; font-weight: 700; text-align: center; border-top: 1px solid #c9c1ad; padding-top: 6px; }
+.evidence-row { display: grid; grid-template-columns: minmax(120px, 0.8fr) 1.6fr auto; gap: 10px; align-items: center; }
+.inv-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 10px; }
+.inv-card { display: flex; flex-direction: column; gap: 6px; align-items: flex-start; background: #fffdf5; color: var(--ink); border: 3px solid var(--ink); box-shadow: 4px 4px 0 var(--ink); padding: 10px; border-radius: 8px; }
+.inv-card.selected { background: #e6fff1; box-shadow: 4px 4px 0 #1d8a4f; }
+.inv-card.flagged { background: #ffe8e8; box-shadow: 4px 4px 0 #b52a28; }
+.inv-card .item-icon { width: 54px; height: 54px; }
+.inv-card .small { color: #3a4352; }
+.inv-card .row { gap: 6px; flex-wrap: wrap; }
+.radio-screen { background: #0b1a12; color: #8cffb5; border: 4px solid var(--ink); border-radius: 12px; padding: 12px 16px; box-shadow: inset 0 0 18px rgba(61, 220, 132, 0.25); position: relative; }
+.radio-screen p { margin: 4px 0; }
+.radio-led { position: absolute; right: 12px; top: 12px; width: 12px; height: 12px; border-radius: 50%; background: #3ddc84; box-shadow: 0 0 10px #3ddc84; animation: led 1.2s infinite; }
+@keyframes led { 50% { opacity: 0.3; } }
+.decision-block { margin-top: 10px; }
+.decision-col.comms .decision-btn, .decision-col.route .decision-btn { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; text-align: left; }
+.comms-btn::before { content: "📻 "; }
+.decision-btn.chosen { outline: 3px solid #3ddc84; }
+.route-map { width: 100%; max-width: 560px; border: 3px solid var(--ink); border-radius: 8px; display: block; margin: 6px 0 10px; }
