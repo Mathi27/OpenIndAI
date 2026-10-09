@@ -1,0 +1,546 @@
+{
+  "app": {
+    "name": "OpenIndustri-AI",
+    "subtitle": "Industrial Safety Simulation and Training Platform",
+    "tagline": "Industry 5.0 · Human-centric immersive workforce training",
+    "loading": "Loading…",
+    "back": "Back",
+    "next": "Next",
+    "continue": "Continue",
+    "cancel": "Cancel",
+    "close": "Close",
+    "save": "Save",
+    "saved": "Saved",
+    "confirm": "Confirm",
+    "retry": "Try again",
+    "devAccount": "Development account",
+    "disclaimer": "Training simulation only. Game scores are not a professional competency certification.",
+    "conceptualNotice": "This environment is a conceptual simulation, not a validated engineering digital twin.",
+    "skipToContent": "Skip to content"
+  },
+  "error": {
+    "generic": "Something went wrong. Please try again.",
+    "network": "Cannot reach the local training server. Check that the backend is running.",
+    "INVALID_CREDENTIALS": "Incorrect username or password.",
+    "NOT_ADMIN": "This account does not have administrator access.",
+    "USE_ADMIN_PORTAL": "Administrator accounts must sign in through Admin Login.",
+    "TOO_MANY_ATTEMPTS": "Too many failed sign-in attempts. Please wait a minute and try again.",
+    "SESSION_EXPIRED": "Your session has expired. Please sign in again.",
+    "NOT_AUTHENTICATED": "Please sign in to continue.",
+    "USERNAME_TAKEN": "That username is already registered.",
+    "VALIDATION_ERROR": "Some fields are invalid. Please check and try again.",
+    "PROFILE_INCOMPLETE": "Complete your industry, designation and experience first.",
+    "MISSION_LOCKED": "This mission is not available for your profile yet.",
+    "MISSION_NOT_FOUND": "That mission could not be found.",
+    "SESSION_NOT_FOUND": "That training session could not be found.",
+    "SESSION_STALE": "This mission was updated since your session started. Please start it again.",
+    "SESSION_RESTORE_EXPIRED": "That session is too old to restore. Please start the mission again.",
+    "SESSION_TERMINAL": "This session has already ended.",
+    "INVALID_DESIGNATION": "That designation is not available for the selected industry.",
+    "ADMIN_REQUIRED": "Administrator access is required.",
+    "emptyFields": "Please enter both username and password.",
+    "passwordRule": "Password must be at least 8 characters and include a letter and a number.",
+    "usernameRule": "Username must be 3–32 characters: letters, numbers, dot, dash or underscore."
+  },
+  "welcome": {
+    "traineeLogin": "Trainee Login",
+    "adminLogin": "Admin Login",
+    "instructions": "Instructions",
+    "settings": "Settings",
+    "about": "About",
+    "version": "Initial version 0.1"
+  },
+  "auth": {
+    "titleTrainee": "Trainee sign in",
+    "titleAdmin": "Administrator sign in",
+    "titleRegister": "Create trainee account",
+    "username": "Username",
+    "password": "Password",
+    "displayName": "Display name",
+    "signIn": "Sign in",
+    "signingIn": "Signing in…",
+    "register": "Create account",
+    "needAccount": "New trainee? Create an account",
+    "haveAccount": "Already registered? Sign in",
+    "adminNote": "Administrator access is granted only to accounts that have the administrator role on the server.",
+    "devHint": "Local development accounts: trainee.dev / Trainee#2026 · admin.dev / Admin#2026",
+    "loggedOut": "You have been signed out."
+  },
+  "menu": {
+    "greeting": "Welcome, {{name}}",
+    "start": "Start Simulation",
+    "continue": "Continue Training",
+    "continueNone": "No training session in progress",
+    "continueDesc": "Resume {{mission}}",
+    "instructions": "Instructions",
+    "progress": "My Progress",
+    "profile": "Profile",
+    "settings": "Settings",
+    "logout": "Logout",
+    "admin": "Trainee Results",
+    "setupNeeded": "Complete your training profile to start simulations.",
+    "openSessionTitle": "Session in progress",
+    "openSessionBody": "You already have an unfinished session. Continue it, or abandon it and start again?",
+    "abandonAndStart": "Abandon and start new"
+  },
+  "setup": {
+    "stepIndustry": "Industry",
+    "stepDesignation": "Designation",
+    "stepExperience": "Experience",
+    "industryTitle": "Select your industry",
+    "designationTitle": "Select your designation",
+    "designationFor": "Designations available in {{industry}}",
+    "experienceTitle": "Experience and training pathway",
+    "experienceLabel": "Experience level",
+    "pathwayLabel": "Training pathway",
+    "guidanceNote": "Experience changes the amount of guidance you receive. Mandatory safety requirements are identical for everyone.",
+    "finish": "Save profile",
+    "designationReset": "Your previous designation does not exist in this industry and was cleared.",
+    "preview": "3D preview"
+  },
+  "industry": {
+    "oil_gas": { "name": "Oil & Gas / Petrochemicals", "desc": "Process plants, pumps, pipelines, storage and maintenance operations." },
+    "heavy_mfg": { "name": "Heavy Manufacturing", "desc": "Machining, production lines, lifting, guarding and plant maintenance." },
+    "construction": { "name": "Construction", "desc": "Sites, scaffolds, excavations, cranes, welding and temporary power." }
+  },
+  "designation": {
+    "og_mech_maint": "Mechanical Maintenance Technician",
+    "og_elec_maint": "Electrical Maintenance Technician",
+    "og_instrument": "Instrumentation Technician",
+    "og_field_operator": "Field Process Operator",
+    "og_pipeline": "Pipeline Technician",
+    "og_hse": "HSE Technician",
+    "hm_cnc_operator": "CNC Machine Operator",
+    "hm_production_operator": "Production Operator",
+    "hm_mech_maint": "Mechanical Maintenance Technician",
+    "hm_elec_maint": "Electrical Maintenance Technician",
+    "hm_quality_inspector": "Quality Inspection Technician",
+    "hm_safety_tech": "Industrial Safety Technician",
+    "cn_site_tech": "Site Technician",
+    "cn_scaffolding": "Scaffolding Technician",
+    "cn_welding": "Welding Technician",
+    "cn_crane_rigging": "Crane/Rigging Operator",
+    "cn_electrical": "Electrical Technician",
+    "cn_site_safety": "Site Safety Technician"
+  },
+  "category": {
+    "og_hazard_recognition": "Hazard Recognition",
+    "og_ppe": "PPE Awareness",
+    "og_permit_to_work": "Permit to Work",
+    "og_loto": "Lockout/Tagout Awareness",
+    "og_confined_space": "Confined Space Awareness",
+    "og_hot_work": "Hot Work Safety",
+    "og_chemical_spill": "Chemical Spill Recognition",
+    "og_fire_hazard": "Fire Hazard Awareness",
+    "og_electrical": "Electrical Safety",
+    "og_pipeline": "Pipeline Safety Awareness",
+    "og_equipment_inspection": "Equipment Inspection Awareness",
+    "og_emergency_response": "Emergency Response Decisions",
+    "hm_machine_guarding": "Machine Guarding",
+    "hm_cnc_safety": "CNC Safety",
+    "hm_electrical": "Electrical Safety",
+    "hm_loto": "Lockout/Tagout Awareness",
+    "hm_lifting_rigging": "Lifting and Rigging",
+    "hm_fire_safety": "Fire Safety",
+    "hm_ppe": "PPE Awareness",
+    "hm_forklift_pedestrian": "Forklift and Pedestrian Safety",
+    "hm_material_handling": "Material Handling",
+    "hm_maintenance_safety": "Maintenance Safety",
+    "cn_working_at_heights": "Working at Heights",
+    "cn_scaffolding": "Scaffolding Safety",
+    "cn_excavation": "Excavation Hazard Recognition",
+    "cn_crane_rigging": "Crane and Rigging Safety",
+    "cn_electrical": "Electrical Safety",
+    "cn_welding": "Welding Safety",
+    "cn_ppe": "PPE Awareness",
+    "cn_confined_space": "Confined Space Awareness",
+    "cn_falling_objects": "Falling Object Prevention",
+    "cn_emergency_response": "Emergency Response"
+  },
+  "level": {
+    "1": { "name": "Level 1 — Orientation", "short": "Orientation" },
+    "2": { "name": "Level 2 — Guided Practice", "short": "Guided Practice" },
+    "3": { "name": "Level 3 — Independent Application", "short": "Independent Application" },
+    "4": { "name": "Level 4 — Abnormal Conditions", "short": "Abnormal Conditions" },
+    "5": { "name": "Level 5 — Competency Challenge", "short": "Competency Challenge" }
+  },
+  "experience": {
+    "fresher": { "name": "Fresher", "desc": "Visible instructions, clear objective markers and additional hints." },
+    "mid": { "name": "Mid Experience", "desc": "Standard objectives with reduced hints." },
+    "senior": { "name": "Senior", "desc": "Fewer prompts and independent decision-making." }
+  },
+  "pathway": {
+    "standard": { "name": "Standard", "desc": "Regular training progression." },
+    "pip": { "name": "PIP / Remediation", "desc": "Revisits concepts missed in earlier sessions with additional corrective practice. Not an experience band." }
+  },
+  "missions": {
+    "title": "Mission selection",
+    "subtitle": "{{designation}} · {{industry}}",
+    "status": { "available": "Available", "locked": "Locked", "upcoming": "Upcoming" },
+    "upcomingNote": "Content in development — not yet playable.",
+    "lockedReason": {
+      "previous_level": "Pass the previous level to unlock.",
+      "prerequisite_mission": "Complete the prerequisite mission first.",
+      "designation_ineligible": "Not available for your designation."
+    },
+    "attempts": "Attempts: {{count}}",
+    "best": "Best: {{score}} ({{outcome}})",
+    "play": "Start mission",
+    "playableCount": "{{count}} playable mission(s) for your role",
+    "changeProfile": "Change role"
+  },
+  "briefing": {
+    "title": "Mission briefing",
+    "objectives": "Learning objectives",
+    "focus": "Concepts to revisit (from your previous sessions)",
+    "acknowledge": "Acknowledge briefing and begin",
+    "controls": "Click the view to capture the mouse. WASD to move, mouse to look, E to interact."
+  },
+  "hud": {
+    "mission": "Mission",
+    "objective": "Objective",
+    "progress": "Tasks {{done}} / {{total}}",
+    "noObjective": "All objectives complete",
+    "minimalObjective": "Decide whether the maintenance task can safely proceed.",
+    "timer": "Active time",
+    "help": "Hint (H)",
+    "hintsLeft": "{{count}} left",
+    "hintsNone": "No hints available",
+    "checklistKey": "Checklist",
+    "toolboxKey": "Toolbox",
+    "guide": "WASD move · Mouse look · E interact · C checklist · T toolbox · M map · I instructions · H hint · Esc pause",
+    "clickToPlay": "Click to look around",
+    "fps": "{{fps}} FPS",
+    "selectedTool": "Tool: {{tool}}",
+    "noTool": "Hands free",
+    "state": {
+      "NOT_STARTED": "Not started",
+      "BRIEFING": "Briefing",
+      "ACTIVE": "Active",
+      "PAUSED": "Paused",
+      "BLOCKED": "Stopped — safety review",
+      "COMPLETED": "Completed",
+      "FAILED": "Failed",
+      "ASSESSED": "Assessed"
+    },
+    "syncing": "Syncing…",
+    "offline": "Server unreachable — progress will sync when it returns",
+    "minimap": "Minimap",
+    "north": "N",
+    "envIndicators": "Environment (simulated)"
+  },
+  "prompt": {
+    "action": "[E] {{action}} {{name}}",
+    "tooFar": "Move closer to {{name}}",
+    "useTool": "[E] Use {{tool}} on {{name}}"
+  },
+  "world": {
+    "prompt": { "inspect": "Inspect", "read": "Read", "review": "Review" },
+    "zone": { "pumpWorkstation": "Pump workstation P-101" },
+    "obj": {
+      "pump": { "name": "Centrifugal pump P-101", "d1": "The pump shaft is not turning and there is no running noise.", "d2": "Suction and discharge valves appear open from where you stand.", "d3": "Equipment that is not running has not necessarily been made safe for maintenance." },
+      "motor": { "name": "Electric motor M-101", "d1": "Motor is silent. The cooling fan is not turning.", "d2": "The motor could be started remotely unless its energy sources are verified isolated." },
+      "statusPanel": { "name": "Equipment status panel", "d1": "P-101 RUN STATUS: STOPPED", "d2": "ISOLATION STATUS: NOT CONFIRMED", "d3": "Note: a stopped indication shows the operating state only." },
+      "beacon": { "name": "Amber warning indicator", "d1": "Amber lamp lit: \"Isolation verification pending\"." },
+      "safetyBoard": { "name": "Safety information board", "d1": "Training principle: stopped is not the same as safe.", "d2": "Before maintenance, verification evidence must be complete and documented.", "d3": "If evidence is missing — stop, do not proceed, and report it." },
+      "workDocs": { "name": "Work documentation", "d1": "Work order WO-2291: replace P-101 mechanical seal.", "d2": "Shift handover note: \"P-101 stopped by operations at 06:40.\"", "d3": "Energy isolation verification record: signature field is EMPTY.", "d4": "Work permit: awaiting completion of verification evidence." },
+      "checklistStation": { "name": "Pre-maintenance checklist station", "d1": "Compare each evidence item with the documents, flag anything incomplete, then record your decision." },
+      "cabinet": { "name": "Motor control cabinet MCC-3", "d1": "Panel door closed. No isolation lock or tag is visible on the P-101 feeder.", "d2": "Training scenario: verification of isolation is not recorded here." },
+      "localControl": { "name": "Local control station", "d1": "Selector at REMOTE. Stop push-button is not latched.", "d2": "A control-station stop is not the same as a verified isolation." }
+    }
+  },
+  "checklist": {
+    "title": "Handheld checklist",
+    "device": "Training device · read-only",
+    "notice": "Items tick automatically from your verified actions. They cannot be ticked manually.",
+    "completed": "Completed",
+    "pending": "Pending",
+    "locked": "Waiting on earlier steps",
+    "instructions": "Instructions",
+    "close": "Close (C)",
+    "optional": "Additional observations"
+  },
+  "station": {
+    "title": "Pre-maintenance checklist station",
+    "evidence": "Verification evidence",
+    "flag": "Flag as incomplete",
+    "flagged": "Flagged",
+    "decisionTitle": "Can the maintenance task proceed?",
+    "decisionLocked": "Review and flag the evidence before deciding.",
+    "close": "Close"
+  },
+  "toolbox": {
+    "title": "Toolbox",
+    "notice": "Simulated training tools — these are gameplay items, not real-world operating instructions.",
+    "select": "Select",
+    "selected": "Selected",
+    "putAway": "Put away tool",
+    "useHint": "Look at a target and press E to use the selected tool. Press 1–3 to switch quickly.",
+    "radioMessage": "Control room (simulated): \"Isolation verification for P-101 has not been received.\"",
+    "flashlightMessage": "Flashlight: you see no rotation, no leaks and no lock or tag on the equipment.",
+    "invalid": "{{tool}} cannot be used on {{target}}.",
+    "needsTarget": "Look at equipment to use {{tool}}."
+  },
+  "tool": {
+    "flashlight": { "name": "Inspection flashlight", "desc": "Look closely at equipment details." },
+    "spanner": { "name": "Spanner", "desc": "Maintenance tool. Using it starts physical work on equipment." },
+    "radio": { "name": "Two-way radio", "desc": "Contact the simulated control room." }
+  },
+  "pause": {
+    "title": "Paused",
+    "resume": "Resume",
+    "restart": "Restart mission",
+    "instructions": "Instructions",
+    "settings": "Settings",
+    "exit": "Exit to main menu",
+    "confirmRestart": "Restart this mission? The current attempt will be recorded as abandoned.",
+    "confirmExit": "Exit to the main menu? You can continue this session later from Continue Training."
+  },
+  "block": {
+    "title": "Unsafe action stopped",
+    "missingTitle": "Missing prerequisite",
+    "acknowledge": "I understand — return to the task",
+    "failedTitle": "Mission stopped",
+    "failedBody": "A repeated critical safety error ended this attempt."
+  },
+  "feedback": {
+    "prerequisite": "Not yet: first {{step}}.",
+    "duplicate": "Already recorded.",
+    "stepDone": "Objective complete: {{step}}",
+    "hintPrefix": "Hint:",
+    "missionComplete": "Mission complete — preparing your results…",
+    "invalidAction": "Action not allowed here.",
+    "noHints": "No hints remaining for your experience level."
+  },
+  "results": {
+    "title": "Mission results",
+    "outcome": {
+      "mastery": "Mastery",
+      "pass": "Passed",
+      "needs_practice": "Needs practice",
+      "critical_error": "Completed with a critical safety error",
+      "not_passed": "Not passed",
+      "abandoned": "Abandoned"
+    },
+    "status": "Completion status",
+    "totalTime": "Total time",
+    "activeTime": "Active gameplay time",
+    "objectives": "Objectives completed",
+    "mistakes": "Mistakes",
+    "invalidActions": "Invalid actions",
+    "critical": "Critical errors",
+    "hints": "Hints used",
+    "score": "Final score",
+    "retries": "Attempt number",
+    "missed": "Concepts to review",
+    "criticalNote": "A critical safety error prevents a mastery result regardless of points.",
+    "retry": "Retry mission",
+    "back": "Back to mission selection",
+    "debrief": "Debrief",
+    "notReady": "Results are not available yet."
+  },
+  "concept": {
+    "situational_awareness": "Situational awareness of the work area",
+    "stopped_not_safe": "Stopped equipment is not automatically safe",
+    "documented_evidence": "Checking documented evidence",
+    "verify_isolation_evidence": "Isolation verification evidence must be complete",
+    "stop_work_authority": "Stopping work when evidence is missing"
+  },
+  "mission": {
+    "common": {
+      "provisionalNotice": "Provisional educational rule set — requires review and approval by a qualified safety expert. It is not an industrial SOP and makes no regulatory or OISD compliance claim.",
+      "noReviewedReferences": "No reviewed external safety references are attached to this mission yet."
+    },
+    "silentPump": {
+      "title": "The Silent Pump",
+      "subtitle": "Pre-Maintenance Hazard Recognition",
+      "description": "Pump P-101 is not running and is scheduled for maintenance. Decide whether the work can safely proceed.",
+      "briefing": {
+        "1": "Supervisor (simulated): \"Morning. P-101 is down and the seal job is on your list today.\"",
+        "2": "\"Operations stopped the pump earlier. Check the area, the status panel and the paperwork before anyone touches it.\"",
+        "3": "\"Your call: can the maintenance task proceed or not? Record your decision at the checklist station.\""
+      },
+      "objectives": {
+        "1": "Recognise that stopped equipment is not automatically verified safe for maintenance.",
+        "2": "Find and compare the available verification evidence.",
+        "3": "Make and record a go / no-go decision based on evidence."
+      },
+      "step": {
+        "briefing": "Receive the briefing",
+        "enter": "Enter the pump workstation",
+        "locatePump": "Locate and inspect pump P-101",
+        "inspectStatus": "Read the equipment status panel",
+        "inspectDocs": "Read the work documentation",
+        "pipReview": "Corrective practice: review the safety information board",
+        "reviewChecklist": "Review the pre-maintenance checklist",
+        "identifyGap": "Identify the incomplete verification evidence",
+        "correctiveReview": "Re-check the isolation evidence in the documents",
+        "decision": "Make the go / no-go decision",
+        "optMotor": "Inspected motor M-101",
+        "optBeacon": "Checked the amber warning indicator",
+        "optBoard": "Read the safety information board",
+        "optCabinet": "Inspected the motor control cabinet",
+        "optLocalControl": "Inspected the local control station"
+      },
+      "instruction": {
+        "briefing": "Read the briefing and acknowledge it.",
+        "enter": "Walk north along the walkway into the barriered pump workstation.",
+        "locatePump": "Find pump P-101 on the plinth and press E while looking at it.",
+        "inspectStatus": "Read the status panel next to the pump.",
+        "inspectDocs": "Read the work documentation at the permit desk near the entrance.",
+        "pipReview": "Review the safety information board at the workstation entrance.",
+        "reviewChecklist": "Open the pre-maintenance checklist station beside the permit desk.",
+        "identifyGap": "At the station, flag the evidence item that is incomplete.",
+        "correctiveReview": "Read the work documentation again and confirm what is missing.",
+        "decision": "Record your decision at the checklist station."
+      },
+      "hint": {
+        "briefing": "Use the Acknowledge button at the bottom of the briefing.",
+        "enter": "Follow the yellow walkway north to the gap in the barriers.",
+        "locatePump": "The pump is the blue casing on the concrete plinth, coupled to the grey motor.",
+        "inspectStatus": { "1": "Look for the panel with a screen and an amber lamp on top.", "2": "Notice the difference between run status and isolation status." },
+        "inspectDocs": { "1": "The documents are on the desk under the shelter by the entrance.", "2": "Check every signature field, not just the work order." },
+        "pipReview": "The board is on the left of the workstation entrance.",
+        "reviewChecklist": "The checklist station is the board to the right of the permit desk.",
+        "identifyGap": { "1": "Which evidence did you see in the documents that was not signed?", "2": "The status panel also said something was not confirmed.", "3": "Flag the energy isolation verification record." },
+        "correctiveReview": "Read the documents again — look at the isolation verification signature.",
+        "decision": "With verification evidence missing, can work safely begin?"
+      },
+      "evidence": {
+        "workOrder": "Work order issued",
+        "handover": "Shift handover note",
+        "observation": "Equipment observed stopped",
+        "isolation": "Energy isolation verification record",
+        "present": "Present",
+        "observedStopped": "Observed: not running",
+        "notSigned": "Check documents"
+      },
+      "decision": {
+        "go": "Proceed with maintenance",
+        "noGo": "Do not proceed — report missing verification"
+      },
+      "feedback": {
+        "decideWithoutEvidence": "Identify the specific missing evidence before making the decision.",
+        "wrongEvidence": "That item is complete in the documents. Compare again."
+      },
+      "critical": {
+        "go": { "explanation": "Proceeding because the pump looks stopped is unsafe. A stopped pump has not been verified safe for maintenance." },
+        "spanner": { "explanation": "Starting physical work before verification evidence is complete is unsafe." },
+        "missing": "Missing: a completed energy isolation verification record. Until it is complete, the task must not proceed."
+      },
+      "debrief": {
+        "success": "Correct decision. The pump was stopped, but the isolation verification record was not signed. Stopped is not the same as verified safe — you stopped the job and reported the gap.",
+        "critical": "You reached the correct decision, but only after an unsafe action. In this training scenario, proceeding without verification evidence is a critical error.",
+        "failed": "The attempt ended after repeated unsafe actions. Review the concepts below and try again."
+      }
+    }
+  },
+  "notify": {
+    "pointerLockDenied": "Mouse capture was not allowed. Drag with the mouse or use the arrow keys to look around.",
+    "webglFailed": "3D graphics (WebGL) are not available in this browser. Enable hardware acceleration or use a recent Chrome or Safari.",
+    "sceneFailed": "The 3D training area failed to load.",
+    "contextLost": "The graphics context was lost. The mission has been paused.",
+    "contextRestored": "Graphics restored.",
+    "lowFps": "Low frame rate detected — graphics quality reduced automatically.",
+    "focusLost": "Window lost focus — mission paused.",
+    "sessionRestored": "Training session restored.",
+    "restoreFailed": "Your previous session could not be restored.",
+    "outOfBounds": "Stay inside the training area.",
+    "audioBlocked": "Audio will start after your first interaction."
+  },
+  "captions": {
+    "ambient": "[Industrial plant ambience]",
+    "warning": "[Warning tone]",
+    "complete": "[Objective complete chime]",
+    "error": "[Error tone]"
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "translationNote": "Tamil and Hindi texts are draft translations pending native-speaker and safety-expert review.",
+    "audio": "Audio",
+    "master": "Master volume",
+    "effects": "Effects volume",
+    "ambient": "Ambient volume",
+    "narration": "Narration volume",
+    "narrationOn": "Instructional narration (text-to-speech)",
+    "mute": "Mute all audio",
+    "captions": "Show captions",
+    "controls": "Controls",
+    "sensitivity": "Mouse sensitivity",
+    "invertY": "Invert vertical look",
+    "graphics": "Graphics",
+    "quality": "Quality",
+    "qualityLow": "Low",
+    "qualityMedium": "Medium",
+    "qualityHigh": "High",
+    "showFps": "Show FPS counter",
+    "testSound": "Test sound"
+  },
+  "instructions": {
+    "title": "Instructions",
+    "controlsTitle": "Controls",
+    "controls": {
+      "move": "W / A / S / D — Move",
+      "look": "Mouse — Look (click the view to capture the mouse)",
+      "interact": "E — Interact with the highlighted object",
+      "checklist": "C — Handheld checklist",
+      "toolbox": "T — Toolbox (1–3 quick select)",
+      "map": "M — Expand / shrink minimap",
+      "instructions": "I — Mission instructions",
+      "hint": "H — Request a hint (limited by experience level)",
+      "pause": "Esc — Pause / release mouse"
+    },
+    "howTitle": "How missions work",
+    "how": {
+      "1": "Read the briefing, then explore the training area.",
+      "2": "Objects highlight when you are close enough and looking at them.",
+      "3": "Your checklist ticks itself from verified actions only.",
+      "4": "Unsafe actions are stopped and explained. Repeated critical errors end the attempt.",
+      "5": "Results are assessed by the training server."
+    }
+  },
+  "about": {
+    "title": "About OpenIndustri-AI",
+    "body": "OpenIndustri-AI is an interactive 3D industrial safety simulation and gaming platform for Industry 5.0 human-centric workforce training. It runs fully locally in your browser with a local training server.",
+    "body2": "Missions use provisional educational rule sets that require approval by qualified safety experts. The 3D environment is a conceptual simulation, not a validated engineering digital twin.",
+    "credits": "Built with Babylon.js, TypeScript, Vite, i18next, FastAPI and SQLite. All 3D geometry and sounds are generated procedurally by this application. Fonts: Noto Sans Tamil and Noto Sans Devanagari (SIL Open Font License)."
+  },
+  "profile": {
+    "title": "Profile",
+    "account": "Account",
+    "training": "Training profile",
+    "edit": "Change training profile",
+    "notSet": "Not set"
+  },
+  "progress": {
+    "title": "My Progress",
+    "empty": "No training sessions yet.",
+    "mission": "Mission",
+    "date": "Date",
+    "outcome": "Outcome",
+    "score": "Score",
+    "attempts": "Attempts",
+    "best": "Best",
+    "history": "Recent sessions",
+    "summary": "Mission summary",
+    "view": "View"
+  },
+  "admin": {
+    "title": "Trainee results",
+    "trainees": "Trainees",
+    "sessions": "Sessions",
+    "username": "Username",
+    "name": "Name",
+    "role": "Designation",
+    "experience": "Experience",
+    "pathway": "Pathway",
+    "sessionsCount": "Sessions",
+    "passes": "Passes",
+    "lastActivity": "Last activity",
+    "events": "Event log",
+    "filterAll": "All trainees",
+    "details": "Details",
+    "noData": "No data yet."
+  }
+}

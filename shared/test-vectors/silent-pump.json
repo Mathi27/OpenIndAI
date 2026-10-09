@@ -1,0 +1,673 @@
+{
+ "mission": "og-hazrec-l1-silent-pump",
+ "cases": [
+  {
+   "name": "happy_path_standard",
+   "context": {
+    "pathway": "standard",
+    "hintBudget": 99
+   },
+   "events": [
+    {
+     "type": "briefing_acknowledged",
+     "expect": "step_completed"
+    },
+    {
+     "type": "zone_entered",
+     "target": "zone_pump_workstation",
+     "expect": "step_completed"
+    },
+    {
+     "type": "object_inspected",
+     "target": "pump_p101",
+     "expect": "step_completed"
+    },
+    {
+     "type": "object_inspected",
+     "target": "status_panel",
+     "expect": "step_completed"
+    },
+    {
+     "type": "object_inspected",
+     "target": "work_docs",
+     "expect": "step_completed"
+    },
+    {
+     "type": "object_inspected",
+     "target": "checklist_station",
+     "expect": "step_completed"
+    },
+    {
+     "type": "evidence_flagged",
+     "target": "isolation_verification",
+     "expect": "step_completed"
+    },
+    {
+     "type": "decision_made",
+     "value": "no_go",
+     "expect": "step_completed"
+    }
+   ],
+   "final": {
+    "state": "COMPLETED",
+    "completed": [
+     "briefing",
+     "enter_workstation",
+     "locate_pump",
+     "inspect_status",
+     "inspect_documents",
+     "review_checklist",
+     "identify_gap",
+     "decision_no_go"
+    ],
+    "counters": {
+     "mistakes": 0,
+     "criticalErrors": 0,
+     "invalidActions": 0,
+     "inspections": 4
+    }
+   }
+  },
+  {
+   "name": "events_rejected_before_briefing_ack",
+   "context": {
+    "pathway": "standard",
+    "hintBudget": 99
+   },
+   "events": [
+    {
+     "type": "object_inspected",
+     "target": "pump_p101",
+     "expect": "rejected",
+     "reason": "briefing"
+    },
+    {
+     "type": "paused",
+     "expect": "paused"
+    },
+    {
+     "type": "briefing_acknowledged",
+     "expect": "rejected",
+     "reason": "paused"
+    },
+    {
+     "type": "resumed",
+     "expect": "resumed"
+    },
+    {
+     "type": "briefing_acknowledged",
+     "expect": "step_completed"
+    }
+   ],
+   "final": {
+    "state": "ACTIVE",
+    "completed": [
+     "briefing"
+    ],
+    "counters": {
+     "rejected": 2
+    }
+   }
+  },
+  {
+   "name": "out_of_order_inspection_is_not_credited",
+   "context": {
+    "pathway": "standard",
+    "hintBudget": 99
+   },
+   "events": [
+    {
+     "type": "briefing_acknowledged",
+     "expect": "step_completed"
+    },
+    {
+     "type": "zone_entered",
+     "target": "zone_pump_workstation",
+     "expect": "step_completed"
+    },
+    {
+     "type": "object_inspected",
+     "target": "status_panel",
+     "expect": "prerequisite_missing",
+     "missing": [
+      "locate_pump"
+     ]
+    },
+    {
+     "type": "object_inspected",
+     "target": "pump_p101",
+     "expect": "step_completed"
+    },
+    {
+     "type": "object_inspected",
+     "target": "status_panel",
+     "expect": "step_completed"
+    },
+    {
+     "type": "object_inspected",
+     "target": "pump_p101",
+     "expect": "duplicate"
+    }
+   ],
+   "final": {
+    "state": "ACTIVE",
+    "completed": [
+     "briefing",
+     "enter_workstation",
+     "locate_pump",
+     "inspect_status"
+    ],
+    "counters": {
+     "duplicates": 1,
+     "mistakes": 0
+    }
+   }
+  },
+  {
+   "name": "decision_without_evidence_is_a_mistake",
+   "context": {
+    "pathway": "standard",
+    "hintBudget": 99
+   },
+   "events": [
+    {
+     "type": "briefing_acknowledged",
+     "expect": "step_completed"
+    },
+    {
+     "type": "zone_entered",
+     "target": "zone_pump_workstation",
+     "expect": "step_completed"
+    },
+    {
+     "type": "object_inspected",
+     "target": "pump_p101",
+     "expect": "step_completed"
+    },
+    {
+     "type": "object_inspected",
+     "target": "status_panel",
+     "expect": "step_completed"
+    },
+    {
+     "type": "object_inspected",
+     "target": "work_docs",
+     "expect": "step_completed"
+    },
+    {
+     "type": "object_inspected",
+     "target": "checklist_station",
+     "expect": "step_completed"
+    },
+    {
+     "type": "decision_made",
+     "value": "no_go",
+     "expect": "mistake",
+     "missing": [
+      "identify_gap"
+     ]
+    },
+    {
+     "type": "evidence_flagged",
+     "target": "isolation_verification",
+     "expect": "step_completed"
+    },
+    {
+     "type": "decision_made",
+     "value": "no_go",
+     "expect": "step_completed"
+    }
+   ],
+   "final": {
+    "state": "COMPLETED",
+    "completed": [
+     "briefing",
+     "enter_workstation",
+     "locate_pump",
+     "inspect_status",
+     "inspect_documents",
+     "review_checklist",
+     "identify_gap",
+     "decision_no_go"
+    ],
+    "counters": {
+     "mistakes": 1,
+     "criticalErrors": 0
+    }
+   }
+  },
+  {
+   "name": "unsafe_go_blocks_then_requires_corrective_review",
+   "context": {
+    "pathway": "standard",
+    "hintBudget": 99
+   },
+   "events": [
+    {
+     "type": "briefing_acknowledged",
+     "expect": "step_completed"
+    },
+    {
+     "type": "zone_entered",
+     "target": "zone_pump_workstation",
+     "expect": "step_completed"
+    },
+    {
+     "type": "object_inspected",
+     "target": "pump_p101",
+     "expect": "step_completed"
+    },
+    {
+     "type": "object_inspected",
+     "target": "status_panel",
+     "expect": "step_completed"
+    },
+    {
+     "type": "object_inspected",
+     "target": "work_docs",
+     "expect": "step_completed"
+    },
+    {
+     "type": "object_inspected",
+     "target": "checklist_station",
+     "expect": "step_completed"
+    },
+    {
+     "type": "evidence_flagged",
+     "target": "isolation_verification",
+     "expect": "step_completed"
+    },
+    {
+     "type": "decision_made",
+     "value": "go",
+     "expect": "critical_block",
+     "ruleId": "unsafe_go_decision"
+    },
+    {
+     "type": "object_inspected",
+     "target": "pump_p101",
+     "expect": "rejected",
+     "reason": "blocked"
+    },
+    {
+     "type": "block_acknowledged",
+     "expect": "unblocked"
+    },
+    {
+     "type": "decision_made",
+     "value": "no_go",
+     "expect": "mistake",
+     "missing": [
+      "corrective_review"
+     ]
+    },
+    {
+     "type": "object_inspected",
+     "target": "work_docs",
+     "expect": "step_completed"
+    },
+    {
+     "type": "decision_made",
+     "value": "no_go",
+     "expect": "step_completed"
+    }
+   ],
+   "final": {
+    "state": "COMPLETED",
+    "completed": [
+     "briefing",
+     "enter_workstation",
+     "locate_pump",
+     "inspect_status",
+     "inspect_documents",
+     "review_checklist",
+     "identify_gap",
+     "corrective_review",
+     "decision_no_go"
+    ],
+    "flags": [
+     "unsafe_attempt"
+    ],
+    "counters": {
+     "criticalErrors": 1,
+     "mistakes": 1
+    }
+   }
+  },
+  {
+   "name": "second_critical_error_fails_mission",
+   "context": {
+    "pathway": "standard",
+    "hintBudget": 99
+   },
+   "events": [
+    {
+     "type": "briefing_acknowledged",
+     "expect": "step_completed"
+    },
+    {
+     "type": "zone_entered",
+     "target": "zone_pump_workstation",
+     "expect": "step_completed"
+    },
+    {
+     "type": "object_inspected",
+     "target": "pump_p101",
+     "expect": "step_completed"
+    },
+    {
+     "type": "decision_made",
+     "value": "go",
+     "expect": "critical_block"
+    },
+    {
+     "type": "block_acknowledged",
+     "expect": "unblocked"
+    },
+    {
+     "type": "tool_used",
+     "value": "spanner",
+     "target": "pump_p101",
+     "expect": "critical_fail",
+     "ruleId": "maintenance_without_verification"
+    },
+    {
+     "type": "decision_made",
+     "value": "no_go",
+     "expect": "rejected",
+     "reason": "terminal"
+    }
+   ],
+   "final": {
+    "state": "FAILED",
+    "counters": {
+     "criticalErrors": 2
+    }
+   }
+  },
+  {
+   "name": "wrong_evidence_flag_is_incorrect_decision",
+   "context": {
+    "pathway": "standard",
+    "hintBudget": 99
+   },
+   "events": [
+    {
+     "type": "briefing_acknowledged",
+     "expect": "step_completed"
+    },
+    {
+     "type": "zone_entered",
+     "target": "zone_pump_workstation",
+     "expect": "step_completed"
+    },
+    {
+     "type": "object_inspected",
+     "target": "pump_p101",
+     "expect": "step_completed"
+    },
+    {
+     "type": "object_inspected",
+     "target": "status_panel",
+     "expect": "step_completed"
+    },
+    {
+     "type": "object_inspected",
+     "target": "work_docs",
+     "expect": "step_completed"
+    },
+    {
+     "type": "object_inspected",
+     "target": "checklist_station",
+     "expect": "step_completed"
+    },
+    {
+     "type": "evidence_flagged",
+     "target": "work_order",
+     "expect": "mistake",
+     "ruleId": "wrong_evidence_flag"
+    },
+    {
+     "type": "evidence_flagged",
+     "target": "isolation_verification",
+     "expect": "step_completed"
+    }
+   ],
+   "final": {
+    "state": "ACTIVE",
+    "counters": {
+     "mistakes": 1,
+     "incorrectDecisions": 1
+    }
+   }
+  },
+  {
+   "name": "pip_requires_principle_review_before_checklist",
+   "context": {
+    "pathway": "pip",
+    "hintBudget": 99
+   },
+   "events": [
+    {
+     "type": "briefing_acknowledged",
+     "expect": "step_completed"
+    },
+    {
+     "type": "zone_entered",
+     "target": "zone_pump_workstation",
+     "expect": "step_completed"
+    },
+    {
+     "type": "object_inspected",
+     "target": "pump_p101",
+     "expect": "step_completed"
+    },
+    {
+     "type": "object_inspected",
+     "target": "status_panel",
+     "expect": "step_completed"
+    },
+    {
+     "type": "object_inspected",
+     "target": "work_docs",
+     "expect": "step_completed"
+    },
+    {
+     "type": "object_inspected",
+     "target": "checklist_station",
+     "expect": "prerequisite_missing",
+     "missing": [
+      "pip_principle_review"
+     ]
+    },
+    {
+     "type": "object_inspected",
+     "target": "safety_board",
+     "expect": "step_completed",
+     "steps": [
+      "pip_principle_review",
+      "inspect_board"
+     ]
+    },
+    {
+     "type": "object_inspected",
+     "target": "checklist_station",
+     "expect": "step_completed"
+    },
+    {
+     "type": "evidence_flagged",
+     "target": "isolation_verification",
+     "expect": "step_completed"
+    },
+    {
+     "type": "decision_made",
+     "value": "no_go",
+     "expect": "step_completed"
+    }
+   ],
+   "final": {
+    "state": "COMPLETED",
+    "counters": {
+     "mistakes": 0
+    }
+   }
+  },
+  {
+   "name": "hint_budget_enforced",
+   "context": {
+    "pathway": "standard",
+    "hintBudget": 1
+   },
+   "events": [
+    {
+     "type": "briefing_acknowledged",
+     "expect": "step_completed"
+    },
+    {
+     "type": "hint_requested",
+     "target": "enter_workstation",
+     "expect": "hint"
+    },
+    {
+     "type": "hint_requested",
+     "target": "enter_workstation",
+     "expect": "rejected",
+     "reason": "hint_budget"
+    }
+   ],
+   "final": {
+    "state": "ACTIVE",
+    "counters": {
+     "hints": 1
+    }
+   }
+  },
+  {
+   "name": "tool_validation",
+   "context": {
+    "pathway": "standard",
+    "hintBudget": 99
+   },
+   "events": [
+    {
+     "type": "briefing_acknowledged",
+     "expect": "step_completed"
+    },
+    {
+     "type": "tool_used",
+     "value": "flashlight",
+     "target": "status_panel",
+     "expect": "invalid_action",
+     "reason": "tool_not_allowed"
+    },
+    {
+     "type": "tool_used",
+     "value": "spanner",
+     "target": "elec_cabinet",
+     "expect": "invalid_action"
+    },
+    {
+     "type": "tool_used",
+     "value": "flashlight",
+     "expect": "invalid_action",
+     "reason": "tool_needs_target"
+    },
+    {
+     "type": "tool_used",
+     "value": "radio",
+     "expect": "no_effect"
+    },
+    {
+     "type": "tool_used",
+     "value": "flashlight",
+     "target": "pump_p101",
+     "expect": "no_effect"
+    },
+    {
+     "type": "tool_selected",
+     "value": "radio",
+     "expect": "no_effect"
+    }
+   ],
+   "final": {
+    "state": "ACTIVE",
+    "counters": {
+     "invalidActions": 3,
+     "toolUses": 5
+    }
+   }
+  },
+  {
+   "name": "stale_sequence_rejected",
+   "context": {
+    "pathway": "standard",
+    "hintBudget": 99
+   },
+   "events": [
+    {
+     "type": "briefing_acknowledged",
+     "expect": "step_completed",
+     "seq": 5
+    },
+    {
+     "type": "zone_entered",
+     "target": "zone_pump_workstation",
+     "expect": "rejected",
+     "reason": "stale_seq",
+     "seq": 5
+    },
+    {
+     "type": "zone_entered",
+     "target": "zone_pump_workstation",
+     "expect": "step_completed",
+     "seq": 6
+    }
+   ],
+   "final": {
+    "state": "ACTIVE",
+    "completed": [
+     "briefing",
+     "enter_workstation"
+    ]
+   }
+  },
+  {
+   "name": "pause_while_blocked_resumes_to_blocked",
+   "context": {
+    "pathway": "standard",
+    "hintBudget": 99
+   },
+   "events": [
+    {
+     "type": "briefing_acknowledged",
+     "expect": "step_completed"
+    },
+    {
+     "type": "decision_made",
+     "value": "go",
+     "expect": "critical_block"
+    },
+    {
+     "type": "paused",
+     "expect": "paused"
+    },
+    {
+     "type": "resumed",
+     "expect": "resumed"
+    },
+    {
+     "type": "object_inspected",
+     "target": "pump_p101",
+     "expect": "rejected",
+     "reason": "blocked"
+    }
+   ],
+   "final": {
+    "state": "BLOCKED",
+    "flags": [
+     "unsafe_attempt"
+    ]
+   }
+  }
+ ]
+}

@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "levels": [
+    { "level": 1, "id": "orientation" },
+    { "level": 2, "id": "guided_practice" },
+    { "level": 3, "id": "independent_application" },
+    { "level": 4, "id": "abnormal_conditions" },
+    { "level": 5, "id": "competency_challenge" }
+  ],
+  "experienceLevels": ["fresher", "mid", "senior"],
+  "pathways": ["standard", "pip"],
+  "languages": ["en", "ta", "hi"],
+  "industries": [
+    {
+      "id": "oil_gas",
+      "accent": "#ff7a1a",
+      "designations": [
+        { "id": "og_mech_maint", "categories": ["og_hazard_recognition", "og_ppe", "og_permit_to_work", "og_loto", "og_confined_space", "og_hot_work", "og_fire_hazard", "og_equipment_inspection", "og_emergency_response"] },
+        { "id": "og_elec_maint", "categories": ["og_hazard_recognition", "og_ppe", "og_permit_to_work", "og_loto", "og_electrical", "og_fire_hazard", "og_equipment_inspection", "og_emergency_response"] },
+        { "id": "og_instrument", "categories": ["og_hazard_recognition", "og_ppe", "og_permit_to_work", "og_loto", "og_electrical", "og_equipment_inspection", "og_emergency_response"] },
+        { "id": "og_field_operator", "categories": ["og_hazard_recognition", "og_ppe", "og_permit_to_work", "og_loto", "og_chemical_spill", "og_fire_hazard", "og_pipeline", "og_equipment_inspection", "og_emergency_response"] },
+        { "id": "og_pipeline", "categories": ["og_hazard_recognition", "og_ppe", "og_permit_to_work", "og_confined_space", "og_hot_work", "og_chemical_spill", "og_pipeline", "og_emergency_response"] },
+        { "id": "og_hse", "categories": ["og_hazard_recognition", "og_ppe", "og_permit_to_work", "og_loto", "og_confined_space", "og_hot_work", "og_chemical_spill", "og_fire_hazard", "og_electrical", "og_pipeline", "og_equipment_inspection", "og_emergency_response"] }
+      ],
+      "categories": ["og_hazard_recognition", "og_ppe", "og_permit_to_work", "og_loto", "og_confined_space", "og_hot_work", "og_chemical_spill", "og_fire_hazard", "og_electrical", "og_pipeline", "og_equipment_inspection", "og_emergency_response"]
+    },
+    {
+      "id": "heavy_mfg",
+      "accent": "#3fa9f5",
+      "designations": [
+        { "id": "hm_cnc_operator", "categories": ["hm_machine_guarding", "hm_cnc_safety", "hm_ppe", "hm_material_handling", "hm_fire_safety", "hm_forklift_pedestrian"] },
+        { "id": "hm_production_operator", "categories": ["hm_machine_guarding", "hm_ppe", "hm_material_handling", "hm_forklift_pedestrian", "hm_fire_safety", "hm_lifting_rigging"] },
+        { "id": "hm_mech_maint", "categories": ["hm_machine_guarding", "hm_loto", "hm_maintenance_safety", "hm_lifting_rigging", "hm_ppe", "hm_fire_safety"] },
+        { "id": "hm_elec_maint", "categories": ["hm_electrical", "hm_loto", "hm_maintenance_safety", "hm_ppe", "hm_fire_safety"] },
+        { "id": "hm_quality_inspector", "categories": ["hm_machine_guarding", "hm_ppe", "hm_forklift_pedestrian", "hm_material_handling", "hm_fire_safety"] },
+        { "id": "hm_safety_tech", "categories": ["hm_machine_guarding", "hm_cnc_safety", "hm_electrical", "hm_loto", "hm_lifting_rigging", "hm_fire_safety", "hm_ppe", "hm_forklift_pedestrian", "hm_material_handling", "hm_maintenance_safety"] }
+      ],
+      "categories": ["hm_machine_guarding", "hm_cnc_safety", "hm_electrical", "hm_loto", "hm_lifting_rigging", "hm_fire_safety", "hm_ppe", "hm_forklift_pedestrian", "hm_material_handling", "hm_maintenance_safety"]
+    },
+    {
+      "id": "construction",
+      "accent": "#ffc23d",
+      "designations": [
+        { "id": "cn_site_tech", "categories": ["cn_working_at_heights", "cn_excavation", "cn_ppe", "cn_falling_objects", "cn_emergency_response", "cn_electrical"] },
+        { "id": "cn_scaffolding", "categories": ["cn_working_at_heights", "cn_scaffolding", "cn_ppe", "cn_falling_objects", "cn_emergency_response"] },
+        { "id": "cn_welding", "categories": ["cn_welding", "cn_ppe", "cn_confined_space", "cn_working_at_heights", "cn_emergency_response"] },
+        { "id": "cn_crane_rigging", "categories": ["cn_crane_rigging", "cn_falling_objects", "cn_ppe", "cn_electrical", "cn_emergency_response"] },
+        { "id": "cn_electrical", "categories": ["cn_electrical", "cn_ppe", "cn_working_at_heights", "cn_confined_space", "cn_emergency_response"] },
+        { "id": "cn_site_safety", "categories": ["cn_working_at_heights", "cn_scaffolding", "cn_excavation", "cn_crane_rigging", "cn_electrical", "cn_welding", "cn_ppe", "cn_confined_space", "cn_falling_objects", "cn_emergency_response"] }
+      ],
+      "categories": ["cn_working_at_heights", "cn_scaffolding", "cn_excavation", "cn_crane_rigging", "cn_electrical", "cn_welding", "cn_ppe", "cn_confined_space", "cn_falling_objects", "cn_emergency_response"]
+    }
+  ],
+  "missions": ["og-hazrec-l1-silent-pump"]
+}
