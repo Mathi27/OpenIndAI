@@ -1,6 +1,8 @@
 // Mission schema shared with backend/app/content.py (shared/missions/*.json).
 
 export type EventType =
+  | "world_entered"
+  | "npc_interacted"
   | "briefing_acknowledged"
   | "zone_entered"
   | "object_inspected"
@@ -37,6 +39,7 @@ export interface Step {
   concept: string;
   outOfOrder: "ignore" | "mistake";
   outOfOrderKey?: string | null;
+  scene?: string | null;
   hintKeys: string[];
 }
 
@@ -48,12 +51,13 @@ export interface CriticalError {
   concept: string;
   explanationKey: string;
   missingKey: string;
+  dialogue?: string | null;
 }
 
 export interface MistakeRule {
   id: string;
   trigger: Trigger;
-  kind: "incorrect_decision" | "invalid_action";
+  kind: "incorrect_decision" | "invalid_action" | "advisory";
   feedbackKey: string;
   concept: string;
 }
@@ -102,26 +106,51 @@ export interface EnvironmentIndicatorDef {
   warnBelow?: number;
 }
 
+export interface Npc { id: string; nameKey: string; roleKey: string; portrait: string; x: number; z: number; heading: number; maxDistance: number }
+export type Mood = "friendly" | "neutral" | "serious" | "concerned" | "pleased";
+export interface DialogueLine { speaker: string; textKey: string; mood: Mood }
+export interface DebriefRule { when: { criticalRule?: string | null; stepCompleted?: string | null; counterAbove?: [string, number] | null }; textKey: string }
+export interface Variant { id: string; labelKey: string; overrides: { interactables: Record<string, { detailKeys?: string[] | null }>; evidence: Record<string, { statusKey?: string | null }> } }
+
 export interface MissionDef {
   schemaVersion: number;
   id: string;
   version: number;
   industry: string;
+  department: string;
   designations: string[];
+  roleTitleKey: string;
+  designedFor: Experience[];
   category: string;
   level: number;
+  estimatedMinutes: number;
+  activeVariant?: string;
   titleKey: string;
   subtitleKey: string;
   descriptionKey: string;
   briefingKeys: string[];
+  assignmentKeys: Record<string, string>;
   learningObjectiveKeys: string[];
   debriefKeys: { success: string; critical: string; failed: string };
   ruleSet: { status: "provisional" | "expert_approved"; noticeKey: string };
+  contentReview: { status: string; translationStatus: string; lastModified: string };
+  referenceIds: string[];
   safetyReferences: unknown[];
   safetyReferencesNoteKey?: string | null;
   prerequisites: { missions: string[] };
-  scene: { id: string; spawn: { x: number; z: number; heading: number }; environmentIndicators: EnvironmentIndicatorDef[] };
+  scene: {
+    id: "petrochem" | "factory" | "construction";
+    spawn: { x: number; z: number; heading: number };
+    cinematic?: { dayKey: string; locationKey: string; titleKey: string } | null;
+    restrictedZones: string[];
+    environmentIndicators: EnvironmentIndicatorDef[];
+  };
+  briefingPhase: { allowedEvents: EventType[] };
   zones: Zone[];
+  npcs: Npc[];
+  dialogues: Record<string, DialogueLine[]>;
+  consequencePanels: Record<string, { titleKey: string; panelKeys: string[] }>;
+  debriefRules: DebriefRule[];
   interactables: Interactable[];
   evidence: { id: string; labelKey: string; statusKey: string; complete: boolean }[];
   decisions: { value: string; labelKey: string }[];
@@ -130,6 +159,9 @@ export interface MissionDef {
   criticalErrors: CriticalError[];
   criticalPolicy: { failAfterTotal: number };
   mistakes: MistakeRule[];
+  variants: Variant[];
+  variantPolicy: { rule: string; order: string[] };
+  mcq: { questionIds: string[]; passFraction: number };
   hints: { budget: Record<Experience, number>; penalty: number };
   assistance: Record<Experience, AssistanceProfile>;
   scoring: Record<string, number>;

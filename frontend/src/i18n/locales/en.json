@@ -99,9 +99,18 @@
     "preview": "3D preview"
   },
   "industry": {
-    "oil_gas": { "name": "Oil & Gas / Petrochemicals", "desc": "Process plants, pumps, pipelines, storage and maintenance operations." },
-    "heavy_mfg": { "name": "Heavy Manufacturing", "desc": "Machining, production lines, lifting, guarding and plant maintenance." },
-    "construction": { "name": "Construction", "desc": "Sites, scaffolds, excavations, cranes, welding and temporary power." }
+    "oil_gas": {
+      "name": "Oil & Gas / Petrochemicals",
+      "desc": "Process plants, pumps, pipelines, storage and maintenance operations."
+    },
+    "heavy_mfg": {
+      "name": "Heavy Manufacturing",
+      "desc": "Machining, production lines, lifting, guarding and plant maintenance."
+    },
+    "construction": {
+      "name": "Construction",
+      "desc": "Sites, scaffolds, excavations, cranes, welding and temporary power."
+    }
   },
   "designation": {
     "og_mech_maint": "Mechanical Maintenance Technician",
@@ -158,25 +167,59 @@
     "cn_emergency_response": "Emergency Response"
   },
   "level": {
-    "1": { "name": "Level 1 — Orientation", "short": "Orientation" },
-    "2": { "name": "Level 2 — Guided Practice", "short": "Guided Practice" },
-    "3": { "name": "Level 3 — Independent Application", "short": "Independent Application" },
-    "4": { "name": "Level 4 — Abnormal Conditions", "short": "Abnormal Conditions" },
-    "5": { "name": "Level 5 — Competency Challenge", "short": "Competency Challenge" }
+    "1": {
+      "name": "Level 1 — Orientation",
+      "short": "Orientation"
+    },
+    "2": {
+      "name": "Level 2 — Guided Practice",
+      "short": "Guided Practice"
+    },
+    "3": {
+      "name": "Level 3 — Independent Application",
+      "short": "Independent Application"
+    },
+    "4": {
+      "name": "Level 4 — Abnormal Conditions",
+      "short": "Abnormal Conditions"
+    },
+    "5": {
+      "name": "Level 5 — Competency Challenge",
+      "short": "Competency Challenge"
+    }
   },
   "experience": {
-    "fresher": { "name": "Fresher", "desc": "Visible instructions, clear objective markers and additional hints." },
-    "mid": { "name": "Mid Experience", "desc": "Standard objectives with reduced hints." },
-    "senior": { "name": "Senior", "desc": "Fewer prompts and independent decision-making." }
+    "fresher": {
+      "name": "Fresher",
+      "desc": "Visible instructions, clear objective markers and additional hints."
+    },
+    "mid": {
+      "name": "Mid Experience",
+      "desc": "Standard objectives with reduced hints."
+    },
+    "senior": {
+      "name": "Senior",
+      "desc": "Fewer prompts and independent decision-making."
+    }
   },
   "pathway": {
-    "standard": { "name": "Standard", "desc": "Regular training progression." },
-    "pip": { "name": "PIP / Remediation", "desc": "Revisits concepts missed in earlier sessions with additional corrective practice. Not an experience band." }
+    "standard": {
+      "name": "Standard",
+      "desc": "Regular training progression."
+    },
+    "pip": {
+      "name": "PIP / Remediation",
+      "desc": "Revisits concepts missed in earlier sessions with additional corrective practice. Not an experience band."
+    }
   },
   "missions": {
     "title": "Mission selection",
     "subtitle": "{{designation}} · {{industry}}",
-    "status": { "available": "Available", "locked": "Locked", "upcoming": "Upcoming" },
+    "status": {
+      "available": "Available",
+      "locked": "Locked",
+      "upcoming": "Upcoming"
+    },
     "upcomingNote": "Content in development — not yet playable.",
     "lockedReason": {
       "previous_level": "Pass the previous level to unlock.",
@@ -194,7 +237,14 @@
     "objectives": "Learning objectives",
     "focus": "Concepts to revisit (from your previous sessions)",
     "acknowledge": "Acknowledge briefing and begin",
-    "controls": "Click the view to capture the mouse. WASD to move, mouse to look, E to interact."
+    "controls": "Click the view to capture the mouse. WASD to move, mouse to look, E to interact.",
+    "tag": "Work assignment",
+    "assignment": "Assignment",
+    "equipment": "Equipment",
+    "objective": "Your objective",
+    "information": "Available information",
+    "trainingOnly": "Training-only scenario.",
+    "checklistUnlock": "Your handheld checklist (C) is now active."
   },
   "hud": {
     "mission": "Mission",
@@ -227,26 +277,107 @@
     "offline": "Server unreachable — progress will sync when it returns",
     "minimap": "Minimap",
     "north": "N",
-    "envIndicators": "Environment (simulated)"
+    "envIndicators": "Environment (simulated)",
+    "learning": "Concepts practised {{done}} / {{total}}"
   },
   "prompt": {
     "action": "[E] {{action}} {{name}}",
     "tooFar": "Move closer to {{name}}",
-    "useTool": "[E] Use {{tool}} on {{name}}"
+    "useTool": "[E] Use {{tool}} on {{name}}",
+    "talk": "[E] Talk to {{name}}"
   },
   "world": {
-    "prompt": { "inspect": "Inspect", "read": "Read", "review": "Review" },
-    "zone": { "pumpWorkstation": "Pump workstation P-101" },
+    "prompt": {
+      "inspect": "Inspect",
+      "read": "Read",
+      "review": "Review"
+    },
+    "zone": {
+      "pumpWorkstation": "Pump workstation P-101",
+      "briefing": "Briefing area",
+      "restricted": "Restricted process area"
+    },
     "obj": {
-      "pump": { "name": "Centrifugal pump P-101", "d1": "The pump shaft is not turning and there is no running noise.", "d2": "Suction and discharge valves appear open from where you stand.", "d3": "Equipment that is not running has not necessarily been made safe for maintenance." },
-      "motor": { "name": "Electric motor M-101", "d1": "Motor is silent. The cooling fan is not turning.", "d2": "The motor could be started remotely unless its energy sources are verified isolated." },
-      "statusPanel": { "name": "Equipment status panel", "d1": "P-101 RUN STATUS: STOPPED", "d2": "ISOLATION STATUS: NOT CONFIRMED", "d3": "Note: a stopped indication shows the operating state only." },
-      "beacon": { "name": "Amber warning indicator", "d1": "Amber lamp lit: \"Isolation verification pending\"." },
-      "safetyBoard": { "name": "Safety information board", "d1": "Training principle: stopped is not the same as safe.", "d2": "Before maintenance, verification evidence must be complete and documented.", "d3": "If evidence is missing — stop, do not proceed, and report it." },
-      "workDocs": { "name": "Work documentation", "d1": "Work order WO-2291: replace P-101 mechanical seal.", "d2": "Shift handover note: \"P-101 stopped by operations at 06:40.\"", "d3": "Energy isolation verification record: signature field is EMPTY.", "d4": "Work permit: awaiting completion of verification evidence." },
-      "checklistStation": { "name": "Pre-maintenance checklist station", "d1": "Compare each evidence item with the documents, flag anything incomplete, then record your decision." },
-      "cabinet": { "name": "Motor control cabinet MCC-3", "d1": "Panel door closed. No isolation lock or tag is visible on the P-101 feeder.", "d2": "Training scenario: verification of isolation is not recorded here." },
-      "localControl": { "name": "Local control station", "d1": "Selector at REMOTE. Stop push-button is not latched.", "d2": "A control-station stop is not the same as a verified isolation." }
+      "pump": {
+        "name": "Centrifugal pump P-101",
+        "d1": "The pump shaft is not turning and there is no running noise.",
+        "d2": "Suction and discharge valves appear open from where you stand.",
+        "d3": "Equipment that is not running has not necessarily been made safe for maintenance."
+      },
+      "motor": {
+        "name": "Electric motor M-101",
+        "d1": "Motor is silent. The cooling fan is not turning.",
+        "d2": "The motor could be started remotely unless its energy sources are verified isolated."
+      },
+      "statusPanel": {
+        "name": "Equipment status panel",
+        "d1": "P-101 RUN STATUS: STOPPED",
+        "d2": "ISOLATION STATUS: NOT CONFIRMED",
+        "d3": "Note: a stopped indication shows the operating state only."
+      },
+      "beacon": {
+        "name": "Amber warning indicator",
+        "d1": "Amber lamp lit: \"Isolation verification pending\".",
+        "d2": "Indicators help, but they do not replace documented verification."
+      },
+      "safetyBoard": {
+        "name": "Safety information board",
+        "d1": "Training principle: stopped is not the same as safe.",
+        "d2": "Before maintenance, verification evidence must be complete and documented.",
+        "d3": "If evidence is missing — stop, do not proceed, and report it."
+      },
+      "workDocs": {
+        "name": "Work documentation",
+        "d1": "Work order WO-2291: replace P-101 mechanical seal.",
+        "d2": "Shift handover note: \"P-101 stopped by operations at 06:40.\"",
+        "d3": "Energy isolation verification record: signature field is EMPTY.",
+        "d4": "Work permit: awaiting completion of verification evidence."
+      },
+      "checklistStation": {
+        "name": "Pre-maintenance checklist station",
+        "d1": "Compare each evidence item with the documents, flag anything incomplete, then record your decision."
+      },
+      "cabinet": {
+        "name": "Motor control cabinet MCC-3",
+        "d1": "Panel door closed. No isolation lock or tag is visible on the P-101 feeder.",
+        "d2": "Training scenario: verification of isolation is not recorded here."
+      },
+      "localControl": {
+        "name": "Local control station",
+        "d1": "Selector at REMOTE. Stop push-button is not latched.",
+        "d2": "A control-station stop is not the same as a verified isolation."
+      },
+      "pump2": {
+        "name": "Standby pump P-102",
+        "d1": "Tag P-102 — this is the standby pump, not the one on your work order.",
+        "d2": "Always confirm the equipment tag matches the task."
+      }
+    },
+    "label": {
+      "briefingPoint": "BRIEFING POINT",
+      "gate": "UNIT 3 · PETROCHEMICAL PROCESSING · TRAINING AREA",
+      "safetyOffice": "SAFETY OFFICE",
+      "noticeBoard": "Maintenance notices",
+      "controlRoom": "CONTROL ROOM",
+      "workshop": "MAINTENANCE WORKSHOP",
+      "permitDesk": "PERMIT & DOCUMENTS DESK"
+    },
+    "sign": {
+      "ppe": "Safety helmet, glasses & shoes required",
+      "trainingArea": "Training simulation area",
+      "rotating": "Danger: rotating equipment",
+      "authorisedOnly": "Authorised personnel only",
+      "highVoltage": "High voltage"
+    },
+    "notice": {
+      "1": "All maintenance needs authorisation before work starts.",
+      "2": "Report missing or unclear documents to your supervisor.",
+      "3": "Stop and ask if anything is not as expected."
+    },
+    "panel": {
+      "run": "RUN STATUS: STOPPED",
+      "isolation": "ISOLATION: NOT CONFIRMED",
+      "trainingOnly": "Training display — no live data"
     }
   },
   "checklist": {
@@ -267,7 +398,9 @@
     "flagged": "Flagged",
     "decisionTitle": "Can the maintenance task proceed?",
     "decisionLocked": "Review and flag the evidence before deciding.",
-    "close": "Close"
+    "close": "Close",
+    "tag": "Decision point",
+    "trainingRule": "Evaluated with a deterministic, provisional training rule (no AI)."
   },
   "toolbox": {
     "title": "Toolbox",
@@ -282,9 +415,18 @@
     "needsTarget": "Look at equipment to use {{tool}}."
   },
   "tool": {
-    "flashlight": { "name": "Inspection flashlight", "desc": "Look closely at equipment details." },
-    "spanner": { "name": "Spanner", "desc": "Maintenance tool. Using it starts physical work on equipment." },
-    "radio": { "name": "Two-way radio", "desc": "Contact the simulated control room." }
+    "flashlight": {
+      "name": "Inspection flashlight",
+      "desc": "Look closely at equipment details."
+    },
+    "spanner": {
+      "name": "Spanner",
+      "desc": "Maintenance tool. Using it starts physical work on equipment."
+    },
+    "radio": {
+      "name": "Two-way radio",
+      "desc": "Contact the simulated control room."
+    }
   },
   "pause": {
     "title": "Paused",
@@ -301,7 +443,9 @@
     "missingTitle": "Missing prerequisite",
     "acknowledge": "I understand — return to the task",
     "failedTitle": "Mission stopped",
-    "failedBody": "A repeated critical safety error ended this attempt."
+    "failedBody": "A repeated critical safety error ended this attempt.",
+    "tag": "Safety stop",
+    "conceptual": "This is a conceptual teaching scenario. No real equipment outcome is shown."
   },
   "feedback": {
     "prerequisite": "Not yet: first {{step}}.",
@@ -337,14 +481,24 @@
     "retry": "Retry mission",
     "back": "Back to mission selection",
     "debrief": "Debrief",
-    "notReady": "Results are not available yet."
+    "notReady": "Results are not available yet.",
+    "evidence": "Evidence inspected",
+    "decisionOutcome": "Decision outcome",
+    "unsafeFirst": "An unsafe decision was made and stopped",
+    "correctedTo": "then corrected to: stop and request confirmation",
+    "correctDecision": "Stop and request confirmation (correct)",
+    "noDecision": "No final decision was recorded",
+    "recordedNote": "All figures come from your recorded actions on the training server.",
+    "toMcq": "Continue to the knowledge check"
   },
   "concept": {
     "situational_awareness": "Situational awareness of the work area",
     "stopped_not_safe": "Stopped equipment is not automatically safe",
     "documented_evidence": "Checking documented evidence",
     "verify_isolation_evidence": "Isolation verification evidence must be complete",
-    "stop_work_authority": "Stopping work when evidence is missing"
+    "stop_work_authority": "Stopping work when evidence is missing",
+    "equipment_identification": "Confirming the correct equipment",
+    "energy_sources_awareness": "Awareness of possible energy sources"
   },
   "mission": {
     "common": {
@@ -380,7 +534,11 @@
         "optBeacon": "Checked the amber warning indicator",
         "optBoard": "Read the safety information board",
         "optCabinet": "Inspected the motor control cabinet",
-        "optLocalControl": "Inspected the local control station"
+        "optLocalControl": "Inspected the local control station",
+        "arrive": "Arrive at the briefing point",
+        "meetSupervisor": "Meet the maintenance supervisor",
+        "hazards": "Check surrounding hazards and indicators",
+        "openChecklist": "Open your handheld checklist (C)"
       },
       "instruction": {
         "briefing": "Read the briefing and acknowledge it.",
@@ -392,19 +550,43 @@
         "reviewChecklist": "Open the pre-maintenance checklist station beside the permit desk.",
         "identifyGap": "At the station, flag the evidence item that is incomplete.",
         "correctiveReview": "Read the work documentation again and confirm what is missing.",
-        "decision": "Record your decision at the checklist station."
+        "decision": "Record your decision at the checklist station.",
+        "arrive": "Walk through the gate and follow the walkway to the green briefing point by the safety office.",
+        "meetSupervisor": "Look at the supervisor and press E to talk.",
+        "hazards": "Inspect the amber warning indicator, the motor control cabinet or the local control station.",
+        "openChecklist": "Press C to open your handheld checklist and review your evidence so far."
       },
       "hint": {
         "briefing": "Use the Acknowledge button at the bottom of the briefing.",
         "enter": "Follow the yellow walkway north to the gap in the barriers.",
-        "locatePump": "The pump is the blue casing on the concrete plinth, coupled to the grey motor.",
-        "inspectStatus": { "1": "Look for the panel with a screen and an amber lamp on top.", "2": "Notice the difference between run status and isolation status." },
-        "inspectDocs": { "1": "The documents are on the desk under the shelter by the entrance.", "2": "Check every signature field, not just the work order." },
+        "locatePump": {
+          "1": "Two pumps are on the plinths. Read the yellow tags.",
+          "2": "P-101 is the one nearer the entrance."
+        },
+        "inspectStatus": {
+          "1": "Look for the panel with a screen and an amber lamp on top.",
+          "2": "Notice the difference between run status and isolation status."
+        },
+        "inspectDocs": {
+          "1": "The documents are on the desk under the shelter by the entrance.",
+          "2": "Check every signature field, not just the work order."
+        },
         "pipReview": "The board is on the left of the workstation entrance.",
         "reviewChecklist": "The checklist station is the board to the right of the permit desk.",
-        "identifyGap": { "1": "Which evidence did you see in the documents that was not signed?", "2": "The status panel also said something was not confirmed.", "3": "Flag the energy isolation verification record." },
+        "identifyGap": {
+          "1": "Which evidence did you see in the documents that was not signed?",
+          "2": "The status panel also said something was not confirmed.",
+          "3": "Flag the energy isolation verification record."
+        },
         "correctiveReview": "Read the documents again — look at the isolation verification signature.",
-        "decision": "With verification evidence missing, can work safely begin?"
+        "decision": "With verification evidence missing, can work safely begin?",
+        "arrive": "The briefing point is to the left of the walkway, next to the safety office.",
+        "meetSupervisor": "The supervisor wears a white helmet and an orange vest.",
+        "hazards": {
+          "1": "The amber lamp is on top of the status panel.",
+          "2": "The grey cabinet MCC-3 is at the back of the workstation."
+        },
+        "openChecklist": "Press C."
       },
       "evidence": {
         "workOrder": "Work order issued",
@@ -413,25 +595,96 @@
         "isolation": "Energy isolation verification record",
         "present": "Present",
         "observedStopped": "Observed: not running",
-        "notSigned": "Check documents"
+        "notSigned": "Check documents",
+        "checkDocs": "Check documents",
+        "inconsistent": "Check documents against the panel",
+        "unavailable": "Check the document folder"
       },
       "decision": {
-        "go": "Proceed with maintenance",
-        "noGo": "Do not proceed — report missing verification"
+        "go": "Proceed — the pump is stopped, so maintenance can start",
+        "noGo": "Stop and request confirmation of the missing prerequisites",
+        "assume": "Assume the checks were completed earlier and continue"
       },
       "feedback": {
         "decideWithoutEvidence": "Identify the specific missing evidence before making the decision.",
-        "wrongEvidence": "That item is complete in the documents. Compare again."
+        "wrongEvidence": "That item is complete in the documents. Compare again.",
+        "restricted": "This is a restricted process area and not part of your assignment. Leave the area.",
+        "wrongPump": "This is P-102, the standby pump. Your work order is for P-101 — check the tag."
       },
       "critical": {
-        "go": { "explanation": "Proceeding because the pump looks stopped is unsafe. A stopped pump has not been verified safe for maintenance." },
-        "spanner": { "explanation": "Starting physical work before verification evidence is complete is unsafe." },
-        "missing": "Missing: a completed energy isolation verification record. Until it is complete, the task must not proceed."
+        "go": {
+          "explanation": "Proceeding because the pump looks stopped is unsafe. A stopped pump has not been verified safe for maintenance."
+        },
+        "spanner": {
+          "explanation": "Starting physical work before verification evidence is complete is unsafe."
+        },
+        "missing": "Missing: a completed energy isolation verification record. Until it is complete, the task must not proceed.",
+        "assume": {
+          "explanation": "Assuming that someone completed the checks earlier is unsafe. Without documented evidence, you cannot know the equipment is in a verified safe condition."
+        }
       },
       "debrief": {
         "success": "Correct decision. The pump was stopped, but the isolation verification record was not signed. Stopped is not the same as verified safe — you stopped the job and reported the gap.",
         "critical": "You reached the correct decision, but only after an unsafe action. In this training scenario, proceeding without verification evidence is a critical error.",
         "failed": "The attempt ended after repeated unsafe actions. Review the concepts below and try again."
+      },
+      "role": "Junior Mechanical Maintenance Technician",
+      "cinematic": {
+        "day": "DAY 01 — MAINTENANCE TRAINING",
+        "location": "Unit 3 · Petrochemical processing facility (fictional)"
+      },
+      "assignment": {
+        "task": "Check whether the P-101 mechanical-seal job (work order WO-2291) can safely start.",
+        "equipment": "Centrifugal pump P-101 driven by motor M-101, pump workstation in Unit 3.",
+        "objective": "Inspect the equipment status and documents, then decide: proceed, or stop and request confirmation.",
+        "information": "Status panel, work documents at the permit desk, nearby equipment indicators and the pre-maintenance checklist station."
+      },
+      "dialogue": {
+        "arrival": {
+          "1": "Welcome to Unit 3! I'm Kannan, your maintenance supervisor for today's training.",
+          "2": "Pump P-101 was stopped early this morning. There's a seal replacement on the work order.",
+          "3": "Before anyone puts a tool on it, I need you to check whether the job can actually start safely.",
+          "4": "Look at the pump, the status panel and the paperwork. Then give me your call at the checklist station."
+        },
+        "revisit": {
+          "1": "Take your time. Check the evidence, not just what the pump looks like."
+        },
+        "unsafe": {
+          "1": "Hold on! Stop right there.",
+          "2": "The pump being quiet doesn't tell us it's safe to work on. Look at what's missing."
+        },
+        "correct": {
+          "1": "Good call. You stopped and asked for the missing confirmation — that's exactly what this job needed."
+        }
+      },
+      "comic": {
+        "title": "STOPPED ≠ SAFE",
+        "p1": "The pump is stopped. That only tells you its operating state.",
+        "p2": "Verification evidence is incomplete. A gap in the paperwork is a gap in safety.",
+        "p3": "So you stop, report and ask for confirmation before work begins."
+      },
+      "debriefLine": {
+        "wentAhead": "Earlier you chose to proceed because the pump looked stopped. That was recorded as a critical error.",
+        "assumed": "At one point you assumed the checks had been done earlier. Assumptions are not evidence.",
+        "spanner": "You started using a spanner before the evidence was complete. That was stopped as unsafe.",
+        "foundGap": "You correctly identified the incomplete isolation-verification evidence.",
+        "hazards": "You looked at the surrounding equipment and indicators — good situational awareness.",
+        "wrongFlag": "You flagged an item that was actually complete. Compare carefully next time.",
+        "hints": "You used hints. That's fine while learning; try fewer next time.",
+        "invalid": "Some actions were not allowed here, such as entering the restricted area.",
+        "stopped": "Your final decision was to stop and request confirmation."
+      },
+      "variant": {
+        "A": "Variant A — verification record unsigned",
+        "B": "Variant B — records inconsistent",
+        "C": "Variant C — prerequisite document unavailable"
+      },
+      "variantB": {
+        "status": "ISOLATION STATUS: CONFIRMED (panel display)",
+        "docs": "Energy isolation verification record: signed — but it lists equipment P-102, not P-101."
+      },
+      "variantC": {
+        "docs": "Energy isolation verification record: NOT IN FOLDER (index lists it as 'pending')."
       }
     }
   },
@@ -446,7 +699,8 @@
     "sessionRestored": "Training session restored.",
     "restoreFailed": "Your previous session could not be restored.",
     "outOfBounds": "Stay inside the training area.",
-    "audioBlocked": "Audio will start after your first interaction."
+    "audioBlocked": "Audio will start after your first interaction.",
+    "worldMissing": "The 3D world \"{{world}}\" is not available in this version."
   },
   "captions": {
     "ambient": "[Industrial plant ambience]",
@@ -542,5 +796,152 @@
     "filterAll": "All trainees",
     "details": "Details",
     "noData": "No data yet."
+  },
+  "npc": {
+    "supervisor": {
+      "name": "R. Kannan",
+      "role": "Maintenance Supervisor (fictional)"
+    }
+  },
+  "dialogue": {
+    "skip": "Skip",
+    "next": "Next ▸",
+    "done": "Got it",
+    "label": "Conversation"
+  },
+  "story": {
+    "reportToSupervisor": "Report to the supervisor at the briefing point",
+    "newObjective": "New objective",
+    "skip": "Skip intro (Space)",
+    "reportFirst": "Report to the supervisor first to receive your assignment.",
+    "currentTask": "Your current task",
+    "checklistUnlocked": "Checklist unlocked — press C",
+    "safetyStop": "Training safety stop",
+    "missionComplete": "Mission complete",
+    "savingResults": "Saving your results to the training server…",
+    "syncFailed": "Your results have not reached the training server yet. Check that the backend is running, then retry. Nothing has been marked as complete."
+  },
+  "docs": {
+    "fictional": "FICTIONAL TRAINING DOCUMENT",
+    "header": "Unit 3 · Maintenance file · P-101",
+    "variantNote": "Scenario documents vary between attempts."
+  },
+  "comic": {
+    "tag": "Safety principle",
+    "conceptual": "Conceptual teaching illustration — not a depiction of a real event or outcome."
+  },
+  "scene": {
+    "S01": "Scene 01 · Facility arrival",
+    "S02": "Scene 02 · Supervisor encounter",
+    "S03": "Scene 03 · Mission briefing",
+    "S04": "Scene 04 · Navigate to the workstation",
+    "S05": "Scene 05 · Equipment identification",
+    "S06": "Scene 06 · Equipment status",
+    "S07": "Scene 07 · Work documentation",
+    "S08": "Scene 08 · Hazard awareness",
+    "S09": "Scene 09 · Checklist",
+    "S10": "Scene 10 · Information confirmation",
+    "S11": "Scene 11 · Decision point",
+    "S12": "Scene 12 · Decision evaluation",
+    "S13": "Scene 13 · Safety principle",
+    "S14": "Scene 14 · Supervisor debrief",
+    "S15": "Scene 15 · Performance review",
+    "S16": "Scene 16 · Knowledge check",
+    "S17": "Scene 17 · Learning explanation",
+    "S18": "Scene 18 · Remediation",
+    "S19": "Scene 19 · Mission completion",
+    "S20": "Scene 20 · Return to hub"
+  },
+  "mcq": {
+    "sp": {
+      "q1": {
+        "stem": "Pump P-101 is not running. What does that tell you about readiness for maintenance?",
+        "a": "It is ready — a stopped pump is safe to work on.",
+        "b": "Only its operating state. Readiness needs verified, documented evidence.",
+        "c": "It was isolated automatically when it stopped.",
+        "d": "Work can start if the area is quiet.",
+        "explain": "A stopped indication describes the operating state only. In this training scenario, readiness for maintenance requires complete, documented verification by authorised people."
+      },
+      "q2": {
+        "stem": "The verification record is incomplete. What is the appropriate action in this scenario?",
+        "a": "Complete or sign the record yourself.",
+        "b": "Start now and get the signature later.",
+        "c": "Stop and request confirmation from the authorised person.",
+        "d": "Ask a co-worker if it looks fine, then proceed.",
+        "explain": "You stop the job and escalate. Filling in someone else's verification or proceeding without it undermines the purpose of the record."
+      },
+      "q3": {
+        "stem": "Which of these is verification evidence rather than just an observation?",
+        "a": "The pump sounds quiet.",
+        "b": "The status panel shows STOPPED.",
+        "c": "A completed verification record from the authorised person for P-101.",
+        "d": "A handover note saying the pump was stopped.",
+        "explain": "Observations and notes describe what was seen. Evidence of verification is a completed record for the correct equipment by the authorised person."
+      },
+      "q4": {
+        "stem": "Why confirm the equipment tag (P-101 vs P-102) before any task?",
+        "a": "So that the work, the documents and the evidence all refer to the same equipment.",
+        "b": "It only matters for paperwork.",
+        "c": "Standby pumps never need checking.",
+        "d": "Tags are decorative.",
+        "explain": "A record for the wrong tag is not evidence for your equipment. Variant B of this mission tests exactly this mismatch."
+      },
+      "q5": {
+        "stem": "The local control station shows the stop button is pressed. Is that the same as verified isolation?",
+        "a": "Yes, a stop button is isolation.",
+        "b": "Yes, if the amber lamp is off.",
+        "c": "Yes, for short jobs.",
+        "d": "No — a control stop is not a verified isolation.",
+        "explain": "Control-station stops and indicator lamps are not a substitute for documented verification that energy sources are isolated."
+      }
+    }
+  },
+  "mcqUi": {
+    "title": "Knowledge check",
+    "reviewNote": "Demonstration questions aligned to this mission's learning objectives — pending expert and translation review.",
+    "submit": "Submit answers",
+    "answerAll": "Please answer every question.",
+    "alreadySubmitted": "Your answers were already recorded for this session.",
+    "resultsTitle": "Answers and explanations",
+    "score": "{{correct}} of {{total}} correct",
+    "passed": "Knowledge check passed",
+    "notPassed": "Knowledge check not passed",
+    "yourAnswer": "your answer",
+    "explanation": "Why",
+    "references": "Reference IDs",
+    "unverifiedRefs": "UNVERIFIED — not for authoritative assessment"
+  },
+  "remediation": {
+    "title": "Next steps",
+    "criteriaMet": "All mission learning criteria met.",
+    "eligible": "You are eligible to progress to the next level when it becomes available.",
+    "notMet": "Some learning criteria were not met yet.",
+    "notCompleted": "The mission was not completed, so the knowledge check is not available for this attempt.",
+    "recommend": "Recommended: retry with {{variant}}.",
+    "recommendRetry": "Recommended: retry the mission.",
+    "suggestPip": "Consider switching to the PIP / remediation pathway in your profile for additional corrective practice.",
+    "alsoReview": "Concepts worth reviewing:"
+  },
+  "achievement": {
+    "completed": "Mission completed",
+    "noCritical": "No critical errors",
+    "noHints": "No hints used",
+    "foundGap": "Found the gap",
+    "perfectQuiz": "Perfect knowledge check"
+  },
+  "completion": {
+    "title": "Mission complete",
+    "summary": "Mission summary",
+    "learningStatus": "Learning status",
+    "learningMet": "Learning criteria met",
+    "learningNotMet": "Learning criteria not yet met",
+    "achievements": "Gameplay achievements",
+    "noQualification": "This is a training game result. It is not a real-world safety qualification or work authorisation."
+  },
+  "hub": {
+    "verifying": "Verifying that your results were saved…",
+    "saved": "Saved and verified on the training server (attempts on record: {{attempts}}).",
+    "notVerified": "Could not verify the saved results. Check that the backend is running.",
+    "return": "Return to training hub"
   }
 }

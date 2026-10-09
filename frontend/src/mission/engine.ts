@@ -61,7 +61,8 @@ export type Outcome =
   | "step_completed"
   | "mistake"
   | "prerequisite_missing"
-  | "duplicate";
+  | "duplicate"
+  | "advisory";
 
 export interface ApplyResult {
   outcome: Outcome;
@@ -187,9 +188,21 @@ export function apply(m: MissionDef, st: EngineState, ev: GameEvent, ctx: Engine
   if (st.state === "PAUSED") return reject("paused");
 
   if (st.state === "BRIEFING") {
-    if (ev.type !== "briefing_acknowledged") return reject("briefing");
-    transition(st, "ACTIVE");
-    return processActive(m, st, ev, ctx);
+    if (ev.type === "briefing_acknowledged") {
+      // The briefing can only be acknowledged once its own prerequisites (e.g. meeting the supervisor) are met.
+      const bstep = m.steps.find((s) => s.trigger.type === "briefing_acknowledged");
+      if (bstep) {
+        const missing = missingRequirements(m, bstep, st, ctx);
+        if (missing.length) {
+          st.counters.rejected += 1;
+          return { outcome: "rejected", reason: "briefing_prerequisites", missing };
+        }
+      }
+      transition(st, "ACTIVE");
+      return processActive(m, st, ev, ctx);
+    }
+    if (m.briefingPhase.allowedEvents.includes(ev.type)) return processActive(m, st, ev, ctx);
+    return reject("briefing");
   }
   if (st.state === "BLOCKED") {
     if (ev.type !== "block_acknowledged") return reject("blocked");
@@ -215,10 +228,7 @@ function processActive(m: MissionDef, st: EngineState, ev: GameEvent, ctx: Engin
     c.hints += 1;
     return { outcome: "hint", hintIndex: c.hints };
   }
-  if (ev.type === "checklist_opened") {
-    c.checklistOpens += 1;
-    return { outcome: "no_effect" };
-  }
+  if (ev.type === "checklist_opened") c.checklistOpens += 1;
   if (ev.type === "tool_selected") return { outcome: "no_effect" };
   if (ev.type === "object_inspected") c.inspections += 1;
   if (ev.type === "tool_used") c.toolUses += 1;
@@ -278,7 +288,7 @@ function processActive(m: MissionDef, st: EngineState, ev: GameEvent, ctx: Engin
   }
   if (completedNow.length) {
     const r: ApplyResult = { outcome: "step_completed", steps: completedNow };
-    if (remainingRequired(m, st, ctx).length === 0) {
+    if (st.state === "ACTIVE" && remainingRequired(m, st, ctx).length === 0) {
       transition(st, "COMPLETED");
       r.missionCompleted = true;
     }
@@ -298,14 +308,19 @@ function processActive(m: MissionDef, st: EngineState, ev: GameEvent, ctx: Engin
   // 4. Non-critical mistake rules.
   for (const rule of m.mistakes) {
     if (!matches(rule.trigger, ev)) continue;
+    // Advisory rules are contextual warnings only: no penalty.
+    if (rule.kind === "advisory") return { outcome: "advisory", ruleId: rule.id, feedbackKey: rule.feedbackKey };
+    let outcome: Outcome;
     if (rule.kind === "incorrect_decision") {
       c.mistakes += 1;
       c.incorrectDecisions += 1;
+      outcome = "mistake";
     } else {
       c.invalidActions += 1;
+      outcome = "invalid_action";
     }
     addMissed(st, rule.concept);
-    return { outcome: "mistake", ruleId: rule.id, feedbackKey: rule.feedbackKey };
+    return { outcome, ruleId: rule.id, feedbackKey: rule.feedbackKey };
   }
   return { outcome: "no_effect" };
 }

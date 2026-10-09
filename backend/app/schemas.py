@@ -104,6 +104,10 @@ class SessionOut(BaseModel):
     lastSeq: int
     hintBudget: int
     engine: dict[str, Any]
+    variant: str
+    pausedMs: int
+    pausedAt: float | None
+    serverTime: float
     focusConcepts: list[str]
     result: dict[str, Any] | None
 
@@ -115,3 +119,17 @@ class EventsResponse(BaseModel):
 
 class AdminCreateTrainee(RegisterRequest):
     pass
+
+
+class McqSubmission(_In):
+    answers: dict[str, str] = Field(max_length=50)
+
+    @field_validator("answers")
+    @classmethod
+    def _ids(cls, v: dict[str, str]) -> dict[str, str]:
+        import re
+
+        for k, val in v.items():
+            if not re.fullmatch(r"[A-Za-z0-9_\-]{1,32}", k) or not re.fullmatch(r"[a-z0-9_]{1,16}", val):
+                raise ValueError("invalid answer format")
+        return v

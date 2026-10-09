@@ -67,5 +67,24 @@ def assess(mission: MissionDef, st: EngineState, ctx: Context, end_reason: str |
             "checklistOpens": c.checklistOpens,
         },
         "criticalCounts": dict(st.criticalCounts),
+        "debriefKeys": debrief_lines(mission, st),
         "certificationNotice": "game_score_not_certification",
     }
+
+
+def debrief_lines(mission: MissionDef, st: EngineState) -> list[str]:
+    """Select debrief sentences strictly from what the event log produced."""
+    counters = vars(st.counters)
+    out: list[str] = []
+    for rule in mission.debriefRules:
+        w = rule.when
+        ok = True
+        if w.criticalRule is not None and st.criticalCounts.get(w.criticalRule, 0) == 0:
+            ok = False
+        if w.stepCompleted is not None and w.stepCompleted not in st.completed:
+            ok = False
+        if w.counterAbove is not None and counters.get(w.counterAbove[0], 0) <= w.counterAbove[1]:
+            ok = False
+        if ok:
+            out.append(rule.textKey)
+    return out

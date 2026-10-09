@@ -1,0 +1,135 @@
+{
+ "language": "en",
+ "version": 1,
+ "reviewStatus": "draft_unreviewed",
+ "lastModified": "2026-10-09",
+ "notice": "Curated training-design catalogue. Descriptive and conceptual only; not an SOP and not verified by a subject-matter expert.",
+ "id": "construction",
+ "world": "construction",
+ "overview": "Building construction sites: temporary works, scaffolds, elevated work areas, cranes and material laydown areas that change daily.",
+ "departments": [
+  {
+   "id": "site_operations",
+   "designations": [
+    "cn_site_tech",
+    "cn_scaffolding",
+    "cn_welding",
+    "cn_crane_rigging"
+   ]
+  },
+  {
+   "id": "site_electrical",
+   "designations": [
+    "cn_electrical"
+   ]
+  },
+  {
+   "id": "site_safety",
+   "designations": [
+    "cn_site_safety"
+   ]
+  }
+ ],
+ "typicalActivities": {
+  "cn_site_tech": [
+   "Setting out",
+   "Materials coordination"
+  ],
+  "cn_scaffolding": [
+   "Scaffold erection and inspection support"
+  ],
+  "cn_welding": [
+   "Structural welding"
+  ],
+  "cn_crane_rigging": [
+   "Lift preparation",
+   "Slinging"
+  ],
+  "cn_electrical": [
+   "Temporary supply installation"
+  ],
+  "cn_site_safety": [
+   "Site inspections",
+   "Induction delivery"
+  ]
+ },
+ "equipment": [
+  {
+   "id": "scaffold",
+   "name": "Tube-and-fitting scaffold"
+  },
+  {
+   "id": "scaffold_tag",
+   "name": "Scaffold inspection tag"
+  },
+  {
+   "id": "tower_crane",
+   "name": "Tower crane"
+  },
+  {
+   "id": "barricade",
+   "name": "Work-zone barricade"
+  },
+  {
+   "id": "site_office",
+   "name": "Site safety office"
+  }
+ ],
+ "hazards": [
+  {
+   "id": "falls_from_height",
+   "name": "Falls from height",
+   "type": "physical"
+  },
+  {
+   "id": "falling_objects",
+   "name": "Falling objects",
+   "type": "physical"
+  },
+  {
+   "id": "incomplete_scaffold",
+   "name": "Incomplete or uninspected scaffold",
+   "type": "structural"
+  },
+  {
+   "id": "crane_lifts",
+   "name": "Suspended loads",
+   "type": "mechanical"
+  }
+ ],
+ "learningObjectives": [
+  "Check scaffold status before access",
+  "Respect barricades and exclusion zones"
+ ],
+ "competencyAreas": [
+  "Pre-access inspection",
+  "Hazard recognition at height"
+ ],
+ "trainingPrerequisites": [
+  "Site induction (assumed)"
+ ],
+ "inspectionConcepts": [
+  "Scaffold tag status",
+  "Missing guardrails/toe boards (conceptual)",
+  "Barricade integrity"
+ ],
+ "goNoGoPoints": [
+  "Scaffold shown as inspected and safe for use?"
+ ],
+ "criticalMistakeCategories": [
+  "Accessing a scaffold not shown as safe",
+  "Entering an exclusion zone under a lift"
+ ],
+ "scenarioVariations": [
+  "Tag missing",
+  "Tag shows 'do not use'"
+ ],
+ "trainerAssessmentCriteria": [
+  "Did not access the scaffold",
+  "Reported the status to the supervisor"
+ ],
+ "referenceIds": [
+  "REF-OSHA-1926-SUBPART-L",
+  "REF-INDIA-BOCW-1996"
+ ]
+}

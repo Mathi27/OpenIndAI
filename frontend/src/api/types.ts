@@ -22,12 +22,25 @@ export interface SessionResult {
   counters: Record<string, number>; criticalCounts: Record<string, number>;
   missionId: string; retryCount: number; finalState: string; endReason: string; totalMs: number; activeMs: number;
   startedAt: number; completedAt: number; experience: Experience; pathway: Pathway;
+  debriefKeys: string[];
+  mcq?: { correct: number; total: number; passed: boolean };
+  learning?: Learning;
 }
+
+export interface Learning {
+  missionPassed: boolean; mcqPassed: boolean; criteriaMet: boolean; conceptsToReview: string[];
+  remediation: { missionId: string; nextVariant: string; suggestPip: boolean } | null; progressionEligible: boolean;
+}
+
+export interface McqQuestion { id: string; stemKey: string; options: { id: string; textKey: string }[]; reviewStatus: string }
+export interface McqResultItem { id: string; chosen: string; correct: string; isCorrect: boolean; explanationKey: string; concept: string; stemKey: string; options: { id: string; textKey: string }[]; referenceIds: string[] }
+export interface McqResult { correct: number; total: number; passed: boolean; questions: McqResultItem[]; learning: Learning }
 
 export interface SessionInfo {
   id: string; missionId: string; missionVersion: number; state: string; experience: Experience; pathway: Pathway;
   retryCount: number; startedAt: number; endedAt: number | null; endReason: string | null; lastSeq: number;
   hintBudget: number; engine: EngineState; focusConcepts: string[]; result: SessionResult | null;
+  variant: string; pausedMs: number; pausedAt: number | null; serverTime: number;
 }
 
 export interface EventResult { seq: number; accepted: boolean; outcome: string; detail: Record<string, unknown> }

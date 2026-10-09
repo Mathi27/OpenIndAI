@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "reviewStatus": "draft_unreviewed",
+  "note": "Demonstration questions aligned to mission learning objectives. Pending subject-matter-expert and native-language review.",
+  "questions": [
+    { "id": "SP-Q1", "version": 1, "missionIds": ["og-hazrec-l1-silent-pump"], "concept": "stopped_not_safe", "stemKey": "mcq.sp.q1.stem",
+      "options": [{ "id": "a", "textKey": "mcq.sp.q1.a" }, { "id": "b", "textKey": "mcq.sp.q1.b" }, { "id": "c", "textKey": "mcq.sp.q1.c" }, { "id": "d", "textKey": "mcq.sp.q1.d" }],
+      "correct": "b", "explanationKey": "mcq.sp.q1.explain", "referenceIds": ["REF-HSE-HSG253", "REF-OSHA-1910-147"], "reviewStatus": "draft_unreviewed" },
+    { "id": "SP-Q2", "version": 1, "missionIds": ["og-hazrec-l1-silent-pump"], "concept": "verify_isolation_evidence", "stemKey": "mcq.sp.q2.stem",
+      "options": [{ "id": "a", "textKey": "mcq.sp.q2.a" }, { "id": "b", "textKey": "mcq.sp.q2.b" }, { "id": "c", "textKey": "mcq.sp.q2.c" }, { "id": "d", "textKey": "mcq.sp.q2.d" }],
+      "correct": "c", "explanationKey": "mcq.sp.q2.explain", "referenceIds": ["REF-OISD-STD-105"], "reviewStatus": "draft_unreviewed" },
+    { "id": "SP-Q3", "version": 1, "missionIds": ["og-hazrec-l1-silent-pump"], "concept": "documented_evidence", "stemKey": "mcq.sp.q3.stem",
+      "options": [{ "id": "a", "textKey": "mcq.sp.q3.a" }, { "id": "b", "textKey": "mcq.sp.q3.b" }, { "id": "c", "textKey": "mcq.sp.q3.c" }, { "id": "d", "textKey": "mcq.sp.q3.d" }],
+      "correct": "c", "explanationKey": "mcq.sp.q3.explain", "referenceIds": ["REF-OISD-STD-105"], "reviewStatus": "draft_unreviewed" },
+    { "id": "SP-Q4", "version": 1, "missionIds": ["og-hazrec-l1-silent-pump"], "concept": "equipment_identification", "stemKey": "mcq.sp.q4.stem",
+      "options": [{ "id": "a", "textKey": "mcq.sp.q4.a" }, { "id": "b", "textKey": "mcq.sp.q4.b" }, { "id": "c", "textKey": "mcq.sp.q4.c" }, { "id": "d", "textKey": "mcq.sp.q4.d" }],
+      "correct": "a", "explanationKey": "mcq.sp.q4.explain", "referenceIds": ["REF-HSE-HSG253"], "reviewStatus": "draft_unreviewed" },
+    { "id": "SP-Q5", "version": 1, "missionIds": ["og-hazrec-l1-silent-pump"], "concept": "energy_sources_awareness", "stemKey": "mcq.sp.q5.stem",
+      "options": [{ "id": "a", "textKey": "mcq.sp.q5.a" }, { "id": "b", "textKey": "mcq.sp.q5.b" }, { "id": "c", "textKey": "mcq.sp.q5.c" }, { "id": "d", "textKey": "mcq.sp.q5.d" }],
+      "correct": "d", "explanationKey": "mcq.sp.q5.explain", "referenceIds": ["REF-OSHA-1910-147"], "reviewStatus": "draft_unreviewed" }
+  ]
+}

@@ -1,102 +1,221 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "id": "og-hazrec-l1-silent-pump",
-  "version": 1,
+  "version": 2,
   "industry": "oil_gas",
+  "department": "mechanical_maintenance",
   "designations": ["og_mech_maint"],
+  "roleTitleKey": "mission.silentPump.role",
+  "designedFor": ["fresher"],
   "category": "og_hazard_recognition",
   "level": 1,
+  "estimatedMinutes": 12,
   "titleKey": "mission.silentPump.title",
   "subtitleKey": "mission.silentPump.subtitle",
   "descriptionKey": "mission.silentPump.description",
   "briefingKeys": ["mission.silentPump.briefing.1", "mission.silentPump.briefing.2", "mission.silentPump.briefing.3"],
+  "assignmentKeys": {
+    "assignment": "mission.silentPump.assignment.task",
+    "equipment": "mission.silentPump.assignment.equipment",
+    "objective": "mission.silentPump.assignment.objective",
+    "information": "mission.silentPump.assignment.information"
+  },
   "learningObjectiveKeys": ["mission.silentPump.objectives.1", "mission.silentPump.objectives.2", "mission.silentPump.objectives.3"],
   "debriefKeys": {
     "success": "mission.silentPump.debrief.success",
     "critical": "mission.silentPump.debrief.critical",
     "failed": "mission.silentPump.debrief.failed"
   },
-  "ruleSet": {
-    "status": "provisional",
-    "noticeKey": "mission.common.provisionalNotice"
-  },
+  "ruleSet": { "status": "provisional", "noticeKey": "mission.common.provisionalNotice" },
+  "contentReview": { "status": "draft_unreviewed", "translationStatus": "demonstration_only", "lastModified": "2026-10-09" },
+  "referenceIds": ["REF-OISD-STD-154", "REF-OISD-STD-105", "REF-OSHA-1910-147", "REF-HSE-HSG253"],
   "safetyReferences": [],
   "safetyReferencesNoteKey": "mission.common.noReviewedReferences",
   "prerequisites": { "missions": [] },
   "scene": {
-    "id": "petrochem_pump_bay",
-    "spawn": { "x": 0, "z": -13, "heading": 0 },
+    "id": "petrochem",
+    "spawn": { "x": 0, "z": -22.8, "heading": 0 },
+    "cinematic": { "dayKey": "mission.silentPump.cinematic.day", "locationKey": "mission.silentPump.cinematic.location", "titleKey": "mission.silentPump.title" },
+    "restrictedZones": ["zone_restricted_process"],
     "environmentIndicators": []
   },
+  "briefingPhase": { "allowedEvents": ["world_entered", "zone_entered", "npc_interacted", "checklist_opened", "hint_requested"] },
   "zones": [
-    { "id": "zone_pump_workstation", "nameKey": "world.zone.pumpWorkstation", "minX": -5, "maxX": 5, "minZ": 0, "maxZ": 9 }
+    { "id": "zone_briefing", "nameKey": "world.zone.briefing", "minX": -8, "maxX": 2, "minZ": -16, "maxZ": -7.5 },
+    { "id": "zone_pump_workstation", "nameKey": "world.zone.pumpWorkstation", "minX": -5, "maxX": 5, "minZ": 0, "maxZ": 9 },
+    { "id": "zone_restricted_process", "nameKey": "world.zone.restricted", "minX": 8, "maxX": 15, "minZ": 2, "maxZ": 9 }
+  ],
+  "npcs": [
+    { "id": "supervisor", "nameKey": "npc.supervisor.name", "roleKey": "npc.supervisor.role", "portrait": "supervisor", "x": -3, "z": -11, "heading": 180, "maxDistance": 3.0 }
+  ],
+  "dialogues": {
+    "arrival": [
+      { "speaker": "supervisor", "textKey": "mission.silentPump.dialogue.arrival.1", "mood": "friendly" },
+      { "speaker": "supervisor", "textKey": "mission.silentPump.dialogue.arrival.2", "mood": "neutral" },
+      { "speaker": "supervisor", "textKey": "mission.silentPump.dialogue.arrival.3", "mood": "serious" },
+      { "speaker": "supervisor", "textKey": "mission.silentPump.dialogue.arrival.4", "mood": "neutral" }
+    ],
+    "revisit": [
+      { "speaker": "supervisor", "textKey": "mission.silentPump.dialogue.revisit.1", "mood": "neutral" }
+    ],
+    "unsafe": [
+      { "speaker": "supervisor", "textKey": "mission.silentPump.dialogue.unsafe.1", "mood": "concerned" },
+      { "speaker": "supervisor", "textKey": "mission.silentPump.dialogue.unsafe.2", "mood": "serious" }
+    ],
+    "correct": [
+      { "speaker": "supervisor", "textKey": "mission.silentPump.dialogue.correct.1", "mood": "pleased" }
+    ]
+  },
+  "consequencePanels": {
+    "principle": { "titleKey": "mission.silentPump.comic.title", "panelKeys": ["mission.silentPump.comic.p1", "mission.silentPump.comic.p2", "mission.silentPump.comic.p3"] }
+  },
+  "debriefRules": [
+    { "when": { "criticalRule": "unsafe_go_decision" }, "textKey": "mission.silentPump.debriefLine.wentAhead" },
+    { "when": { "criticalRule": "assumed_checks_done" }, "textKey": "mission.silentPump.debriefLine.assumed" },
+    { "when": { "criticalRule": "maintenance_without_verification" }, "textKey": "mission.silentPump.debriefLine.spanner" },
+    { "when": { "stepCompleted": "identify_gap" }, "textKey": "mission.silentPump.debriefLine.foundGap" },
+    { "when": { "stepCompleted": "hazard_awareness" }, "textKey": "mission.silentPump.debriefLine.hazards" },
+    { "when": { "counterAbove": ["incorrectDecisions", 0] }, "textKey": "mission.silentPump.debriefLine.wrongFlag" },
+    { "when": { "counterAbove": ["hints", 0] }, "textKey": "mission.silentPump.debriefLine.hints" },
+    { "when": { "counterAbove": ["invalidActions", 0] }, "textKey": "mission.silentPump.debriefLine.invalid" },
+    { "when": { "stepCompleted": "decision_no_go" }, "textKey": "mission.silentPump.debriefLine.stopped" }
   ],
   "interactables": [
     { "id": "pump_p101", "nameKey": "world.obj.pump.name", "type": "equipment", "actions": ["inspect", "use_tool"], "maxDistance": 3.2, "promptKey": "world.prompt.inspect", "detailKeys": ["world.obj.pump.d1", "world.obj.pump.d2", "world.obj.pump.d3"] },
+    { "id": "pump_p102", "nameKey": "world.obj.pump2.name", "type": "equipment", "actions": ["inspect", "use_tool"], "maxDistance": 3.2, "promptKey": "world.prompt.inspect", "detailKeys": ["world.obj.pump2.d1", "world.obj.pump2.d2"] },
     { "id": "motor_m101", "nameKey": "world.obj.motor.name", "type": "equipment", "actions": ["inspect", "use_tool"], "maxDistance": 3.2, "promptKey": "world.prompt.inspect", "detailKeys": ["world.obj.motor.d1", "world.obj.motor.d2"] },
-    { "id": "status_panel", "nameKey": "world.obj.statusPanel.name", "type": "indicator", "actions": ["inspect"], "maxDistance": 2.6, "promptKey": "world.prompt.read", "detailKeys": ["world.obj.statusPanel.d1", "world.obj.statusPanel.d2", "world.obj.statusPanel.d3"] },
-    { "id": "warning_beacon", "nameKey": "world.obj.beacon.name", "type": "warning", "actions": ["inspect"], "maxDistance": 4.0, "promptKey": "world.prompt.inspect", "detailKeys": ["world.obj.beacon.d1"] },
+    { "id": "status_panel", "nameKey": "world.obj.statusPanel.name", "type": "indicator", "actions": ["inspect"], "maxDistance": 2.8, "promptKey": "world.prompt.read", "detailKeys": ["world.obj.statusPanel.d1", "world.obj.statusPanel.d2", "world.obj.statusPanel.d3"] },
+    { "id": "warning_beacon", "nameKey": "world.obj.beacon.name", "type": "warning", "actions": ["inspect"], "maxDistance": 4.0, "promptKey": "world.prompt.inspect", "detailKeys": ["world.obj.beacon.d1", "world.obj.beacon.d2"] },
     { "id": "safety_board", "nameKey": "world.obj.safetyBoard.name", "type": "information", "actions": ["inspect"], "maxDistance": 3.0, "promptKey": "world.prompt.read", "detailKeys": ["world.obj.safetyBoard.d1", "world.obj.safetyBoard.d2", "world.obj.safetyBoard.d3"] },
-    { "id": "work_docs", "nameKey": "world.obj.workDocs.name", "type": "document", "actions": ["inspect"], "maxDistance": 2.4, "promptKey": "world.prompt.read", "detailKeys": ["world.obj.workDocs.d1", "world.obj.workDocs.d2", "world.obj.workDocs.d3", "world.obj.workDocs.d4"] },
-    { "id": "checklist_station", "nameKey": "world.obj.checklistStation.name", "type": "station", "actions": ["inspect", "flag_evidence", "decide"], "maxDistance": 2.4, "promptKey": "world.prompt.review", "detailKeys": ["world.obj.checklistStation.d1"] },
+    { "id": "work_docs", "nameKey": "world.obj.workDocs.name", "type": "document", "actions": ["inspect"], "maxDistance": 2.6, "promptKey": "world.prompt.read", "detailKeys": ["world.obj.workDocs.d1", "world.obj.workDocs.d2", "world.obj.workDocs.d3", "world.obj.workDocs.d4"] },
+    { "id": "checklist_station", "nameKey": "world.obj.checklistStation.name", "type": "station", "actions": ["inspect", "flag_evidence", "decide"], "maxDistance": 2.6, "promptKey": "world.prompt.review", "detailKeys": ["world.obj.checklistStation.d1"] },
     { "id": "elec_cabinet", "nameKey": "world.obj.cabinet.name", "type": "equipment", "actions": ["inspect", "use_tool"], "maxDistance": 2.8, "promptKey": "world.prompt.inspect", "detailKeys": ["world.obj.cabinet.d1", "world.obj.cabinet.d2"] },
-    { "id": "local_control", "nameKey": "world.obj.localControl.name", "type": "control", "actions": ["inspect"], "maxDistance": 2.4, "promptKey": "world.prompt.inspect", "detailKeys": ["world.obj.localControl.d1", "world.obj.localControl.d2"] }
+    { "id": "local_control", "nameKey": "world.obj.localControl.name", "type": "control", "actions": ["inspect"], "maxDistance": 2.6, "promptKey": "world.prompt.inspect", "detailKeys": ["world.obj.localControl.d1", "world.obj.localControl.d2"] }
   ],
   "evidence": [
     { "id": "work_order", "labelKey": "mission.silentPump.evidence.workOrder", "statusKey": "mission.silentPump.evidence.present", "complete": true },
     { "id": "handover_note", "labelKey": "mission.silentPump.evidence.handover", "statusKey": "mission.silentPump.evidence.present", "complete": true },
     { "id": "status_observation", "labelKey": "mission.silentPump.evidence.observation", "statusKey": "mission.silentPump.evidence.observedStopped", "complete": true },
-    { "id": "isolation_verification", "labelKey": "mission.silentPump.evidence.isolation", "statusKey": "mission.silentPump.evidence.notSigned", "complete": false }
+    { "id": "isolation_verification", "labelKey": "mission.silentPump.evidence.isolation", "statusKey": "mission.silentPump.evidence.checkDocs", "complete": false }
   ],
   "decisions": [
     { "value": "go", "labelKey": "mission.silentPump.decision.go" },
-    { "value": "no_go", "labelKey": "mission.silentPump.decision.noGo" }
+    { "value": "no_go", "labelKey": "mission.silentPump.decision.noGo" },
+    { "value": "assume_done", "labelKey": "mission.silentPump.decision.assume" }
   ],
   "tools": [
-    { "id": "flashlight", "nameKey": "tool.flashlight.name", "descKey": "tool.flashlight.desc", "allowedTargets": ["pump_p101", "motor_m101", "elec_cabinet", "local_control"], "requiresTarget": true },
+    { "id": "flashlight", "nameKey": "tool.flashlight.name", "descKey": "tool.flashlight.desc", "allowedTargets": ["pump_p101", "pump_p102", "motor_m101", "elec_cabinet", "local_control"], "requiresTarget": true },
     { "id": "spanner", "nameKey": "tool.spanner.name", "descKey": "tool.spanner.desc", "allowedTargets": [], "requiresTarget": true },
     { "id": "radio", "nameKey": "tool.radio.name", "descKey": "tool.radio.desc", "allowedTargets": ["*"], "requiresTarget": false }
   ],
   "steps": [
-    { "id": "briefing", "titleKey": "mission.silentPump.step.briefing", "trigger": { "type": "briefing_acknowledged" }, "requires": [], "points": 5, "concept": "situational_awareness", "outOfOrder": "ignore", "hintKeys": ["mission.silentPump.hint.briefing"] },
-    { "id": "enter_workstation", "titleKey": "mission.silentPump.step.enter", "trigger": { "type": "zone_entered", "target": "zone_pump_workstation" }, "requires": ["briefing"], "points": 5, "marker": "zone_pump_workstation", "concept": "situational_awareness", "outOfOrder": "ignore", "hintKeys": ["mission.silentPump.hint.enter"] },
-    { "id": "locate_pump", "titleKey": "mission.silentPump.step.locatePump", "trigger": { "type": "object_inspected", "target": "pump_p101" }, "requires": ["enter_workstation"], "points": 10, "marker": "pump_p101", "concept": "stopped_not_safe", "outOfOrder": "ignore", "hintKeys": ["mission.silentPump.hint.locatePump"] },
-    { "id": "inspect_status", "titleKey": "mission.silentPump.step.inspectStatus", "trigger": { "type": "object_inspected", "target": "status_panel" }, "requires": ["locate_pump"], "points": 10, "marker": "status_panel", "concept": "stopped_not_safe", "outOfOrder": "ignore", "hintKeys": ["mission.silentPump.hint.inspectStatus.1", "mission.silentPump.hint.inspectStatus.2"] },
-    { "id": "inspect_documents", "titleKey": "mission.silentPump.step.inspectDocs", "trigger": { "type": "object_inspected", "target": "work_docs" }, "requires": ["locate_pump"], "points": 10, "marker": "work_docs", "concept": "documented_evidence", "outOfOrder": "ignore", "hintKeys": ["mission.silentPump.hint.inspectDocs.1", "mission.silentPump.hint.inspectDocs.2"] },
-    { "id": "pip_principle_review", "titleKey": "mission.silentPump.step.pipReview", "trigger": { "type": "object_inspected", "target": "safety_board" }, "requires": ["briefing"], "condition": { "pathway": "pip" }, "points": 0, "marker": "safety_board", "concept": "stopped_not_safe", "outOfOrder": "ignore", "hintKeys": ["mission.silentPump.hint.pipReview"] },
-    { "id": "review_checklist", "titleKey": "mission.silentPump.step.reviewChecklist", "trigger": { "type": "object_inspected", "target": "checklist_station" }, "requires": ["inspect_status", "inspect_documents", "pip_principle_review"], "points": 10, "marker": "checklist_station", "concept": "documented_evidence", "outOfOrder": "ignore", "hintKeys": ["mission.silentPump.hint.reviewChecklist"] },
-    { "id": "identify_gap", "titleKey": "mission.silentPump.step.identifyGap", "trigger": { "type": "evidence_flagged", "target": "isolation_verification" }, "requires": ["review_checklist"], "points": 20, "marker": "checklist_station", "concept": "verify_isolation_evidence", "outOfOrder": "ignore", "hintKeys": ["mission.silentPump.hint.identifyGap.1", "mission.silentPump.hint.identifyGap.2", "mission.silentPump.hint.identifyGap.3"] },
-    { "id": "corrective_review", "titleKey": "mission.silentPump.step.correctiveReview", "trigger": { "type": "object_inspected", "target": "work_docs" }, "requires": [], "condition": { "flag": "unsafe_attempt" }, "points": 0, "marker": "work_docs", "concept": "verify_isolation_evidence", "outOfOrder": "ignore", "hintKeys": ["mission.silentPump.hint.correctiveReview"] },
-    { "id": "decision_no_go", "titleKey": "mission.silentPump.step.decision", "trigger": { "type": "decision_made", "value": "no_go" }, "requires": ["identify_gap", "corrective_review"], "points": 20, "marker": "checklist_station", "concept": "stop_work_authority", "outOfOrder": "mistake", "outOfOrderKey": "mission.silentPump.feedback.decideWithoutEvidence", "hintKeys": ["mission.silentPump.hint.decision"] },
-    { "id": "inspect_motor", "titleKey": "mission.silentPump.step.optMotor", "trigger": { "type": "object_inspected", "target": "motor_m101" }, "requires": [], "optional": true, "points": 0, "concept": "stopped_not_safe", "outOfOrder": "ignore", "hintKeys": [] },
-    { "id": "inspect_beacon", "titleKey": "mission.silentPump.step.optBeacon", "trigger": { "type": "object_inspected", "target": "warning_beacon" }, "requires": [], "optional": true, "points": 0, "concept": "stopped_not_safe", "outOfOrder": "ignore", "hintKeys": [] },
+    { "id": "arrive", "titleKey": "mission.silentPump.step.arrive", "trigger": { "type": "zone_entered", "target": "zone_briefing" }, "requires": [], "points": 0, "marker": "supervisor", "concept": "situational_awareness", "outOfOrder": "ignore", "scene": "S01", "hintKeys": ["mission.silentPump.hint.arrive"] },
+    { "id": "meet_supervisor", "titleKey": "mission.silentPump.step.meetSupervisor", "trigger": { "type": "npc_interacted", "target": "supervisor" }, "requires": ["arrive"], "points": 5, "marker": "supervisor", "concept": "situational_awareness", "outOfOrder": "ignore", "scene": "S02", "hintKeys": ["mission.silentPump.hint.meetSupervisor"] },
+    { "id": "briefing", "titleKey": "mission.silentPump.step.briefing", "trigger": { "type": "briefing_acknowledged" }, "requires": ["meet_supervisor"], "points": 5, "concept": "situational_awareness", "outOfOrder": "ignore", "scene": "S03", "hintKeys": ["mission.silentPump.hint.briefing"] },
+    { "id": "enter_workstation", "titleKey": "mission.silentPump.step.enter", "trigger": { "type": "zone_entered", "target": "zone_pump_workstation" }, "requires": ["briefing"], "points": 5, "marker": "zone_pump_workstation", "concept": "situational_awareness", "outOfOrder": "ignore", "scene": "S04", "hintKeys": ["mission.silentPump.hint.enter"] },
+    { "id": "locate_pump", "titleKey": "mission.silentPump.step.locatePump", "trigger": { "type": "object_inspected", "target": "pump_p101" }, "requires": ["enter_workstation"], "points": 10, "marker": "pump_p101", "concept": "equipment_identification", "outOfOrder": "ignore", "scene": "S05", "hintKeys": ["mission.silentPump.hint.locatePump.1", "mission.silentPump.hint.locatePump.2"] },
+    { "id": "inspect_status", "titleKey": "mission.silentPump.step.inspectStatus", "trigger": { "type": "object_inspected", "target": "status_panel" }, "requires": ["locate_pump"], "points": 10, "marker": "status_panel", "concept": "stopped_not_safe", "outOfOrder": "ignore", "scene": "S06", "hintKeys": ["mission.silentPump.hint.inspectStatus.1", "mission.silentPump.hint.inspectStatus.2"] },
+    { "id": "inspect_documents", "titleKey": "mission.silentPump.step.inspectDocs", "trigger": { "type": "object_inspected", "target": "work_docs" }, "requires": ["locate_pump"], "points": 10, "marker": "work_docs", "concept": "documented_evidence", "outOfOrder": "ignore", "scene": "S07", "hintKeys": ["mission.silentPump.hint.inspectDocs.1", "mission.silentPump.hint.inspectDocs.2"] },
+    { "id": "hazard_awareness", "titleKey": "mission.silentPump.step.hazards", "trigger": { "type": "object_inspected", "targets": ["warning_beacon", "elec_cabinet", "local_control"] }, "requires": ["inspect_status"], "points": 10, "marker": "elec_cabinet", "concept": "energy_sources_awareness", "outOfOrder": "ignore", "scene": "S08", "hintKeys": ["mission.silentPump.hint.hazards.1", "mission.silentPump.hint.hazards.2"] },
+    { "id": "pip_principle_review", "titleKey": "mission.silentPump.step.pipReview", "trigger": { "type": "object_inspected", "target": "safety_board" }, "requires": ["briefing"], "condition": { "pathway": "pip" }, "points": 0, "marker": "safety_board", "concept": "stopped_not_safe", "outOfOrder": "ignore", "scene": "S08", "hintKeys": ["mission.silentPump.hint.pipReview"] },
+    { "id": "open_checklist", "titleKey": "mission.silentPump.step.openChecklist", "trigger": { "type": "checklist_opened" }, "requires": ["inspect_documents", "hazard_awareness"], "points": 5, "concept": "documented_evidence", "outOfOrder": "ignore", "scene": "S09", "hintKeys": ["mission.silentPump.hint.openChecklist"] },
+    { "id": "review_checklist", "titleKey": "mission.silentPump.step.reviewChecklist", "trigger": { "type": "object_inspected", "target": "checklist_station" }, "requires": ["open_checklist", "pip_principle_review"], "points": 5, "marker": "checklist_station", "concept": "documented_evidence", "outOfOrder": "ignore", "scene": "S10", "hintKeys": ["mission.silentPump.hint.reviewChecklist"] },
+    { "id": "identify_gap", "titleKey": "mission.silentPump.step.identifyGap", "trigger": { "type": "evidence_flagged", "target": "isolation_verification" }, "requires": ["review_checklist"], "points": 15, "marker": "checklist_station", "concept": "verify_isolation_evidence", "outOfOrder": "ignore", "scene": "S10", "hintKeys": ["mission.silentPump.hint.identifyGap.1", "mission.silentPump.hint.identifyGap.2", "mission.silentPump.hint.identifyGap.3"] },
+    { "id": "corrective_review", "titleKey": "mission.silentPump.step.correctiveReview", "trigger": { "type": "object_inspected", "target": "work_docs" }, "requires": [], "condition": { "flag": "unsafe_attempt" }, "points": 0, "marker": "work_docs", "concept": "verify_isolation_evidence", "outOfOrder": "ignore", "scene": "S12", "hintKeys": ["mission.silentPump.hint.correctiveReview"] },
+    { "id": "decision_no_go", "titleKey": "mission.silentPump.step.decision", "trigger": { "type": "decision_made", "value": "no_go" }, "requires": ["identify_gap", "corrective_review"], "points": 20, "marker": "checklist_station", "concept": "stop_work_authority", "outOfOrder": "mistake", "outOfOrderKey": "mission.silentPump.feedback.decideWithoutEvidence", "scene": "S11", "hintKeys": ["mission.silentPump.hint.decision"] },
+    { "id": "inspect_motor", "titleKey": "mission.silentPump.step.optMotor", "trigger": { "type": "object_inspected", "target": "motor_m101" }, "requires": [], "optional": true, "points": 0, "concept": "energy_sources_awareness", "outOfOrder": "ignore", "hintKeys": [] },
     { "id": "inspect_board", "titleKey": "mission.silentPump.step.optBoard", "trigger": { "type": "object_inspected", "target": "safety_board" }, "requires": [], "optional": true, "points": 0, "concept": "stopped_not_safe", "outOfOrder": "ignore", "hintKeys": [] },
-    { "id": "inspect_cabinet", "titleKey": "mission.silentPump.step.optCabinet", "trigger": { "type": "object_inspected", "target": "elec_cabinet" }, "requires": [], "optional": true, "points": 0, "concept": "verify_isolation_evidence", "outOfOrder": "ignore", "hintKeys": [] },
-    { "id": "inspect_local_control", "titleKey": "mission.silentPump.step.optLocalControl", "trigger": { "type": "object_inspected", "target": "local_control" }, "requires": [], "optional": true, "points": 0, "concept": "verify_isolation_evidence", "outOfOrder": "ignore", "hintKeys": [] }
+    { "id": "inspect_beacon", "titleKey": "mission.silentPump.step.optBeacon", "trigger": { "type": "object_inspected", "target": "warning_beacon" }, "requires": [], "optional": true, "points": 0, "concept": "energy_sources_awareness", "outOfOrder": "ignore", "hintKeys": [] },
+    { "id": "inspect_cabinet", "titleKey": "mission.silentPump.step.optCabinet", "trigger": { "type": "object_inspected", "target": "elec_cabinet" }, "requires": [], "optional": true, "points": 0, "concept": "energy_sources_awareness", "outOfOrder": "ignore", "hintKeys": [] },
+    { "id": "inspect_local_control", "titleKey": "mission.silentPump.step.optLocalControl", "trigger": { "type": "object_inspected", "target": "local_control" }, "requires": [], "optional": true, "points": 0, "concept": "energy_sources_awareness", "outOfOrder": "ignore", "hintKeys": [] }
   ],
   "criticalErrors": [
-    { "id": "unsafe_go_decision", "trigger": { "type": "decision_made", "value": "go" }, "response": "block", "setsFlag": "unsafe_attempt", "concept": "stopped_not_safe", "explanationKey": "mission.silentPump.critical.go.explanation", "missingKey": "mission.silentPump.critical.missing" },
-    { "id": "maintenance_without_verification", "trigger": { "type": "tool_used", "targets": ["pump_p101", "motor_m101"], "value": "spanner" }, "response": "block", "setsFlag": "unsafe_attempt", "concept": "verify_isolation_evidence", "explanationKey": "mission.silentPump.critical.spanner.explanation", "missingKey": "mission.silentPump.critical.missing" }
+    { "id": "unsafe_go_decision", "trigger": { "type": "decision_made", "value": "go" }, "response": "block", "setsFlag": "unsafe_attempt", "concept": "stopped_not_safe", "explanationKey": "mission.silentPump.critical.go.explanation", "missingKey": "mission.silentPump.critical.missing", "dialogue": "unsafe" },
+    { "id": "assumed_checks_done", "trigger": { "type": "decision_made", "value": "assume_done" }, "response": "block", "setsFlag": "unsafe_attempt", "concept": "verify_isolation_evidence", "explanationKey": "mission.silentPump.critical.assume.explanation", "missingKey": "mission.silentPump.critical.missing", "dialogue": "unsafe" },
+    { "id": "maintenance_without_verification", "trigger": { "type": "tool_used", "targets": ["pump_p101", "pump_p102", "motor_m101"], "value": "spanner" }, "response": "block", "setsFlag": "unsafe_attempt", "concept": "verify_isolation_evidence", "explanationKey": "mission.silentPump.critical.spanner.explanation", "missingKey": "mission.silentPump.critical.missing", "dialogue": "unsafe" }
   ],
   "criticalPolicy": { "failAfterTotal": 2 },
   "mistakes": [
-    { "id": "wrong_evidence_flag", "trigger": { "type": "evidence_flagged" }, "kind": "incorrect_decision", "feedbackKey": "mission.silentPump.feedback.wrongEvidence", "concept": "documented_evidence" }
+    { "id": "wrong_evidence_flag", "trigger": { "type": "evidence_flagged" }, "kind": "incorrect_decision", "feedbackKey": "mission.silentPump.feedback.wrongEvidence", "concept": "documented_evidence" },
+    { "id": "entered_restricted_area", "trigger": { "type": "zone_entered", "target": "zone_restricted_process" }, "kind": "invalid_action", "feedbackKey": "mission.silentPump.feedback.restricted", "concept": "situational_awareness" },
+    { "id": "wrong_pump", "trigger": { "type": "object_inspected", "target": "pump_p102" }, "kind": "advisory", "feedbackKey": "mission.silentPump.feedback.wrongPump", "concept": "equipment_identification" }
   ],
-  "hints": {
-    "budget": { "fresher": 99, "mid": 3, "senior": 1 },
-    "penalty": 2
-  },
+  "variants": [
+    {
+      "id": "A",
+      "labelKey": "mission.silentPump.variant.A",
+      "overrides": {
+        "interactables": {},
+        "evidence": {}
+      }
+    },
+    {
+      "id": "B",
+      "labelKey": "mission.silentPump.variant.B",
+      "overrides": {
+        "interactables": {
+          "status_panel": { "detailKeys": ["world.obj.statusPanel.d1", "mission.silentPump.variantB.status", "world.obj.statusPanel.d3"] },
+          "work_docs": { "detailKeys": ["world.obj.workDocs.d1", "world.obj.workDocs.d2", "mission.silentPump.variantB.docs", "world.obj.workDocs.d4"] }
+        },
+        "evidence": { "isolation_verification": { "statusKey": "mission.silentPump.evidence.inconsistent" } }
+      }
+    },
+    {
+      "id": "C",
+      "labelKey": "mission.silentPump.variant.C",
+      "overrides": {
+        "interactables": {
+          "work_docs": { "detailKeys": ["world.obj.workDocs.d1", "world.obj.workDocs.d2", "mission.silentPump.variantC.docs", "world.obj.workDocs.d4"] }
+        },
+        "evidence": { "isolation_verification": { "statusKey": "mission.silentPump.evidence.unavailable" } }
+      }
+    }
+  ],
+  "variantPolicy": { "rule": "rotate_by_attempt", "order": ["A", "B", "C"] },
+  "mcq": { "questionIds": ["SP-Q1", "SP-Q2", "SP-Q3", "SP-Q4", "SP-Q5"], "passFraction": 0.8 },
+  "hints": { "budget": { "fresher": 99, "mid": 3, "senior": 1 }, "penalty": 2 },
   "assistance": {
     "fresher": { "objectiveDetail": "full", "worldMarkers": true, "minimapMarkers": true, "autoHintSeconds": 75 },
     "mid": { "objectiveDetail": "standard", "worldMarkers": false, "minimapMarkers": true, "autoHintSeconds": null },
     "senior": { "objectiveDetail": "minimal", "worldMarkers": false, "minimapMarkers": false, "autoHintSeconds": null }
   },
-  "scoring": {
-    "mistakePenalty": 5,
-    "invalidActionPenalty": 3,
-    "hintPenalty": 2,
-    "criticalPenalty": 25,
-    "masteryThreshold": 90,
-    "passThreshold": 70
+  "scoring": { "mistakePenalty": 5, "invalidActionPenalty": 3, "hintPenalty": 2, "criticalPenalty": 25, "masteryThreshold": 90, "passThreshold": 70 },
+  "authoring": {
+    "language": "en",
+    "note": "Trainer-facing scenario specification. Conceptual training scenario; not an industrial SOP. All content awaits subject-matter-expert review.",
+    "workplaceLocation": "Petrochemical processing unit (fictional 'Unit 3'), pump-maintenance workstation P-101/P-102.",
+    "equipmentType": "Motor-driven centrifugal pump P-101 with standby pump P-102; motor M-101 fed from motor control cabinet MCC-3.",
+    "operationalBackground": "Operations stopped P-101 at 06:40 because of a suspected mechanical-seal leak; standby pump P-102 is not part of the task.",
+    "reasonForAssignment": "Work order WO-2291 requests replacement of the P-101 mechanical seal. The trainee is asked to confirm readiness before any work begins.",
+    "equipmentConditions": "P-101 not running. Run status STOPPED. Isolation status NOT CONFIRMED (variant A/C) or inconsistent records (variant B).",
+    "relevantHazards": ["Unexpected start-up of motor-driven equipment (conceptual)", "Stored or residual process pressure in pump casing and piping (conceptual)", "Electrical supply to motor (conceptual)"],
+    "availableDocuments": ["Work order WO-2291", "Shift handover note", "Energy-isolation verification record (incomplete, inconsistent or missing per variant)", "Draft work permit"],
+    "authorizedPersonnel": "Fictional supervisor 'R. Kannan' (maintenance supervisor). Isolation verification is outside the trainee's role in this scenario.",
+    "assumptions": ["No real procedure is taught.", "No numerical thresholds are used.", "Decisions are evaluated by a deterministic provisional rule."],
+    "expectedPriorKnowledge": "Induction-level awareness that maintenance requires authorisation and verified safe conditions.",
+    "corePrinciple": "Stopped equipment is not, by itself, evidence of a verified safe condition for maintenance.",
+    "commonMisconceptions": ["If it is not running it is safe.", "Someone on the previous shift must have done the checks.", "A local stop button is the same as isolation."],
+    "criticalDecisions": ["Proceed vs. stop and request confirmation when verification evidence is incomplete."],
+    "requiredEvidence": ["Status panel inspected", "Work documents inspected", "Incomplete isolation-verification evidence identified"],
+    "assessmentCriteria": {
+      "correct": "Stop and request confirmation of missing prerequisites after identifying the incomplete evidence.",
+      "incorrect": "Proceed based on stopped equipment, or assume checks were completed earlier, or begin work with a tool.",
+      "criticalCategories": ["unsafe_go_decision", "assumed_checks_done", "maintenance_without_verification"]
+    },
+    "retryRules": "Unlimited retries. Variants rotate A→B→C by attempt. Two critical errors in one attempt end the attempt.",
+    "remediationMapping": {
+      "stopped_not_safe": "Retry with next variant; PIP pathway adds safety-board review.",
+      "verify_isolation_evidence": "Retry with variant C (missing document).",
+      "documented_evidence": "Retry with variant B (inconsistent records).",
+      "equipment_identification": "Retry; fresher assistance markers recommended."
+    },
+    "sceneDesign": {
+      "spawn": "Facility gate, south (0,-21).",
+      "npcPositions": { "supervisor": "Briefing area beside safety office (-3,-11)." },
+      "accessibleZones": ["zone_briefing", "zone_pump_workstation", "permit shelter", "workshop"],
+      "restrictedZones": ["zone_restricted_process (taped process area east of workstation)"],
+      "visualCues": ["Amber beacon on status panel", "Empty signature box in documents", "Hazard signage at workstation entrance"],
+      "audioCues": ["Plant ambience", "Objective chime", "Warning tone on critical error"]
+    }
   }
 }

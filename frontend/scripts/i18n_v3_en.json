@@ -1,0 +1,60 @@
+{
+ "results": {
+  "evidence": "Evidence inspected",
+  "decisionOutcome": "Decision outcome",
+  "unsafeFirst": "An unsafe decision was made and stopped",
+  "correctedTo": "then corrected to: stop and request confirmation",
+  "correctDecision": "Stop and request confirmation (correct)",
+  "noDecision": "No final decision was recorded",
+  "recordedNote": "All figures come from your recorded actions on the training server.",
+  "toMcq": "Continue to the knowledge check"
+ },
+ "mcqUi": {
+  "title": "Knowledge check",
+  "reviewNote": "Demonstration questions aligned to this mission's learning objectives — pending expert and translation review.",
+  "submit": "Submit answers",
+  "answerAll": "Please answer every question.",
+  "alreadySubmitted": "Your answers were already recorded for this session.",
+  "resultsTitle": "Answers and explanations",
+  "score": "{{correct}} of {{total}} correct",
+  "passed": "Knowledge check passed",
+  "notPassed": "Knowledge check not passed",
+  "yourAnswer": "your answer",
+  "explanation": "Why",
+  "references": "Reference IDs",
+  "unverifiedRefs": "UNVERIFIED — not for authoritative assessment"
+ },
+ "remediation": {
+  "title": "Next steps",
+  "criteriaMet": "All mission learning criteria met.",
+  "eligible": "You are eligible to progress to the next level when it becomes available.",
+  "notMet": "Some learning criteria were not met yet.",
+  "notCompleted": "The mission was not completed, so the knowledge check is not available for this attempt.",
+  "recommend": "Recommended: retry with {{variant}}.",
+  "recommendRetry": "Recommended: retry the mission.",
+  "suggestPip": "Consider switching to the PIP / remediation pathway in your profile for additional corrective practice.",
+  "alsoReview": "Concepts worth reviewing:"
+ },
+ "achievement": {
+  "completed": "Mission completed",
+  "noCritical": "No critical errors",
+  "noHints": "No hints used",
+  "foundGap": "Found the gap",
+  "perfectQuiz": "Perfect knowledge check"
+ },
+ "completion": {
+  "title": "Mission complete",
+  "summary": "Mission summary",
+  "learningStatus": "Learning status",
+  "learningMet": "Learning criteria met",
+  "learningNotMet": "Learning criteria not yet met",
+  "achievements": "Gameplay achievements",
+  "noQualification": "This is a training game result. It is not a real-world safety qualification or work authorisation."
+ },
+ "hub": {
+  "verifying": "Verifying that your results were saved…",
+  "saved": "Saved and verified on the training server (attempts on record: {{attempts}}).",
+  "notVerified": "Could not verify the saved results. Check that the backend is running.",
+  "return": "Return to training hub"
+ }
+}

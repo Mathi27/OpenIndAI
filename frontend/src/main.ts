@@ -4,6 +4,7 @@ import "@fontsource/noto-sans-devanagari/400.css";
 import "@fontsource/noto-sans-devanagari/700.css";
 import "./styles/main.css";
 import "./styles/hud.css";
+import "./styles/comic.css";
 
 import { get, setAuthFailureHandler } from "./api/client";
 import type { Catalogue } from "./api/types";

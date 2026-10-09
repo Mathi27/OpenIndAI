@@ -129,6 +129,24 @@ MIGRATIONS: list[tuple[int, str]] = [
         );
         """,
     ),
+    (
+        2,
+        """
+        ALTER TABLE mission_sessions ADD COLUMN variant TEXT NOT NULL DEFAULT 'A';
+        ALTER TABLE progress ADD COLUMN learning_met INTEGER NOT NULL DEFAULT 0;
+        ALTER TABLE progress ADD COLUMN best_mcq INTEGER;
+        CREATE TABLE mcq_responses (
+            session_id TEXT PRIMARY KEY REFERENCES mission_sessions(id) ON DELETE CASCADE,
+            user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+            answers TEXT NOT NULL,
+            correct INTEGER NOT NULL,
+            total INTEGER NOT NULL,
+            passed INTEGER NOT NULL,
+            result TEXT NOT NULL,
+            submitted_at REAL NOT NULL
+        );
+        """,
+    ),
 ]
 
 

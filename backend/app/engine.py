@@ -195,10 +195,19 @@ def apply(mission: MissionDef, st: EngineState, event: dict[str, Any], ctx: Cont
         return reject("paused")
 
     if st.state == BRIEFING:
-        if etype != "briefing_acknowledged":
-            return reject("briefing")
-        transition(st, ACTIVE)
-        return _process_active(mission, st, event, ctx)
+        if etype == "briefing_acknowledged":
+            # The briefing can only be acknowledged once its own prerequisites (e.g. meeting the supervisor) are met.
+            bstep = next((s for s in mission.steps if s.trigger.type == "briefing_acknowledged"), None)
+            if bstep is not None:
+                missing = missing_requirements(mission, bstep, st, ctx)
+                if missing:
+                    st.counters.rejected += 1
+                    return {"outcome": "rejected", "reason": "briefing_prerequisites", "missing": missing}
+            transition(st, ACTIVE)
+            return _process_active(mission, st, event, ctx)
+        if etype in mission.briefingPhase.allowedEvents:
+            return _process_active(mission, st, event, ctx)
+        return reject("briefing")
 
     if st.state == BLOCKED:
         if etype != "block_acknowledged":
@@ -231,7 +240,6 @@ def _process_active(mission: MissionDef, st: EngineState, event: dict[str, Any],
         return {"outcome": "hint", "hintIndex": c.hints}
     if etype == "checklist_opened":
         c.checklistOpens += 1
-        return {"outcome": "no_effect"}
     if etype == "tool_selected":
         return {"outcome": "no_effect"}
     if etype == "object_inspected":
@@ -292,7 +300,7 @@ def _process_active(mission: MissionDef, st: EngineState, event: dict[str, Any],
 
     if completed_now:
         result: dict[str, Any] = {"outcome": "step_completed", "steps": completed_now}
-        if not remaining_required(mission, st, ctx):
+        if st.state == ACTIVE and not remaining_required(mission, st, ctx):
             transition(st, COMPLETED)
             result["missionCompleted"] = True
         return result
@@ -309,12 +317,17 @@ def _process_active(mission: MissionDef, st: EngineState, event: dict[str, Any],
     # 4. Non-critical mistake rules.
     for rule in mission.mistakes:
         if _matches(rule.trigger, event):
+            if rule.kind == "advisory":
+                # Contextual warning only: no penalty.
+                return {"outcome": "advisory", "ruleId": rule.id, "feedbackKey": rule.feedbackKey}
             if rule.kind == "incorrect_decision":
                 c.mistakes += 1
                 c.incorrectDecisions += 1
+                outcome = "mistake"
             else:
                 c.invalidActions += 1
+                outcome = "invalid_action"
             _add_missed(st, rule.concept)
-            return {"outcome": "mistake", "ruleId": rule.id, "feedbackKey": rule.feedbackKey}
+            return {"outcome": outcome, "ruleId": rule.id, "feedbackKey": rule.feedbackKey}
 
     return {"outcome": "no_effect"}

@@ -44,8 +44,8 @@ describe("state machine", () => {
     const st = newState();
     start(st);
     const ctx = { pathway: "standard" as const, hintBudget: 99 };
-    expect(currentStep(mission, st, ctx)?.id).toBe("briefing");
-    apply(mission, st, { seq: 1, type: "briefing_acknowledged" }, ctx);
-    expect(currentStep(mission, st, ctx)?.id).toBe("enter_workstation");
+    expect(currentStep(mission, st, ctx)?.id).toBe("arrive");
+    apply(mission, st, { seq: 1, type: "zone_entered", target: "zone_briefing" }, ctx);
+    expect(currentStep(mission, st, ctx)?.id).toBe("meet_supervisor");
   });
 });

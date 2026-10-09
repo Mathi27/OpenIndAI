@@ -1,0 +1,181 @@
+{
+ "language": "en",
+ "version": 1,
+ "reviewStatus": "draft_unreviewed",
+ "lastModified": "2026-10-09",
+ "notice": "Curated training-design catalogue. Descriptive and conceptual only; not an SOP and not verified by a subject-matter expert.",
+ "id": "oil_gas",
+ "world": "petrochem",
+ "overview": "Petroleum refining and petrochemical processing: continuous process units, rotating equipment, pressurised piping, storage tanks and utilities, operated in shifts with planned and breakdown maintenance.",
+ "departments": [
+  {
+   "id": "mechanical_maintenance",
+   "designations": [
+    "og_mech_maint"
+   ]
+  },
+  {
+   "id": "electrical_maintenance",
+   "designations": [
+    "og_elec_maint"
+   ]
+  },
+  {
+   "id": "instrumentation",
+   "designations": [
+    "og_instrument"
+   ]
+  },
+  {
+   "id": "operations",
+   "designations": [
+    "og_field_operator"
+   ]
+  },
+  {
+   "id": "pipelines",
+   "designations": [
+    "og_pipeline"
+   ]
+  },
+  {
+   "id": "hse",
+   "designations": [
+    "og_hse"
+   ]
+  }
+ ],
+ "typicalActivities": {
+  "og_mech_maint": [
+   "Pump and seal maintenance",
+   "Valve servicing",
+   "Equipment inspection rounds",
+   "Bolted-joint work"
+  ],
+  "og_elec_maint": [
+   "Motor and feeder maintenance",
+   "Switchgear inspection"
+  ],
+  "og_instrument": [
+   "Transmitter and gauge calibration",
+   "Control-loop checks"
+  ],
+  "og_field_operator": [
+   "Field rounds",
+   "Equipment start/stop under instructions",
+   "Handover communication"
+  ],
+  "og_pipeline": [
+   "Line patrol",
+   "Pigging support",
+   "Leak observation"
+  ],
+  "og_hse": [
+   "Permit audits",
+   "Toolbox talks",
+   "Incident reporting"
+  ]
+ },
+ "equipment": [
+  {
+   "id": "centrifugal_pump",
+   "name": "Centrifugal pump"
+  },
+  {
+   "id": "electric_motor",
+   "name": "Electric motor"
+  },
+  {
+   "id": "gate_valve",
+   "name": "Gate/isolation valve"
+  },
+  {
+   "id": "pressure_gauge",
+   "name": "Pressure gauge"
+  },
+  {
+   "id": "mcc",
+   "name": "Motor control cabinet"
+  },
+  {
+   "id": "storage_tank",
+   "name": "Storage tank"
+  },
+  {
+   "id": "pipe_rack",
+   "name": "Pipe rack"
+  }
+ ],
+ "hazards": [
+  {
+   "id": "unexpected_startup",
+   "name": "Unexpected start-up of driven equipment",
+   "type": "energy"
+  },
+  {
+   "id": "stored_pressure",
+   "name": "Residual process pressure",
+   "type": "energy"
+  },
+  {
+   "id": "flammable_release",
+   "name": "Release of flammable process fluid",
+   "type": "process"
+  },
+  {
+   "id": "electrical",
+   "name": "Electrical supply to equipment",
+   "type": "energy"
+  },
+  {
+   "id": "hot_surfaces",
+   "name": "Hot surfaces",
+   "type": "physical"
+  }
+ ],
+ "learningObjectives": [
+  "Recognise that equipment state is not proof of safe condition",
+  "Locate and compare work documentation",
+  "Stop work and escalate when evidence is incomplete"
+ ],
+ "competencyAreas": [
+  "Hazard recognition",
+  "Work authorisation awareness",
+  "Communication and escalation",
+  "Equipment identification"
+ ],
+ "trainingPrerequisites": [
+  "Site induction (assumed)",
+  "Basic PPE awareness (assumed)"
+ ],
+ "inspectionConcepts": [
+  "Confirm equipment tag matches the work order",
+  "Distinguish observation from verified record",
+  "Notice warning indicators"
+ ],
+ "goNoGoPoints": [
+  "Isolation/verification evidence complete and consistent?",
+  "Work authorisation in place?"
+ ],
+ "criticalMistakeCategories": [
+  "Proceeding on appearance alone",
+  "Assuming previous shift completed checks",
+  "Starting physical work without authorisation"
+ ],
+ "scenarioVariations": [
+  "A: verification record unsigned",
+  "B: status and documents inconsistent",
+  "C: prerequisite document unavailable"
+ ],
+ "trainerAssessmentCriteria": [
+  "Decision supported by inspected evidence",
+  "No critical errors",
+  "Correct identification of the missing evidence"
+ ],
+ "referenceIds": [
+  "REF-OISD-STD-154",
+  "REF-OISD-STD-105",
+  "REF-OSHA-1910-147",
+  "REF-HSE-HSG253"
+ ]
+}

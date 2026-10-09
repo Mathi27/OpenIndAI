@@ -1,0 +1,155 @@
+{
+ "language": "en",
+ "version": 1,
+ "reviewStatus": "draft_unreviewed",
+ "lastModified": "2026-10-09",
+ "notice": "Curated training-design catalogue. Descriptive and conceptual only; not an SOP and not verified by a subject-matter expert.",
+ "id": "heavy_mfg",
+ "world": "factory",
+ "overview": "Discrete heavy manufacturing: CNC machining, fabrication, assembly lines, conveyors, overhead lifting and forklift traffic sharing space with pedestrians.",
+ "departments": [
+  {
+   "id": "production",
+   "designations": [
+    "hm_cnc_operator",
+    "hm_production_operator"
+   ]
+  },
+  {
+   "id": "maintenance",
+   "designations": [
+    "hm_mech_maint",
+    "hm_elec_maint"
+   ]
+  },
+  {
+   "id": "quality",
+   "designations": [
+    "hm_quality_inspector"
+   ]
+  },
+  {
+   "id": "ehs",
+   "designations": [
+    "hm_safety_tech"
+   ]
+  }
+ ],
+ "typicalActivities": {
+  "hm_cnc_operator": [
+   "Job setup",
+   "Running programs",
+   "Chip clearing",
+   "Pre-start checks"
+  ],
+  "hm_production_operator": [
+   "Line operation",
+   "Material loading"
+  ],
+  "hm_mech_maint": [
+   "Conveyor and machine repair"
+  ],
+  "hm_elec_maint": [
+   "Panel and drive maintenance"
+  ],
+  "hm_quality_inspector": [
+   "Dimensional inspection",
+   "Sampling at stations"
+  ],
+  "hm_safety_tech": [
+   "Guard audits",
+   "Traffic-route reviews"
+  ]
+ },
+ "equipment": [
+  {
+   "id": "cnc_machine",
+   "name": "CNC machining centre"
+  },
+  {
+   "id": "conveyor",
+   "name": "Belt conveyor"
+  },
+  {
+   "id": "machine_guard",
+   "name": "Interlocked guard"
+  },
+  {
+   "id": "forklift",
+   "name": "Forklift"
+  },
+  {
+   "id": "electrical_cabinet",
+   "name": "Electrical cabinet"
+  },
+  {
+   "id": "racking",
+   "name": "Material racking"
+  }
+ ],
+ "hazards": [
+  {
+   "id": "moving_parts",
+   "name": "Contact with moving machine parts",
+   "type": "mechanical"
+  },
+  {
+   "id": "guard_defeat",
+   "name": "Missing or bypassed guards",
+   "type": "mechanical"
+  },
+  {
+   "id": "vehicle_pedestrian",
+   "name": "Vehicle–pedestrian interaction",
+   "type": "traffic"
+  },
+  {
+   "id": "electrical",
+   "name": "Exposed electrical parts",
+   "type": "energy"
+  },
+  {
+   "id": "falling_materials",
+   "name": "Falling stored materials",
+   "type": "physical"
+  }
+ ],
+ "learningObjectives": [
+  "Check guarding before operating",
+  "Use designated pedestrian routes",
+  "Report defects instead of working around them"
+ ],
+ "competencyAreas": [
+  "Pre-start inspection",
+  "Hazard reporting",
+  "Traffic awareness"
+ ],
+ "trainingPrerequisites": [
+  "Site induction (assumed)"
+ ],
+ "inspectionConcepts": [
+  "Guard present and closed",
+  "Interlock indicator state",
+  "Clear walkways"
+ ],
+ "goNoGoPoints": [
+  "Guard in place and interlock indicating normal?"
+ ],
+ "criticalMistakeCategories": [
+  "Operating with guard open or missing",
+  "Reaching into a running machine"
+ ],
+ "scenarioVariations": [
+  "Guard door open",
+  "Interlock fault indicated"
+ ],
+ "trainerAssessmentCriteria": [
+  "Defect identified and reported",
+  "Machine not started"
+ ],
+ "referenceIds": [
+  "REF-OSHA-1910-212",
+  "REF-INDIA-FACTORIES-ACT-1948",
+  "REF-OSHA-1910-147"
+ ]
+}

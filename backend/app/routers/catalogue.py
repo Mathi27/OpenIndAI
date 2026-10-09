@@ -6,7 +6,7 @@ from typing import Any
 from fastapi import APIRouter, Depends
 
 from ..config import Settings
-from ..content import load_catalogue, load_missions
+from ..content import load_catalogue, load_missions, load_references
 from ..deps import CurrentUser, current_user, get_conn, get_settings_dep, require_trainee
 from ..errors import APIError
 from ..progression import mission_grid, mission_status
@@ -61,7 +61,7 @@ def mission_definition(mission_id: str, user: CurrentUser = Depends(current_user
 @router.get("/progress")
 def progress(user: CurrentUser = Depends(require_trainee), conn: sqlite3.Connection = Depends(get_conn)) -> dict[str, Any]:
     rows = conn.execute(
-        "SELECT mission_id, attempts, best_score, best_outcome, passed, last_session_id, updated_at FROM progress WHERE user_id = ?",
+        "SELECT mission_id, attempts, best_score, best_outcome, passed, learning_met, best_mcq, last_session_id, updated_at FROM progress WHERE user_id = ?",
         (user.id,),
     ).fetchall()
     sessions = conn.execute(
@@ -78,3 +78,21 @@ def progress(user: CurrentUser = Depends(require_trainee), conn: sqlite3.Connect
             for s in sessions
         ],
     }
+
+
+@router.get("/content/references")
+def references(settings: Settings = Depends(get_settings_dep)) -> list[dict[str, Any]]:
+    return [r.model_dump() for r in load_references(settings.shared_dir).values()]
+
+
+@router.get("/content/industries/{industry_id}")
+def industry_content(industry_id: str, settings: Settings = Depends(get_settings_dep)) -> dict[str, Any]:
+    import json
+    import re
+
+    if not re.fullmatch(r"[a-z_]{1,32}", industry_id):
+        raise APIError(404, "UNKNOWN_INDUSTRY", "That industry does not exist.")
+    path = settings.shared_dir / "content" / "industries" / f"{industry_id}.json"
+    if not path.exists():
+        raise APIError(404, "UNKNOWN_INDUSTRY", "That industry does not exist.")
+    return json.loads(path.read_text())

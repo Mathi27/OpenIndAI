@@ -9,6 +9,20 @@
    },
    "events": [
     {
+     "type": "world_entered",
+     "expect": "no_effect"
+    },
+    {
+     "type": "zone_entered",
+     "target": "zone_briefing",
+     "expect": "step_completed"
+    },
+    {
+     "type": "npc_interacted",
+     "target": "supervisor",
+     "expect": "step_completed"
+    },
+    {
      "type": "briefing_acknowledged",
      "expect": "step_completed"
     },
@@ -34,6 +48,22 @@
     },
     {
      "type": "object_inspected",
+     "target": "elec_cabinet",
+     "expect": "step_completed",
+     "steps": [
+      "hazard_awareness",
+      "inspect_cabinet"
+     ]
+    },
+    {
+     "type": "checklist_opened",
+     "expect": "step_completed",
+     "steps": [
+      "open_checklist"
+     ]
+    },
+    {
+     "type": "object_inspected",
      "target": "checklist_station",
      "expect": "step_completed"
     },
@@ -45,17 +75,23 @@
     {
      "type": "decision_made",
      "value": "no_go",
-     "expect": "step_completed"
+     "expect": "step_completed",
+     "missionCompleted": true
     }
    ],
    "final": {
     "state": "COMPLETED",
     "completed": [
+     "arrive",
+     "meet_supervisor",
      "briefing",
      "enter_workstation",
      "locate_pump",
      "inspect_status",
      "inspect_documents",
+     "hazard_awareness",
+     "inspect_cabinet",
+     "open_checklist",
      "review_checklist",
      "identify_gap",
      "decision_no_go"
@@ -64,17 +100,30 @@
      "mistakes": 0,
      "criticalErrors": 0,
      "invalidActions": 0,
-     "inspections": 4
+     "inspections": 5,
+     "checklistOpens": 1
     }
    }
   },
   {
-   "name": "events_rejected_before_briefing_ack",
+   "name": "briefing_requires_supervisor",
    "context": {
     "pathway": "standard",
     "hintBudget": 99
    },
    "events": [
+    {
+     "type": "world_entered",
+     "expect": "no_effect"
+    },
+    {
+     "type": "briefing_acknowledged",
+     "expect": "rejected",
+     "reason": "briefing_prerequisites",
+     "missing": [
+      "meet_supervisor"
+     ]
+    },
     {
      "type": "object_inspected",
      "target": "pump_p101",
@@ -82,17 +131,36 @@
      "reason": "briefing"
     },
     {
+     "type": "npc_interacted",
+     "target": "supervisor",
+     "expect": "prerequisite_missing",
+     "missing": [
+      "arrive"
+     ]
+    },
+    {
+     "type": "zone_entered",
+     "target": "zone_briefing",
+     "expect": "step_completed"
+    },
+    {
      "type": "paused",
      "expect": "paused"
     },
     {
-     "type": "briefing_acknowledged",
+     "type": "npc_interacted",
+     "target": "supervisor",
      "expect": "rejected",
      "reason": "paused"
     },
     {
      "type": "resumed",
      "expect": "resumed"
+    },
+    {
+     "type": "npc_interacted",
+     "target": "supervisor",
+     "expect": "step_completed"
     },
     {
      "type": "briefing_acknowledged",
@@ -102,10 +170,99 @@
    "final": {
     "state": "ACTIVE",
     "completed": [
+     "arrive",
+     "meet_supervisor",
      "briefing"
     ],
     "counters": {
-     "rejected": 2
+     "rejected": 3
+    }
+   }
+  },
+  {
+   "name": "checklist_open_early_is_not_credited",
+   "context": {
+    "pathway": "standard",
+    "hintBudget": 99
+   },
+   "events": [
+    {
+     "type": "world_entered",
+     "expect": "no_effect"
+    },
+    {
+     "type": "zone_entered",
+     "target": "zone_briefing",
+     "expect": "step_completed"
+    },
+    {
+     "type": "npc_interacted",
+     "target": "supervisor",
+     "expect": "step_completed"
+    },
+    {
+     "type": "briefing_acknowledged",
+     "expect": "step_completed"
+    },
+    {
+     "type": "checklist_opened",
+     "expect": "prerequisite_missing",
+     "missing": [
+      "inspect_documents",
+      "hazard_awareness"
+     ]
+    },
+    {
+     "type": "zone_entered",
+     "target": "zone_pump_workstation",
+     "expect": "step_completed"
+    },
+    {
+     "type": "object_inspected",
+     "target": "pump_p101",
+     "expect": "step_completed"
+    },
+    {
+     "type": "object_inspected",
+     "target": "status_panel",
+     "expect": "step_completed"
+    },
+    {
+     "type": "object_inspected",
+     "target": "work_docs",
+     "expect": "step_completed"
+    },
+    {
+     "type": "object_inspected",
+     "target": "elec_cabinet",
+     "expect": "step_completed",
+     "steps": [
+      "hazard_awareness",
+      "inspect_cabinet"
+     ]
+    },
+    {
+     "type": "checklist_opened",
+     "expect": "step_completed",
+     "steps": [
+      "open_checklist"
+     ]
+    },
+    {
+     "type": "object_inspected",
+     "target": "checklist_station",
+     "expect": "step_completed"
+    },
+    {
+     "type": "evidence_flagged",
+     "target": "isolation_verification",
+     "expect": "step_completed"
+    }
+   ],
+   "final": {
+    "state": "ACTIVE",
+    "counters": {
+     "checklistOpens": 2
     }
    }
   },
@@ -116,6 +273,20 @@
     "hintBudget": 99
    },
    "events": [
+    {
+     "type": "world_entered",
+     "expect": "no_effect"
+    },
+    {
+     "type": "zone_entered",
+     "target": "zone_briefing",
+     "expect": "step_completed"
+    },
+    {
+     "type": "npc_interacted",
+     "target": "supervisor",
+     "expect": "step_completed"
+    },
     {
      "type": "briefing_acknowledged",
      "expect": "step_completed"
@@ -152,6 +323,8 @@
    "final": {
     "state": "ACTIVE",
     "completed": [
+     "arrive",
+     "meet_supervisor",
      "briefing",
      "enter_workstation",
      "locate_pump",
@@ -164,12 +337,111 @@
    }
   },
   {
+   "name": "wrong_pump_is_advisory_only",
+   "context": {
+    "pathway": "standard",
+    "hintBudget": 99
+   },
+   "events": [
+    {
+     "type": "world_entered",
+     "expect": "no_effect"
+    },
+    {
+     "type": "zone_entered",
+     "target": "zone_briefing",
+     "expect": "step_completed"
+    },
+    {
+     "type": "npc_interacted",
+     "target": "supervisor",
+     "expect": "step_completed"
+    },
+    {
+     "type": "briefing_acknowledged",
+     "expect": "step_completed"
+    },
+    {
+     "type": "zone_entered",
+     "target": "zone_pump_workstation",
+     "expect": "step_completed"
+    },
+    {
+     "type": "object_inspected",
+     "target": "pump_p102",
+     "expect": "advisory",
+     "ruleId": "wrong_pump"
+    }
+   ],
+   "final": {
+    "state": "ACTIVE",
+    "counters": {
+     "mistakes": 0,
+     "invalidActions": 0,
+     "inspections": 1
+    }
+   }
+  },
+  {
+   "name": "restricted_area_is_invalid_action",
+   "context": {
+    "pathway": "standard",
+    "hintBudget": 99
+   },
+   "events": [
+    {
+     "type": "world_entered",
+     "expect": "no_effect"
+    },
+    {
+     "type": "zone_entered",
+     "target": "zone_briefing",
+     "expect": "step_completed"
+    },
+    {
+     "type": "npc_interacted",
+     "target": "supervisor",
+     "expect": "step_completed"
+    },
+    {
+     "type": "briefing_acknowledged",
+     "expect": "step_completed"
+    },
+    {
+     "type": "zone_entered",
+     "target": "zone_restricted_process",
+     "expect": "invalid_action",
+     "ruleId": "entered_restricted_area"
+    }
+   ],
+   "final": {
+    "state": "ACTIVE",
+    "counters": {
+     "invalidActions": 1
+    }
+   }
+  },
+  {
    "name": "decision_without_evidence_is_a_mistake",
    "context": {
     "pathway": "standard",
     "hintBudget": 99
    },
    "events": [
+    {
+     "type": "world_entered",
+     "expect": "no_effect"
+    },
+    {
+     "type": "zone_entered",
+     "target": "zone_briefing",
+     "expect": "step_completed"
+    },
+    {
+     "type": "npc_interacted",
+     "target": "supervisor",
+     "expect": "step_completed"
+    },
     {
      "type": "briefing_acknowledged",
      "expect": "step_completed"
@@ -193,6 +465,22 @@
      "type": "object_inspected",
      "target": "work_docs",
      "expect": "step_completed"
+    },
+    {
+     "type": "object_inspected",
+     "target": "elec_cabinet",
+     "expect": "step_completed",
+     "steps": [
+      "hazard_awareness",
+      "inspect_cabinet"
+     ]
+    },
+    {
+     "type": "checklist_opened",
+     "expect": "step_completed",
+     "steps": [
+      "open_checklist"
+     ]
     },
     {
      "type": "object_inspected",
@@ -221,11 +509,16 @@
    "final": {
     "state": "COMPLETED",
     "completed": [
+     "arrive",
+     "meet_supervisor",
      "briefing",
      "enter_workstation",
      "locate_pump",
      "inspect_status",
      "inspect_documents",
+     "hazard_awareness",
+     "inspect_cabinet",
+     "open_checklist",
      "review_checklist",
      "identify_gap",
      "decision_no_go"
@@ -243,6 +536,20 @@
     "hintBudget": 99
    },
    "events": [
+    {
+     "type": "world_entered",
+     "expect": "no_effect"
+    },
+    {
+     "type": "zone_entered",
+     "target": "zone_briefing",
+     "expect": "step_completed"
+    },
+    {
+     "type": "npc_interacted",
+     "target": "supervisor",
+     "expect": "step_completed"
+    },
     {
      "type": "briefing_acknowledged",
      "expect": "step_completed"
@@ -266,6 +573,22 @@
      "type": "object_inspected",
      "target": "work_docs",
      "expect": "step_completed"
+    },
+    {
+     "type": "object_inspected",
+     "target": "elec_cabinet",
+     "expect": "step_completed",
+     "steps": [
+      "hazard_awareness",
+      "inspect_cabinet"
+     ]
+    },
+    {
+     "type": "checklist_opened",
+     "expect": "step_completed",
+     "steps": [
+      "open_checklist"
+     ]
     },
     {
      "type": "object_inspected",
@@ -304,7 +627,10 @@
     {
      "type": "object_inspected",
      "target": "work_docs",
-     "expect": "step_completed"
+     "expect": "step_completed",
+     "steps": [
+      "corrective_review"
+     ]
     },
     {
      "type": "decision_made",
@@ -315,11 +641,16 @@
    "final": {
     "state": "COMPLETED",
     "completed": [
+     "arrive",
+     "meet_supervisor",
      "briefing",
      "enter_workstation",
      "locate_pump",
      "inspect_status",
      "inspect_documents",
+     "hazard_awareness",
+     "inspect_cabinet",
+     "open_checklist",
      "review_checklist",
      "identify_gap",
      "corrective_review",
@@ -335,12 +666,114 @@
    }
   },
   {
+   "name": "assume_checks_done_is_critical",
+   "context": {
+    "pathway": "standard",
+    "hintBudget": 99
+   },
+   "events": [
+    {
+     "type": "world_entered",
+     "expect": "no_effect"
+    },
+    {
+     "type": "zone_entered",
+     "target": "zone_briefing",
+     "expect": "step_completed"
+    },
+    {
+     "type": "npc_interacted",
+     "target": "supervisor",
+     "expect": "step_completed"
+    },
+    {
+     "type": "briefing_acknowledged",
+     "expect": "step_completed"
+    },
+    {
+     "type": "zone_entered",
+     "target": "zone_pump_workstation",
+     "expect": "step_completed"
+    },
+    {
+     "type": "object_inspected",
+     "target": "pump_p101",
+     "expect": "step_completed"
+    },
+    {
+     "type": "object_inspected",
+     "target": "status_panel",
+     "expect": "step_completed"
+    },
+    {
+     "type": "object_inspected",
+     "target": "work_docs",
+     "expect": "step_completed"
+    },
+    {
+     "type": "object_inspected",
+     "target": "elec_cabinet",
+     "expect": "step_completed",
+     "steps": [
+      "hazard_awareness",
+      "inspect_cabinet"
+     ]
+    },
+    {
+     "type": "checklist_opened",
+     "expect": "step_completed",
+     "steps": [
+      "open_checklist"
+     ]
+    },
+    {
+     "type": "object_inspected",
+     "target": "checklist_station",
+     "expect": "step_completed"
+    },
+    {
+     "type": "evidence_flagged",
+     "target": "isolation_verification",
+     "expect": "step_completed"
+    },
+    {
+     "type": "decision_made",
+     "value": "assume_done",
+     "expect": "critical_block",
+     "ruleId": "assumed_checks_done"
+    }
+   ],
+   "final": {
+    "state": "BLOCKED",
+    "flags": [
+     "unsafe_attempt"
+    ],
+    "counters": {
+     "criticalErrors": 1
+    }
+   }
+  },
+  {
    "name": "second_critical_error_fails_mission",
    "context": {
     "pathway": "standard",
     "hintBudget": 99
    },
    "events": [
+    {
+     "type": "world_entered",
+     "expect": "no_effect"
+    },
+    {
+     "type": "zone_entered",
+     "target": "zone_briefing",
+     "expect": "step_completed"
+    },
+    {
+     "type": "npc_interacted",
+     "target": "supervisor",
+     "expect": "step_completed"
+    },
     {
      "type": "briefing_acknowledged",
      "expect": "step_completed"
@@ -393,6 +826,20 @@
    },
    "events": [
     {
+     "type": "world_entered",
+     "expect": "no_effect"
+    },
+    {
+     "type": "zone_entered",
+     "target": "zone_briefing",
+     "expect": "step_completed"
+    },
+    {
+     "type": "npc_interacted",
+     "target": "supervisor",
+     "expect": "step_completed"
+    },
+    {
      "type": "briefing_acknowledged",
      "expect": "step_completed"
     },
@@ -415,6 +862,22 @@
      "type": "object_inspected",
      "target": "work_docs",
      "expect": "step_completed"
+    },
+    {
+     "type": "object_inspected",
+     "target": "elec_cabinet",
+     "expect": "step_completed",
+     "steps": [
+      "hazard_awareness",
+      "inspect_cabinet"
+     ]
+    },
+    {
+     "type": "checklist_opened",
+     "expect": "step_completed",
+     "steps": [
+      "open_checklist"
+     ]
     },
     {
      "type": "object_inspected",
@@ -449,6 +912,20 @@
    },
    "events": [
     {
+     "type": "world_entered",
+     "expect": "no_effect"
+    },
+    {
+     "type": "zone_entered",
+     "target": "zone_briefing",
+     "expect": "step_completed"
+    },
+    {
+     "type": "npc_interacted",
+     "target": "supervisor",
+     "expect": "step_completed"
+    },
+    {
      "type": "briefing_acknowledged",
      "expect": "step_completed"
     },
@@ -471,6 +948,22 @@
      "type": "object_inspected",
      "target": "work_docs",
      "expect": "step_completed"
+    },
+    {
+     "type": "object_inspected",
+     "target": "elec_cabinet",
+     "expect": "step_completed",
+     "steps": [
+      "hazard_awareness",
+      "inspect_cabinet"
+     ]
+    },
+    {
+     "type": "checklist_opened",
+     "expect": "step_completed",
+     "steps": [
+      "open_checklist"
+     ]
     },
     {
      "type": "object_inspected",
@@ -520,6 +1013,20 @@
    },
    "events": [
     {
+     "type": "world_entered",
+     "expect": "no_effect"
+    },
+    {
+     "type": "zone_entered",
+     "target": "zone_briefing",
+     "expect": "step_completed"
+    },
+    {
+     "type": "npc_interacted",
+     "target": "supervisor",
+     "expect": "step_completed"
+    },
+    {
      "type": "briefing_acknowledged",
      "expect": "step_completed"
     },
@@ -549,6 +1056,20 @@
     "hintBudget": 99
    },
    "events": [
+    {
+     "type": "world_entered",
+     "expect": "no_effect"
+    },
+    {
+     "type": "zone_entered",
+     "target": "zone_briefing",
+     "expect": "step_completed"
+    },
+    {
+     "type": "npc_interacted",
+     "target": "supervisor",
+     "expect": "step_completed"
+    },
     {
      "type": "briefing_acknowledged",
      "expect": "step_completed"
@@ -605,29 +1126,30 @@
    },
    "events": [
     {
-     "type": "briefing_acknowledged",
+     "type": "zone_entered",
+     "target": "zone_briefing",
      "expect": "step_completed",
      "seq": 5
     },
     {
-     "type": "zone_entered",
-     "target": "zone_pump_workstation",
+     "type": "npc_interacted",
+     "target": "supervisor",
      "expect": "rejected",
      "reason": "stale_seq",
      "seq": 5
     },
     {
-     "type": "zone_entered",
-     "target": "zone_pump_workstation",
+     "type": "npc_interacted",
+     "target": "supervisor",
      "expect": "step_completed",
      "seq": 6
     }
    ],
    "final": {
-    "state": "ACTIVE",
+    "state": "BRIEFING",
     "completed": [
-     "briefing",
-     "enter_workstation"
+     "arrive",
+     "meet_supervisor"
     ]
    }
   },
@@ -638,6 +1160,20 @@
     "hintBudget": 99
    },
    "events": [
+    {
+     "type": "world_entered",
+     "expect": "no_effect"
+    },
+    {
+     "type": "zone_entered",
+     "target": "zone_briefing",
+     "expect": "step_completed"
+    },
+    {
+     "type": "npc_interacted",
+     "target": "supervisor",
+     "expect": "step_completed"
+    },
     {
      "type": "briefing_acknowledged",
      "expect": "step_completed"

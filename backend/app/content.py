@@ -12,6 +12,8 @@ from typing import Literal
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 EVENT_TYPES = (
+    "world_entered",
+    "npc_interacted",
     "briefing_acknowledged",
     "zone_entered",
     "object_inspected",
@@ -26,6 +28,8 @@ EVENT_TYPES = (
     "resumed",
 )
 EventType = Literal[
+    "world_entered",
+    "npc_interacted",
     "briefing_acknowledged",
     "zone_entered",
     "object_inspected",
@@ -127,6 +131,7 @@ class Step(_Strict):
     concept: str
     outOfOrder: Literal["ignore", "mistake"] = "ignore"
     outOfOrderKey: str | None = None
+    scene: str | None = None
     hintKeys: list[str] = []
 
 
@@ -138,6 +143,7 @@ class CriticalError(_Strict):
     concept: str
     explanationKey: str
     missingKey: str
+    dialogue: str | None = None
 
 
 class CriticalPolicy(_Strict):
@@ -147,7 +153,7 @@ class CriticalPolicy(_Strict):
 class MistakeRule(_Strict):
     id: str
     trigger: Trigger
-    kind: Literal["incorrect_decision", "invalid_action"]
+    kind: Literal["incorrect_decision", "invalid_action", "advisory"]
     feedbackKey: str
     concept: str
 
@@ -218,10 +224,90 @@ class Spawn(_Strict):
     heading: float
 
 
+class Cinematic(_Strict):
+    dayKey: str
+    locationKey: str
+    titleKey: str
+
+
 class SceneConfig(_Strict):
-    id: str
+    id: Literal["petrochem", "factory", "construction"]
     spawn: Spawn
+    cinematic: Cinematic | None = None
+    restrictedZones: list[str] = []
     environmentIndicators: list[dict] = []
+
+
+class BriefingPhase(_Strict):
+    allowedEvents: list[EventType] = []
+
+
+class Npc(_Strict):
+    id: str
+    nameKey: str
+    roleKey: str
+    portrait: str
+    x: float
+    z: float
+    heading: float
+    maxDistance: float = Field(gt=0, le=10)
+
+
+class DialogueLine(_Strict):
+    speaker: str
+    textKey: str
+    mood: Literal["friendly", "neutral", "serious", "concerned", "pleased"]
+
+
+class ComicPanel(_Strict):
+    titleKey: str
+    panelKeys: list[str] = Field(min_length=1)
+
+
+class DebriefCondition(_Strict):
+    criticalRule: str | None = None
+    stepCompleted: str | None = None
+    counterAbove: tuple[str, int] | None = None
+
+
+class DebriefRule(_Strict):
+    when: DebriefCondition
+    textKey: str
+
+
+class InteractableOverride(_Strict):
+    detailKeys: list[str] | None = None
+
+
+class EvidenceOverride(_Strict):
+    statusKey: str | None = None
+
+
+class VariantOverrides(_Strict):
+    interactables: dict[str, InteractableOverride] = {}
+    evidence: dict[str, EvidenceOverride] = {}
+
+
+class Variant(_Strict):
+    id: str = Field(pattern=r"^[A-Z]$")
+    labelKey: str
+    overrides: VariantOverrides
+
+
+class VariantPolicy(_Strict):
+    rule: Literal["rotate_by_attempt"]
+    order: list[str]
+
+
+class McqConfig(_Strict):
+    questionIds: list[str] = Field(min_length=1)
+    passFraction: float = Field(gt=0, le=1)
+
+
+class ContentReview(_Strict):
+    status: Literal["draft_unreviewed", "sme_reviewed", "sme_approved"]
+    translationStatus: Literal["demonstration_only", "reviewed"]
+    lastModified: str
 
 
 class RuleSet(_Strict):
@@ -244,21 +330,33 @@ class MissionDef(_Strict):
     id: str
     version: int = Field(ge=1)
     industry: str
+    department: str
     designations: list[str]
+    roleTitleKey: str
+    designedFor: list[Experience]
     category: str
     level: int = Field(ge=1, le=5)
+    estimatedMinutes: int = Field(ge=1, le=120)
     titleKey: str
     subtitleKey: str
     descriptionKey: str
     briefingKeys: list[str]
+    assignmentKeys: dict[str, str]
     learningObjectiveKeys: list[str]
     debriefKeys: DebriefKeys
     ruleSet: RuleSet
+    contentReview: ContentReview
+    referenceIds: list[str]
     safetyReferences: list[dict]
     safetyReferencesNoteKey: str | None = None
     prerequisites: Prerequisites
     scene: SceneConfig
+    briefingPhase: BriefingPhase
     zones: list[Zone]
+    npcs: list[Npc]
+    dialogues: dict[str, list[DialogueLine]]
+    consequencePanels: dict[str, ComicPanel]
+    debriefRules: list[DebriefRule]
     interactables: list[Interactable]
     evidence: list[Evidence]
     decisions: list[Decision]
@@ -267,9 +365,13 @@ class MissionDef(_Strict):
     criticalErrors: list[CriticalError]
     criticalPolicy: CriticalPolicy
     mistakes: list[MistakeRule]
+    variants: list[Variant] = Field(min_length=1)
+    variantPolicy: VariantPolicy
+    mcq: McqConfig
     hints: Hints
     assistance: dict[Experience, AssistanceProfile]
     scoring: Scoring
+    authoring: dict
 
     @model_validator(mode="after")
     def _cross_refs(self) -> "MissionDef":
@@ -292,6 +394,51 @@ class MissionDef(_Strict):
                     raise ValueError(f"trigger references unknown target {tgt}")
         if not any(not s.optional for s in self.steps):
             raise ValueError("mission needs at least one required step")
+        npc_ids = {n.id for n in self.npcs}
+        for name, lines in self.dialogues.items():
+            if not lines:
+                raise ValueError(f"dialogue {name} is empty")
+            for ln in lines:
+                if ln.speaker not in npc_ids:
+                    raise ValueError(f"dialogue {name} uses unknown speaker {ln.speaker}")
+        for c in self.criticalErrors:
+            if c.dialogue and c.dialogue not in self.dialogues:
+                raise ValueError(f"critical error {c.id} references unknown dialogue {c.dialogue}")
+        for z in self.scene.restrictedZones:
+            if z not in {zz.id for zz in self.zones}:
+                raise ValueError(f"unknown restricted zone {z}")
+        step_set = set(step_ids)
+        crit_ids = {c.id for c in self.criticalErrors}
+        for r in self.debriefRules:
+            w = r.when
+            if w.criticalRule and w.criticalRule not in crit_ids:
+                raise ValueError(f"debrief rule references unknown critical rule {w.criticalRule}")
+            if w.stepCompleted and w.stepCompleted not in step_set:
+                raise ValueError(f"debrief rule references unknown step {w.stepCompleted}")
+        variant_ids = [v.id for v in self.variants]
+        if len(set(variant_ids)) != len(variant_ids):
+            raise ValueError("duplicate variant ids")
+        if sorted(self.variantPolicy.order) != sorted(variant_ids):
+            raise ValueError("variantPolicy.order must list every variant exactly once")
+        inter_ids = {i.id for i in self.interactables}
+        ev_ids = {e.id for e in self.evidence}
+        for v in self.variants:
+            if set(v.overrides.interactables) - inter_ids:
+                raise ValueError(f"variant {v.id} overrides unknown interactables")
+            if set(v.overrides.evidence) - ev_ids:
+                raise ValueError(f"variant {v.id} overrides unknown evidence")
+        # The decision step's correct value and the critical decisions must be declared decisions.
+        decision_values = {d.value for d in self.decisions}
+        for t in [s.trigger for s in self.steps] + [c.trigger for c in self.criticalErrors]:
+            if t.type == "decision_made" and t.value not in decision_values:
+                raise ValueError(f"decision value {t.value} is not declared")
+        # Every incomplete evidence item must be the target of a step (otherwise it can never be identified).
+        flag_targets = {s.trigger.target for s in self.steps if s.trigger.type == "evidence_flagged"}
+        for e in self.evidence:
+            if not e.complete and e.id not in flag_targets:
+                raise ValueError(f"incomplete evidence {e.id} has no identifying step")
+            if e.complete and e.id in flag_targets:
+                raise ValueError(f"evidence {e.id} is complete but rewarded when flagged")
         return self
 
     def _check_acyclic(self) -> None:
@@ -315,7 +462,8 @@ class MissionDef(_Strict):
 
     def reference_ids(self) -> set[str]:
         return (
-            {z.id for z in self.zones}
+            {n.id for n in self.npcs}
+            | {z.id for z in self.zones}
             | {i.id for i in self.interactables}
             | {e.id for e in self.evidence}
         )
@@ -340,6 +488,7 @@ def load_missions(shared_dir: Path) -> dict[str, tuple[MissionDef, str, dict]]:
     for mission_id in catalogue.missions:
         data, checksum = _read_json(shared_dir / "missions" / f"{mission_id}.json")
         mission = MissionDef.model_validate(data)
+        validate_mission_links(mission, shared_dir)
         if mission.id != mission_id:
             raise ValueError(f"mission file {mission_id} declares id {mission.id}")
         industry = catalogue.industry(mission.industry)
@@ -349,4 +498,115 @@ def load_missions(shared_dir: Path) -> dict[str, tuple[MissionDef, str, dict]]:
             if catalogue.designation(mission.industry, d) is None:
                 raise ValueError(f"mission {mission.id} references unknown designation {d}")
         out[mission_id] = (mission, checksum, data)
+    return out
+
+
+# ---------------------------------------------------------------- question bank & references
+class McqOption(_Strict):
+    id: str
+    textKey: str
+
+
+class Question(_Strict):
+    id: str
+    version: int
+    missionIds: list[str]
+    concept: str
+    stemKey: str
+    options: list[McqOption] = Field(min_length=2)
+    correct: str
+    explanationKey: str
+    referenceIds: list[str]
+    reviewStatus: Literal["draft_unreviewed", "sme_reviewed", "sme_approved"]
+
+    @model_validator(mode="after")
+    def _check(self) -> "Question":
+        ids = [o.id for o in self.options]
+        if len(set(ids)) != len(ids):
+            raise ValueError(f"question {self.id} has duplicate options")
+        if self.correct not in ids:
+            raise ValueError(f"question {self.id} correct answer is not an option")
+        return self
+
+
+class QuestionBank(_Strict):
+    schemaVersion: int
+    reviewStatus: str
+    note: str
+    questions: list[Question]
+
+
+class Reference(_Strict):
+    id: str
+    organization: str
+    title: str
+    version: str | None
+    topic: str
+    clause: str | None
+    trainingInterpretation: str
+    verificationStatus: str
+    smeApproval: Literal["not_approved", "approved"]
+    industries: list[str]
+
+
+class ReferenceRegistry(_Strict):
+    schemaVersion: int
+    note: str
+    references: list[Reference]
+
+
+@lru_cache(maxsize=4)
+def load_questions(shared_dir: Path) -> dict[str, Question]:
+    bank = QuestionBank.model_validate(_read_json(shared_dir / "content" / "questions.json")[0])
+    return {q.id: q for q in bank.questions}
+
+
+@lru_cache(maxsize=4)
+def load_references(shared_dir: Path) -> dict[str, Reference]:
+    reg = ReferenceRegistry.model_validate(_read_json(shared_dir / "content" / "references.json")[0])
+    for r in reg.references:
+        # Never allow an unverified reference to carry a clause number.
+        if r.clause is not None and r.verificationStatus.startswith("UNVERIFIED"):
+            raise ValueError(f"reference {r.id} cites a clause while unverified")
+    return {r.id: r for r in reg.references}
+
+
+def validate_mission_links(mission: MissionDef, shared_dir: Path) -> None:
+    questions = load_questions(shared_dir)
+    refs = load_references(shared_dir)
+    concepts = {s.concept for s in mission.steps} | {c.concept for c in mission.criticalErrors}
+    for qid in mission.mcq.questionIds:
+        q = questions.get(qid)
+        if q is None:
+            raise ValueError(f"mission {mission.id} uses unknown question {qid}")
+        if mission.id not in q.missionIds:
+            raise ValueError(f"question {qid} is not linked to mission {mission.id}")
+        if q.concept not in concepts:
+            raise ValueError(f"question {qid} tests concept {q.concept} not covered by mission {mission.id}")
+        for r in q.referenceIds:
+            if r not in refs:
+                raise ValueError(f"question {qid} uses unknown reference {r}")
+    for r in mission.referenceIds:
+        if r not in refs:
+            raise ValueError(f"mission {mission.id} uses unknown reference {r}")
+
+
+def apply_variant(raw: dict, variant_id: str) -> dict:
+    """Return the effective mission definition dict for a scenario variant."""
+    import copy
+
+    out = copy.deepcopy(raw)
+    variant = next((v for v in out["variants"] if v["id"] == variant_id), None)
+    if variant is None:
+        raise ValueError(f"unknown variant {variant_id}")
+    ov = variant["overrides"]
+    for item in out["interactables"]:
+        patch = ov.get("interactables", {}).get(item["id"])
+        if patch and patch.get("detailKeys"):
+            item["detailKeys"] = patch["detailKeys"]
+    for ev in out["evidence"]:
+        patch = ov.get("evidence", {}).get(ev["id"])
+        if patch and patch.get("statusKey"):
+            ev["statusKey"] = patch["statusKey"]
+    out["activeVariant"] = variant_id
     return out

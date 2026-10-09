@@ -1,0 +1,31 @@
+// Single place for Babylon.js deep imports. Non-".pure" paths also register
+// the scene components they need (picking, outlines, shadows, highlight).
+export { Engine } from "@babylonjs/core/Engines/engine";
+export { Scene } from "@babylonjs/core/scene";
+export { Vector3, Matrix, Quaternion } from "@babylonjs/core/Maths/math.vector";
+export { Color3, Color4 } from "@babylonjs/core/Maths/math.color";
+export { FreeCamera } from "@babylonjs/core/Cameras/freeCamera";
+export { HemisphericLight } from "@babylonjs/core/Lights/hemisphericLight";
+export { DirectionalLight } from "@babylonjs/core/Lights/directionalLight";
+export { PointLight } from "@babylonjs/core/Lights/pointLight";
+export { ShadowGenerator } from "@babylonjs/core/Lights/Shadows/shadowGenerator";
+export { Mesh } from "@babylonjs/core/Meshes/mesh";
+export type { AbstractMesh } from "@babylonjs/core/Meshes/abstractMesh";
+export { TransformNode } from "@babylonjs/core/Meshes/transformNode";
+export { CreateBox } from "@babylonjs/core/Meshes/Builders/boxBuilder";
+export { CreateCylinder } from "@babylonjs/core/Meshes/Builders/cylinderBuilder";
+export { CreateSphere } from "@babylonjs/core/Meshes/Builders/sphereBuilder";
+export { CreatePlane } from "@babylonjs/core/Meshes/Builders/planeBuilder";
+export { CreateGround } from "@babylonjs/core/Meshes/Builders/groundBuilder";
+export { CreateTorus } from "@babylonjs/core/Meshes/Builders/torusBuilder";
+export { CreateDisc } from "@babylonjs/core/Meshes/Builders/discBuilder";
+export { CreateCapsule } from "@babylonjs/core/Meshes/Builders/capsuleBuilder";
+export { StandardMaterial } from "@babylonjs/core/Materials/standardMaterial";
+export { DynamicTexture } from "@babylonjs/core/Materials/Textures/dynamicTexture";
+export { Texture } from "@babylonjs/core/Materials/Textures/texture";
+export { HighlightLayer } from "@babylonjs/core/Layers/highlightLayer";
+export { Ray } from "@babylonjs/core/Culling/ray";
+import "@babylonjs/core/Meshes/instancedMesh";
+import "@babylonjs/core/Rendering/outlineRenderer";
+import "@babylonjs/core/Layers/effectLayerSceneComponent";
+import "@babylonjs/core/Lights/Shadows/shadowGeneratorSceneComponent";
