@@ -230,7 +230,8 @@
     "best": "Best: {{score}} ({{outcome}})",
     "play": "Start mission",
     "playableCount": "{{count}} playable mission(s) for your role",
-    "changeProfile": "Change role"
+    "changeProfile": "Change role",
+    "demoUnlock": "Demo mode is on: an administrator has unlocked all levels. Normal progression rules are paused; your results are still recorded as usual."
   },
   "briefing": {
     "title": "Mission briefing",
@@ -862,7 +863,13 @@
     "events": "Event log",
     "filterAll": "All trainees",
     "details": "Details",
-    "noData": "No data yet."
+    "noData": "No data yet.",
+    "demoTitle": "Demo mode",
+    "demoUnlockLabel": "Unlock all levels for every trainee",
+    "demoUnlockHelp": "For demonstrations only. Every authored level becomes selectable without passing the previous one. Scores, progress and 'passed' records are not changed. Turn it off to restore normal progression.",
+    "demoUnlockOn": "Demo mode on: all levels are unlocked.",
+    "demoUnlockOff": "Demo mode off: normal progression restored.",
+    "demoUnlockUpdated": "Last changed by {{user}} on {{date}}."
   },
   "npc": {
     "supervisor": {

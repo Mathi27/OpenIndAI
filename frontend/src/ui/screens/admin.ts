@@ -1,22 +1,55 @@
-import { get } from "../../api/client";
+import { api, get } from "../../api/client";
 import { logout } from "../../app/auth";
 import { navigate } from "../../app/nav";
 import { t } from "../../i18n";
-import { formatDuration, h } from "../dom";
+import { formatDuration, h, toast } from "../dom";
 import type { Screen } from "../router";
 import { formatDate, outcomeLabel, page, pageHeader } from "./common";
 import { languageSwitch } from "./welcome";
 
+interface AdminSettings { demoUnlockAll: boolean; updatedAt: number | null; updatedBy: string | null }
 interface TraineeRow { id: number; username: string; display_name: string; industry: string | null; designation: string | null; experience: string | null; pathway: string; sessions: number; passes: number; last_activity: number | null; is_dev_account: number }
 interface SessionRow { id: string; username: string; mission_id: string; state: string; experience: string; pathway: string; retry_count: number; started_at: number; score: number | null; outcome: string | null; result: { activeMs: number; counters: Record<string, number> } | null }
 
 export async function adminScreen(_: Record<string, string>, query: URLSearchParams): Promise<Screen> {
   const userId = query.get("user");
-  const [trainees, sessions] = await Promise.all([
+  const [settings, trainees, sessions] = await Promise.all([
+    get<AdminSettings>("/admin/settings"),
     get<TraineeRow[]>("/admin/trainees"),
     get<SessionRow[]>(`/admin/sessions${userId && /^\d+$/.test(userId) ? `?user_id=${userId}` : ""}`),
   ]);
   const detail = h("pre", { class: "log", hidden: true, "aria-live": "polite" });
+
+  // Demo mode: open every authored level for all trainees (no scores or passes are changed).
+  const status = h("p", { class: "muted small", id: "demo-unlock-status" });
+  const showStatus = (s: AdminSettings) => {
+    status.textContent = s.updatedAt ? t("admin.demoUnlockUpdated", { user: s.updatedBy ?? "—", date: formatDate(s.updatedAt) }) : "";
+  };
+  showStatus(settings);
+  const toggle = h("input", { type: "checkbox", id: "demo-unlock" });
+  toggle.checked = settings.demoUnlockAll;
+  toggle.addEventListener("change", async () => {
+    toggle.disabled = true;
+    try {
+      const s = await api<AdminSettings>("PUT", "/admin/settings", { demoUnlockAll: toggle.checked });
+      toggle.checked = s.demoUnlockAll;
+      showStatus(s);
+      toast(s.demoUnlockAll ? t("admin.demoUnlockOn") : t("admin.demoUnlockOff"), "success");
+    } catch (e) {
+      toggle.checked = !toggle.checked;
+      toast(String((e as Error).message), "error");
+    } finally {
+      toggle.disabled = false;
+    }
+  });
+  const demoPanel = h(
+    "section",
+    { class: "panel" },
+    h("h2", {}, t("admin.demoTitle")),
+    h("label", { class: "row", for: "demo-unlock", style: "gap:10px;align-items:center;cursor:pointer" }, toggle, h("strong", {}, t("admin.demoUnlockLabel"))),
+    h("p", { class: "muted small" }, t("admin.demoUnlockHelp")),
+    status,
+  );
 
   const traineeTable = h(
     "table",
@@ -76,6 +109,7 @@ export async function adminScreen(_: Record<string, string>, query: URLSearchPar
 
   return page([
     pageHeader(t("admin.title"), undefined, h("div", { class: "row" }, languageSwitch(), h("button", { class: "btn", id: "admin-logout", onclick: async () => { await logout(); navigate("/welcome", true); } }, t("menu.logout")))),
+    demoPanel,
     h("section", { class: "panel table-wrap" }, h("h2", {}, t("admin.trainees")), traineeTable),
     h("section", { class: "panel table-wrap" }, h("div", { class: "row between" }, h("h2", {}, t("admin.sessions")), userId ? h("a", { href: "#/admin" }, t("admin.filterAll")) : null), sessionTable, detail),
     h("p", { class: "muted small" }, t("app.disclaimer")),

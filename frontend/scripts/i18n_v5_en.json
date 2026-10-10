@@ -1,0 +1,13 @@
+{
+  "admin": {
+    "demoTitle": "Demo mode",
+    "demoUnlockLabel": "Unlock all levels for every trainee",
+    "demoUnlockHelp": "For demonstrations only. Every authored level becomes selectable without passing the previous one. Scores, progress and 'passed' records are not changed. Turn it off to restore normal progression.",
+    "demoUnlockOn": "Demo mode on: all levels are unlocked.",
+    "demoUnlockOff": "Demo mode off: normal progression restored.",
+    "demoUnlockUpdated": "Last changed by {{user}} on {{date}}."
+  },
+  "missions": {
+    "demoUnlock": "Demo mode is on: an administrator has unlocked all levels. Normal progression rules are paused; your results are still recorded as usual."
+  }
+}

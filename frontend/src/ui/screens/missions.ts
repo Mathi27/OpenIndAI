@@ -56,6 +56,7 @@ export async function missionsScreen(): Promise<Screen> {
   const cats = [...grid.categories].sort((a, b) => Number(b.levels.some((l) => l.missionId)) - Number(a.levels.some((l) => l.missionId)));
   return page([
     pageHeader(t("missions.title"), "/menu", h("button", { class: "btn", onclick: () => navigate("/setup/industry") }, t("missions.changeProfile"))),
+    grid.demoUnlockAll ? h("p", { class: "notice orange", id: "demo-unlock-banner" }, t("missions.demoUnlock")) : null,
     h("p", { class: "muted" }, t("missions.subtitle", { designation: t(`designation.${grid.designation}`), industry: t(`industry.${grid.industry}.name`) }), " · ", t("missions.playableCount", { count: playable })),
     ...cats.map((c) => h("section", { class: "panel cat-block", "data-category": c.category }, h("h2", {}, t(`category.${c.category}`)), h("div", { class: "levels" }, ...c.levels.map(levelCard)))),
     h("p", { class: "notice" }, t("mission.common.provisionalNotice")),

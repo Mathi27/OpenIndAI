@@ -14,7 +14,7 @@ export interface LevelEntry {
   level: number; status: LevelStatus; missionId: string | null; reason?: string | null; lockedByProgress?: boolean;
   titleKey?: string; subtitleKey?: string; attempts?: number; bestScore?: number | null; bestOutcome?: string | null; passed?: boolean;
 }
-export interface MissionGrid { industry: string; designation: string; categories: { category: string; levels: LevelEntry[] }[] }
+export interface MissionGrid { industry: string; designation: string; categories: { category: string; levels: LevelEntry[] }[]; demoUnlockAll?: boolean }
 
 export interface SessionResult {
   score: number; outcome: string; basePoints: number; penalties: Record<string, number>;
